@@ -1,4 +1,4 @@
-package kr.co.tbell.mm.dto;
+package kr.co.tbell.mm.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
