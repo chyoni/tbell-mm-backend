@@ -1,7 +1,7 @@
 package kr.co.tbell.mm.controller;
 
-import kr.co.tbell.mm.dto.ReqCreateEmployee;
-import kr.co.tbell.mm.dto.ResCreateEmployee;
+import kr.co.tbell.mm.dto.controller.employee.ReqCreateEmployee;
+import kr.co.tbell.mm.dto.controller.employee.ResCreateEmployee;
 import kr.co.tbell.mm.dto.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

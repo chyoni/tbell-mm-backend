@@ -1,4 +1,4 @@
-package kr.co.tbell.mm.dto;
+package kr.co.tbell.mm.dto.controller.employee;
 
 import lombok.Getter;
 import lombok.ToString;
