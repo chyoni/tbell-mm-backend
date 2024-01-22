@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  app:
+    image: 'tbell-mm-backend:latest'
+    build: .
+    env_file:
+      - ".env"
+    ports:
+      - ${SERVICE_PORT}:${SERVICE_PORT}
+    container_name: tbell-mm-backend
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:${POSTGRES_PORT}/${POSTGRES_DB}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+      - TZ=Asia/Seoul
+      - _JAVA_OPTIONS=-Xmx15g
+    volumes:
+      - ./log:/app/log
+    networks:
+      mm-network:
+
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: tbell-mm-db
+    restart: always
+    env_file:
+      - ".env"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - TZ=Asia/Seoul
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - pg-prod:/var/lib/postgresql/data
+#      - ../../bak:/var/lib/postgresql/backups
+    networks:
+      mm-network:
+
+#  backup:
+#    image: 'postgres:13.1-alpine'
+#    container_name: sync_db_backup_prod
+#    env_file:
+#      - ".env"
+#    depends_on:
+#      - db
+#    volumes:
+#      - ../../bak:/backup
+#    command: >
+#      bash -c "
+#      while true; do
+#        sleep 1800
+#        find /backup/prod -type f -mtime +7 -delete
+#        find /backup/prod -size 0 -delete
+#        PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h db -U $$POSTGRES_USER -Fc $$POSTGRES_DB > /backup/prod/$$(date +%Y-%m-%d-%H-%M-%S).sql
+#        echo ""Backup done at $$(date +%Y-%m-%d_%H:%M:%S)""
+#      done
+#      "
+#    environment:
+#      POSTGRES_USER: ${POSTGRES_USER}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#      POSTGRES_DB: ${POSTGRES_DB}
+#      TZ: Asia/Seoul
+#    networks:
+#      mm-network:
+
+volumes:
+  pg-prod:
+
+networks:
+  mm-network:
+    driver: bridge

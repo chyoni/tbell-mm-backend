@@ -1,0 +1,458 @@
+2024-01-22T16:00:11.670+09:00  INFO 1 --- [main] kr.co.tbell.mm.MmApplication             : Starting MmApplication v0.0.1-SNAPSHOT using Java 21-ea with PID 1 (/app/application.jar started by root in /app)
+2024-01-22T16:00:11.675+09:00  INFO 1 --- [main] kr.co.tbell.mm.MmApplication             : No active profile set, falling back to 1 default profile: "default"
+2024-01-22T16:00:12.980+09:00  INFO 1 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-01-22T16:00:13.062+09:00  INFO 1 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 51 ms. Found 0 JPA repository interfaces.
+2024-01-22T16:00:13.973+09:00  INFO 1 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9090 (http)
+2024-01-22T16:00:14.001+09:00  INFO 1 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-01-22T16:00:14.005+09:00  INFO 1 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-01-22T16:00:14.073+09:00  INFO 1 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-01-22T16:00:14.078+09:00  INFO 1 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2273 ms
+2024-01-22T16:00:14.221+09:00 ERROR 1 --- [main] com.zaxxer.hikari.HikariConfig           : Failed to load driver class org.postgresql.Driver from HikariConfig class classloader org.springframework.boot.loader.launch.LaunchedClassLoader@2a84aee7
+2024-01-22T16:00:14.237+09:00  WARN 1 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Failed to load driver class org.postgresql.Driver in either of HikariConfig class loader or Thread context classloader
+2024-01-22T16:00:14.251+09:00  INFO 1 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-01-22T16:00:14.318+09:00  INFO 1 --- [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-01-22T16:00:14.383+09:00 ERROR 1 --- [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'dataSourceScriptDatabaseInitializer' defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]: Unsatisfied dependency expressed through method 'dataSourceScriptDatabaseInitializer' parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Failed to load driver class org.postgresql.Driver in either of HikariConfig class loader or Thread context classloader
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:798) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1334) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1164) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:312) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1231) ~[spring-context-6.1.3.jar!/:6.1.3]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:949) ~[spring-context-6.1.3.jar!/:6.1.3]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624) ~[spring-context-6.1.3.jar!/:6.1.3]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.2.jar!/:3.2.2]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-3.2.2.jar!/:3.2.2]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456) ~[spring-boot-3.2.2.jar!/:3.2.2]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334) ~[spring-boot-3.2.2.jar!/:3.2.2]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354) ~[spring-boot-3.2.2.jar!/:3.2.2]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343) ~[spring-boot-3.2.2.jar!/:3.2.2]
+	at kr.co.tbell.mm.MmApplication.main(MmApplication.java:10) ~[!/:0.0.1-SNAPSHOT]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578) ~[na:na]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:91) ~[application.jar:0.0.1-SNAPSHOT]
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:53) ~[application.jar:0.0.1-SNAPSHOT]
+	at org.springframework.boot.loader.launch.JarLauncher.main(JarLauncher.java:58) ~[application.jar:0.0.1-SNAPSHOT]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Failed to load driver class org.postgresql.Driver in either of HikariConfig class loader or Thread context classloader
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:651) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:639) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1334) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1164) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:907) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:785) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	... 26 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Failed to load driver class org.postgresql.Driver in either of HikariConfig class loader or Thread context classloader
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:177) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:647) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	... 40 common frames omitted
+Caused by: java.lang.RuntimeException: Failed to load driver class org.postgresql.Driver in either of HikariConfig class loader or Thread context classloader
+	at com.zaxxer.hikari.HikariConfig.setDriverClassName(HikariConfig.java:488) ~[HikariCP-5.0.1.jar!/:na]
+	at org.springframework.boot.jdbc.DataSourceBuilder$MappedDataSourceProperty.set(DataSourceBuilder.java:479) ~[spring-boot-3.2.2.jar!/:3.2.2]
+	at org.springframework.boot.jdbc.DataSourceBuilder$MappedDataSourceProperties.set(DataSourceBuilder.java:373) ~[spring-boot-3.2.2.jar!/:3.2.2]
+	at org.springframework.boot.jdbc.DataSourceBuilder.build(DataSourceBuilder.java:183) ~[spring-boot-3.2.2.jar!/:3.2.2]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration.createDataSource(DataSourceConfiguration.java:59) ~[spring-boot-autoconfigure-3.2.2.jar!/:3.2.2]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari.dataSource(DataSourceConfiguration.java:117) ~[spring-boot-autoconfigure-3.2.2.jar!/:3.2.2]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578) ~[na:na]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140) ~[spring-beans-6.1.3.jar!/:6.1.3]
+	... 41 common frames omitted
+
+2024-01-22T16:13:44.062+09:00  INFO 1 --- [main] kr.co.tbell.mm.MmApplication             : Starting MmApplication v0.0.1-SNAPSHOT using Java 21-ea with PID 1 (/app/application.jar started by root in /app)
+2024-01-22T16:13:44.076+09:00  INFO 1 --- [main] kr.co.tbell.mm.MmApplication             : No active profile set, falling back to 1 default profile: "default"
+2024-01-22T16:13:45.348+09:00  INFO 1 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-01-22T16:13:45.389+09:00  INFO 1 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 25 ms. Found 0 JPA repository interfaces.
+2024-01-22T16:13:46.286+09:00  INFO 1 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9090 (http)
+2024-01-22T16:13:46.316+09:00  INFO 1 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-01-22T16:13:46.319+09:00  INFO 1 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-01-22T16:13:46.389+09:00  INFO 1 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-01-22T16:13:46.392+09:00  INFO 1 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2169 ms
+2024-01-22T16:13:46.679+09:00  INFO 1 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-01-22T16:13:46.797+09:00  INFO 1 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-01-22T16:13:46.879+09:00  INFO 1 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-01-22T16:13:47.339+09:00  INFO 1 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-01-22T16:13:47.435+09:00  INFO 1 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-01-22T16:13:47.768+09:00  INFO 1 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@677349fb
+2024-01-22T16:13:47.773+09:00  INFO 1 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-01-22T16:13:47.869+09:00  WARN 1 --- [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-01-22T16:13:47.874+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=1, active=1, idle=0, waiting=0)
+2024-01-22T16:13:47.937+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6fed1c4b
+2024-01-22T16:13:47.976+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@612aefc6
+2024-01-22T16:13:48.019+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6515773b
+2024-01-22T16:13:48.055+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2017e5fd
+2024-01-22T16:13:48.110+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@271fbaf0
+2024-01-22T16:13:48.143+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@11fd250a
+2024-01-22T16:13:48.172+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5f1f24a1
+2024-01-22T16:13:48.204+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@40381ab2
+2024-01-22T16:13:48.236+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1aaae07f
+2024-01-22T16:13:48.278+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@62874355
+2024-01-22T16:13:48.319+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@441b4988
+2024-01-22T16:13:48.349+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@44762633
+2024-01-22T16:13:48.402+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@9928fda
+2024-01-22T16:13:48.429+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@51d7e856
+2024-01-22T16:13:48.462+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4f1ebced
+2024-01-22T16:13:48.496+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3a2c5c83
+2024-01-22T16:13:48.522+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@27ddf843
+2024-01-22T16:13:48.589+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@49a621b6
+2024-01-22T16:13:48.621+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@736505bb
+2024-01-22T16:13:48.657+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2b758710
+2024-01-22T16:13:48.701+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@63226ddd
+2024-01-22T16:13:48.743+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1bf14b9e
+2024-01-22T16:13:48.785+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@40e2cd86
+2024-01-22T16:13:48.816+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@47a89f8d
+2024-01-22T16:13:48.829+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - After adding stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:13:49.713+09:00  INFO 1 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-01-22T16:13:50.060+09:00  WARN 1 --- [main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2024-01-22T16:13:50.063+09:00  WARN 1 --- [main] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "uk_1t68827l97cwyxo9r1u6t4p7d" of relation "department" does not exist, skipping
+2024-01-22T16:13:50.075+09:00  WARN 1 --- [main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2024-01-22T16:13:50.081+09:00  WARN 1 --- [main] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "uk_oosi3suv54trvclvanif87cnt" of relation "employee" does not exist, skipping
+2024-01-22T16:13:50.095+09:00  WARN 1 --- [main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Warning Code: 0, SQLState: 00000
+2024-01-22T16:13:50.098+09:00  WARN 1 --- [main] o.h.engine.jdbc.spi.SqlExceptionHelper   : constraint "uk_bhlvmt3oslni2jli2ponys97h" of relation "project" does not exist, skipping
+2024-01-22T16:13:50.140+09:00  INFO 1 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-01-22T16:13:51.006+09:00  INFO 1 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 9090 (http) with context path ''
+2024-01-22T16:13:51.041+09:00  INFO 1 --- [main] kr.co.tbell.mm.MmApplication             : Started MmApplication in 8.424 seconds (process running for 9.972)
+2024-01-22T16:14:12.427+09:00  INFO 1 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-01-22T16:14:12.433+09:00  INFO 1 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-01-22T16:14:12.435+09:00 DEBUG 1 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Before shutdown stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:14:12.439+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@677349fb: (connection evicted)
+2024-01-22T16:14:12.444+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@6fed1c4b: (connection evicted)
+2024-01-22T16:14:12.449+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@612aefc6: (connection evicted)
+2024-01-22T16:14:12.452+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@6515773b: (connection evicted)
+2024-01-22T16:14:12.456+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@2017e5fd: (connection evicted)
+2024-01-22T16:14:12.459+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@271fbaf0: (connection evicted)
+2024-01-22T16:14:12.462+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@11fd250a: (connection evicted)
+2024-01-22T16:14:12.466+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@5f1f24a1: (connection evicted)
+2024-01-22T16:14:12.470+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@40381ab2: (connection evicted)
+2024-01-22T16:14:12.473+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@1aaae07f: (connection evicted)
+2024-01-22T16:14:12.475+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@62874355: (connection evicted)
+2024-01-22T16:14:12.478+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@441b4988: (connection evicted)
+2024-01-22T16:14:12.484+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@44762633: (connection evicted)
+2024-01-22T16:14:12.487+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@9928fda: (connection evicted)
+2024-01-22T16:14:12.490+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@51d7e856: (connection evicted)
+2024-01-22T16:14:12.494+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@4f1ebced: (connection evicted)
+2024-01-22T16:14:12.498+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@3a2c5c83: (connection evicted)
+2024-01-22T16:14:12.501+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@27ddf843: (connection evicted)
+2024-01-22T16:14:12.503+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@49a621b6: (connection evicted)
+2024-01-22T16:14:12.506+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@736505bb: (connection evicted)
+2024-01-22T16:14:12.508+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@2b758710: (connection evicted)
+2024-01-22T16:14:12.513+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@63226ddd: (connection evicted)
+2024-01-22T16:14:12.516+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@1bf14b9e: (connection evicted)
+2024-01-22T16:14:12.518+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@40e2cd86: (connection evicted)
+2024-01-22T16:14:12.521+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@47a89f8d: (connection evicted)
+2024-01-22T16:14:12.524+09:00 DEBUG 1 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - After shutdown stats (total=0, active=0, idle=0, waiting=0)
+2024-01-22T16:14:12.527+09:00  INFO 1 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-01-22T16:14:55.846+09:00  INFO 1 --- [main] kr.co.tbell.mm.MmApplication             : Starting MmApplication v0.0.1-SNAPSHOT using Java 21-ea with PID 1 (/app/application.jar started by root in /app)
+2024-01-22T16:14:55.854+09:00  INFO 1 --- [main] kr.co.tbell.mm.MmApplication             : No active profile set, falling back to 1 default profile: "default"
+2024-01-22T16:14:56.921+09:00  INFO 1 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-01-22T16:14:56.963+09:00  INFO 1 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23 ms. Found 0 JPA repository interfaces.
+2024-01-22T16:14:57.716+09:00  INFO 1 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 9090 (http)
+2024-01-22T16:14:57.746+09:00  INFO 1 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-01-22T16:14:57.751+09:00  INFO 1 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-01-22T16:14:57.814+09:00  INFO 1 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-01-22T16:14:57.817+09:00  INFO 1 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1820 ms
+2024-01-22T16:14:58.071+09:00  INFO 1 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-01-22T16:14:58.167+09:00  INFO 1 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-01-22T16:14:58.241+09:00  INFO 1 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-01-22T16:14:58.601+09:00  INFO 1 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-01-22T16:14:58.648+09:00  INFO 1 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-01-22T16:14:58.806+09:00  INFO 1 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4466cf5d
+2024-01-22T16:14:58.812+09:00  INFO 1 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-01-22T16:14:58.868+09:00  WARN 1 --- [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-01-22T16:14:58.913+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=1, active=0, idle=1, waiting=0)
+2024-01-22T16:14:58.934+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7131b053
+2024-01-22T16:14:58.959+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7ff65005
+2024-01-22T16:14:58.985+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7bc9db23
+2024-01-22T16:14:59.012+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3ecb5a3e
+2024-01-22T16:14:59.039+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4204c69c
+2024-01-22T16:14:59.064+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@fbfc0a1
+2024-01-22T16:14:59.094+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3a9a02b6
+2024-01-22T16:14:59.123+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5ee4a571
+2024-01-22T16:14:59.151+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3ab0a817
+2024-01-22T16:14:59.178+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4b7bcd28
+2024-01-22T16:14:59.205+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@219ee943
+2024-01-22T16:14:59.230+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5aaa1f2c
+2024-01-22T16:14:59.261+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6565f47e
+2024-01-22T16:14:59.287+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@70626777
+2024-01-22T16:14:59.314+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@26e04cc9
+2024-01-22T16:14:59.347+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2cb96446
+2024-01-22T16:14:59.374+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6635a3ab
+2024-01-22T16:14:59.405+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@50f29c5
+2024-01-22T16:14:59.427+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@21adaba9
+2024-01-22T16:14:59.454+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@46d1608e
+2024-01-22T16:14:59.478+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@d32ab04
+2024-01-22T16:14:59.505+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@710fea66
+2024-01-22T16:14:59.534+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3db3f70d
+2024-01-22T16:14:59.558+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@702b3525
+2024-01-22T16:14:59.574+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - After adding stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:15:00.356+09:00  INFO 1 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-01-22T16:15:00.524+09:00  INFO 1 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-01-22T16:15:01.205+09:00  INFO 1 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 9090 (http) with context path ''
+2024-01-22T16:15:01.230+09:00  INFO 1 --- [main] kr.co.tbell.mm.MmApplication             : Started MmApplication in 6.745 seconds (process running for 8.017)
+2024-01-22T16:15:28.920+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:15:28.925+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:15:58.929+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:15:58.935+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:16:28.939+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:16:28.946+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:16:56.399+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@4b7bcd28: (connection has passed maxLifetime)
+2024-01-22T16:16:56.410+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@18ddbf6f
+2024-01-22T16:16:56.555+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@21adaba9: (connection has passed maxLifetime)
+2024-01-22T16:16:56.571+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@161a4204
+2024-01-22T16:16:56.786+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@7131b053: (connection has passed maxLifetime)
+2024-01-22T16:16:56.794+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1225d41f
+2024-01-22T16:16:56.911+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@219ee943: (connection has passed maxLifetime)
+2024-01-22T16:16:56.926+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5727483f
+2024-01-22T16:16:56.966+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@26e04cc9: (connection has passed maxLifetime)
+2024-01-22T16:16:56.978+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@22f4b373
+2024-01-22T16:16:57.110+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@7bc9db23: (connection has passed maxLifetime)
+2024-01-22T16:16:57.126+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@66badf4b
+2024-01-22T16:16:57.148+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@5aaa1f2c: (connection has passed maxLifetime)
+2024-01-22T16:16:57.151+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Add connection elided, waiting=0, adders pending/running=1
+2024-01-22T16:16:57.153+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@3db3f70d: (connection has passed maxLifetime)
+2024-01-22T16:16:57.161+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5a837aaf
+2024-01-22T16:16:57.181+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3708b770
+2024-01-22T16:16:57.181+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Add connection elided, waiting=0, adders pending/running=3
+2024-01-22T16:16:57.181+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@70626777: (connection has passed maxLifetime)
+2024-01-22T16:16:57.195+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Add connection elided, waiting=0, adders pending/running=4
+2024-01-22T16:16:57.195+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@4466cf5d: (connection has passed maxLifetime)
+2024-01-22T16:16:57.204+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@30e0f5c9
+2024-01-22T16:16:57.223+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@102419
+2024-01-22T16:16:57.311+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@5ee4a571: (connection has passed maxLifetime)
+2024-01-22T16:16:57.327+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@418770b6
+2024-01-22T16:16:57.377+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@4204c69c: (connection has passed maxLifetime)
+2024-01-22T16:16:57.393+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3346ecc1
+2024-01-22T16:16:57.472+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@fbfc0a1: (connection has passed maxLifetime)
+2024-01-22T16:16:57.486+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4bf09dd
+2024-01-22T16:16:57.604+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@3a9a02b6: (connection has passed maxLifetime)
+2024-01-22T16:16:57.613+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@50ed5bf
+2024-01-22T16:16:57.658+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@2cb96446: (connection has passed maxLifetime)
+2024-01-22T16:16:57.671+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7ff60768
+2024-01-22T16:16:57.718+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@3ecb5a3e: (connection has passed maxLifetime)
+2024-01-22T16:16:57.720+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Add connection elided, waiting=0, adders pending/running=1
+2024-01-22T16:16:57.722+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@7ff65005: (connection has passed maxLifetime)
+2024-01-22T16:16:57.732+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7b52ccb3
+2024-01-22T16:16:57.754+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@75fc3e5
+2024-01-22T16:16:57.764+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Add connection elided, waiting=0, adders pending/running=3
+2024-01-22T16:16:57.764+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@3ab0a817: (connection has passed maxLifetime)
+2024-01-22T16:16:57.779+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@740f4d9c
+2024-01-22T16:16:57.871+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@d32ab04: (connection has passed maxLifetime)
+2024-01-22T16:16:57.881+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3b0dd932
+2024-01-22T16:16:58.325+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@702b3525: (connection has passed maxLifetime)
+2024-01-22T16:16:58.334+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5657bdb4
+2024-01-22T16:16:58.562+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@6565f47e: (connection has passed maxLifetime)
+2024-01-22T16:16:58.573+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2fee1c70
+2024-01-22T16:16:58.667+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@6635a3ab: (connection has passed maxLifetime)
+2024-01-22T16:16:58.730+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2103c7bc
+2024-01-22T16:16:58.913+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@710fea66: (connection has passed maxLifetime)
+2024-01-22T16:16:58.928+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@74924ee7
+2024-01-22T16:16:58.948+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:16:58.953+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:16:59.057+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@46d1608e: (connection has passed maxLifetime)
+2024-01-22T16:16:59.069+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1fc3e7dc
+2024-01-22T16:16:59.244+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@50f29c5: (connection has passed maxLifetime)
+2024-01-22T16:16:59.259+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7f107451
+2024-01-22T16:17:28.955+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:17:28.960+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:17:58.963+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:17:58.967+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:18:28.969+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:18:28.972+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:18:53.471+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@18ddbf6f: (connection has passed maxLifetime)
+2024-01-22T16:18:53.486+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@780606e5
+2024-01-22T16:18:53.612+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@161a4204: (connection has passed maxLifetime)
+2024-01-22T16:18:53.630+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@76c1f795
+2024-01-22T16:18:53.921+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@1225d41f: (connection has passed maxLifetime)
+2024-01-22T16:18:53.929+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@72fe6d95
+2024-01-22T16:18:55.383+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@75fc3e5: (connection has passed maxLifetime)
+2024-01-22T16:18:55.393+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@37fcfdae
+2024-01-22T16:18:55.536+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@3346ecc1: (connection has passed maxLifetime)
+2024-01-22T16:18:55.550+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7f85f49a
+2024-01-22T16:18:55.609+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@7ff60768: (connection has passed maxLifetime)
+2024-01-22T16:18:55.621+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@601c9a0
+2024-01-22T16:18:55.632+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@3b0dd932: (connection has passed maxLifetime)
+2024-01-22T16:18:55.632+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Add connection elided, waiting=0, adders pending/running=2
+2024-01-22T16:18:55.638+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Add connection elided, waiting=0, adders pending/running=2
+2024-01-22T16:18:55.639+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@102419: (connection has passed maxLifetime)
+2024-01-22T16:18:55.650+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7929e30
+2024-01-22T16:18:55.672+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@57d302e1
+2024-01-22T16:18:55.696+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@50ed5bf: (connection has passed maxLifetime)
+2024-01-22T16:18:55.713+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7220da5
+2024-01-22T16:18:55.823+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@5727483f: (connection has passed maxLifetime)
+2024-01-22T16:18:55.837+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@f669828
+2024-01-22T16:18:55.850+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@2103c7bc: (connection has passed maxLifetime)
+2024-01-22T16:18:55.860+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1c96f4ea
+2024-01-22T16:18:55.865+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Add connection elided, waiting=0, adders pending/running=2
+2024-01-22T16:18:55.865+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@5657bdb4: (connection has passed maxLifetime)
+2024-01-22T16:18:55.882+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@539d3993
+2024-01-22T16:18:55.932+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@22f4b373: (connection has passed maxLifetime)
+2024-01-22T16:18:55.941+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@44454960
+2024-01-22T16:18:56.048+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@30e0f5c9: (connection has passed maxLifetime)
+2024-01-22T16:18:56.057+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7f593e18
+2024-01-22T16:18:56.303+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@7b52ccb3: (connection has passed maxLifetime)
+2024-01-22T16:18:56.311+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@54c3b4bd
+2024-01-22T16:18:56.588+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@3708b770: (connection has passed maxLifetime)
+2024-01-22T16:18:56.603+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6ea84e17
+2024-01-22T16:18:56.672+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@66badf4b: (connection has passed maxLifetime)
+2024-01-22T16:18:56.687+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@c804eb
+2024-01-22T16:18:56.716+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@4bf09dd: (connection has passed maxLifetime)
+2024-01-22T16:18:56.726+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@36575314
+2024-01-22T16:18:57.156+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@5a837aaf: (connection has passed maxLifetime)
+2024-01-22T16:18:57.171+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7f786f3f
+2024-01-22T16:18:57.266+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@418770b6: (connection has passed maxLifetime)
+2024-01-22T16:18:57.275+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@538c4e31
+2024-01-22T16:18:57.439+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@740f4d9c: (connection has passed maxLifetime)
+2024-01-22T16:18:57.451+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Add connection elided, waiting=0, adders pending/running=2
+2024-01-22T16:18:57.451+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@2fee1c70: (connection has passed maxLifetime)
+2024-01-22T16:18:57.452+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1323f7f7
+2024-01-22T16:18:57.475+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1f60c974
+2024-01-22T16:18:57.604+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@1fc3e7dc: (connection has passed maxLifetime)
+2024-01-22T16:18:57.616+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@23dd4c30
+2024-01-22T16:18:58.222+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@74924ee7: (connection has passed maxLifetime)
+2024-01-22T16:18:58.231+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@121173bc
+2024-01-22T16:18:58.497+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@7f107451: (connection has passed maxLifetime)
+2024-01-22T16:18:58.507+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1e81a246
+2024-01-22T16:18:58.976+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:18:58.981+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:19:28.984+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:19:28.989+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:19:58.994+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:19:58.999+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:20:29.000+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:20:29.004+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:20:51.058+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@72fe6d95: (connection has passed maxLifetime)
+2024-01-22T16:20:51.075+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@351c4323
+2024-01-22T16:20:52.474+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@780606e5: (connection has passed maxLifetime)
+2024-01-22T16:20:52.484+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3bdbbbf0
+2024-01-22T16:20:53.031+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@76c1f795: (connection has passed maxLifetime)
+2024-01-22T16:20:53.045+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3fe42853
+2024-01-22T16:20:53.173+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@57d302e1: (connection has passed maxLifetime)
+2024-01-22T16:20:53.186+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7ae6b1cb
+2024-01-22T16:20:53.360+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@7220da5: (connection has passed maxLifetime)
+2024-01-22T16:20:53.375+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2d34f0ef
+2024-01-22T16:20:53.455+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@1c96f4ea: (connection has passed maxLifetime)
+2024-01-22T16:20:53.470+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4b56ca82
+2024-01-22T16:20:54.334+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@7f85f49a: (connection has passed maxLifetime)
+2024-01-22T16:20:54.342+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@556ed50b
+2024-01-22T16:20:54.406+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@37fcfdae: (connection has passed maxLifetime)
+2024-01-22T16:20:54.421+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1ac94e84
+2024-01-22T16:20:54.587+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@7f593e18: (connection has passed maxLifetime)
+2024-01-22T16:20:54.605+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@10f076ba
+2024-01-22T16:20:54.912+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@7929e30: (connection has passed maxLifetime)
+2024-01-22T16:20:54.925+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6d0fbcfc
+2024-01-22T16:20:54.970+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@601c9a0: (connection has passed maxLifetime)
+2024-01-22T16:20:54.980+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4e6afadb
+2024-01-22T16:20:54.995+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@1f60c974: (connection has passed maxLifetime)
+2024-01-22T16:20:55.004+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1e8730fc
+2024-01-22T16:20:55.021+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@f669828: (connection has passed maxLifetime)
+2024-01-22T16:20:55.029+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@dd1c030
+2024-01-22T16:20:55.047+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@23dd4c30: (connection has passed maxLifetime)
+2024-01-22T16:20:55.055+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1d29652a
+2024-01-22T16:20:55.109+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@539d3993: (connection has passed maxLifetime)
+2024-01-22T16:20:55.119+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@40ce876
+2024-01-22T16:20:55.328+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@36575314: (connection has passed maxLifetime)
+2024-01-22T16:20:55.344+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@23ab38db
+2024-01-22T16:20:55.431+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@44454960: (connection has passed maxLifetime)
+2024-01-22T16:20:55.447+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2078bcde
+2024-01-22T16:20:55.453+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Add connection elided, waiting=0, adders pending/running=2
+2024-01-22T16:20:55.453+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@c804eb: (connection has passed maxLifetime)
+2024-01-22T16:20:55.468+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@76ae9dce
+2024-01-22T16:20:55.967+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@6ea84e17: (connection has passed maxLifetime)
+2024-01-22T16:20:55.975+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@15828435
+2024-01-22T16:20:56.238+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@54c3b4bd: (connection has passed maxLifetime)
+2024-01-22T16:20:56.250+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6f150bbe
+2024-01-22T16:20:56.538+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@121173bc: (connection has passed maxLifetime)
+2024-01-22T16:20:56.550+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@aeec4ce
+2024-01-22T16:20:56.588+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@7f786f3f: (connection has passed maxLifetime)
+2024-01-22T16:20:56.598+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@8ac78b0
+2024-01-22T16:20:56.721+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@1323f7f7: (connection has passed maxLifetime)
+2024-01-22T16:20:56.735+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@90ee6bc
+2024-01-22T16:20:56.954+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@538c4e31: (connection has passed maxLifetime)
+2024-01-22T16:20:56.968+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4e0144d8
+2024-01-22T16:20:57.079+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@1e81a246: (connection has passed maxLifetime)
+2024-01-22T16:20:57.092+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@32352162
+2024-01-22T16:20:59.006+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:20:59.010+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:21:29.012+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:21:29.019+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:21:59.023+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:21:59.036+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:22:29.038+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:22:29.042+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:22:49.918+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@351c4323: (connection has passed maxLifetime)
+2024-01-22T16:22:49.933+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@569f8eef
+2024-01-22T16:22:50.736+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@3bdbbbf0: (connection has passed maxLifetime)
+2024-01-22T16:22:50.747+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@58587a4c
+2024-01-22T16:22:51.272+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@4b56ca82: (connection has passed maxLifetime)
+2024-01-22T16:22:51.289+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5c67e59f
+2024-01-22T16:22:51.513+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@7ae6b1cb: (connection has passed maxLifetime)
+2024-01-22T16:22:51.521+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@19657077
+2024-01-22T16:22:51.715+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@3fe42853: (connection has passed maxLifetime)
+2024-01-22T16:22:51.725+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@33277d42
+2024-01-22T16:22:51.819+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@2d34f0ef: (connection has passed maxLifetime)
+2024-01-22T16:22:51.833+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@28b6eb70
+2024-01-22T16:22:52.124+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@6d0fbcfc: (connection has passed maxLifetime)
+2024-01-22T16:22:52.133+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4b1eb8e4
+2024-01-22T16:22:52.488+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@76ae9dce: (connection has passed maxLifetime)
+2024-01-22T16:22:52.500+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@794a8f38
+2024-01-22T16:22:52.528+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@dd1c030: (connection has passed maxLifetime)
+2024-01-22T16:22:52.539+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@718f203e
+2024-01-22T16:22:52.972+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@2078bcde: (connection has passed maxLifetime)
+2024-01-22T16:22:52.987+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6efda814
+2024-01-22T16:22:53.124+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@556ed50b: (connection has passed maxLifetime)
+2024-01-22T16:22:53.137+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@501af4b7
+2024-01-22T16:22:53.320+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@1e8730fc: (connection has passed maxLifetime)
+2024-01-22T16:22:53.333+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7d0492c3
+2024-01-22T16:22:53.499+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@23ab38db: (connection has passed maxLifetime)
+2024-01-22T16:22:53.510+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7582d38d
+2024-01-22T16:22:53.796+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@40ce876: (connection has passed maxLifetime)
+2024-01-22T16:22:53.805+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@763c7821
+2024-01-22T16:22:53.912+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@1ac94e84: (connection has passed maxLifetime)
+2024-01-22T16:22:53.928+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7184951d
+2024-01-22T16:22:54.256+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@1d29652a: (connection has passed maxLifetime)
+2024-01-22T16:22:54.272+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@aeec4ce: (connection has passed maxLifetime)
+2024-01-22T16:22:54.272+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Add connection elided, waiting=0, adders pending/running=2
+2024-01-22T16:22:54.272+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@28cf9364
+2024-01-22T16:22:54.297+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4b32334b
+2024-01-22T16:22:54.552+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@10f076ba: (connection has passed maxLifetime)
+2024-01-22T16:22:54.563+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Add connection elided, waiting=0, adders pending/running=2
+2024-01-22T16:22:54.563+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@4e6afadb: (connection has passed maxLifetime)
+2024-01-22T16:22:54.566+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5edaa77c
+2024-01-22T16:22:54.586+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@b23edc7
+2024-01-22T16:22:54.635+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@4e0144d8: (connection has passed maxLifetime)
+2024-01-22T16:22:54.643+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5f230b74
+2024-01-22T16:22:54.700+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@15828435: (connection has passed maxLifetime)
+2024-01-22T16:22:54.712+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5d1c3b0
+2024-01-22T16:22:55.209+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@6f150bbe: (connection has passed maxLifetime)
+2024-01-22T16:22:55.223+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@e3b6531
+2024-01-22T16:22:55.307+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@8ac78b0: (connection has passed maxLifetime)
+2024-01-22T16:22:55.316+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1a62fce4
+2024-01-22T16:22:55.397+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@32352162: (connection has passed maxLifetime)
+2024-01-22T16:22:55.407+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@561aa82f
+2024-01-22T16:22:56.630+09:00 DEBUG 1 --- [HikariPool-1 connection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection org.postgresql.jdbc.PgConnection@90ee6bc: (connection has passed maxLifetime)
+2024-01-22T16:22:56.638+09:00 DEBUG 1 --- [HikariPool-1 connection adder] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3dd4d30
+2024-01-22T16:22:59.044+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:22:59.050+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:23:29.054+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:23:29.060+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:23:59.053+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:23:59.058+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
+2024-01-22T16:24:29.026+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Pool stats (total=25, active=0, idle=25, waiting=0)
+2024-01-22T16:24:29.031+09:00 DEBUG 1 --- [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Fill pool skipped, pool has sufficient level or currently being filled (queueDepth=0).
