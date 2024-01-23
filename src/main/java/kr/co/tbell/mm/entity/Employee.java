@@ -1,16 +1,14 @@
 package kr.co.tbell.mm.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Getter
 @Builder
 public class Employee {
 
@@ -25,16 +23,16 @@ public class Employee {
     private String name;
 
     @Column(nullable = false)
-    private LocalDateTime startDate;
-    private LocalDateTime resignationDate;
+    private LocalDate startDate;
+    private LocalDate resignationDate;
 
     /**
      * Builder Pattern을 사용해서 Employee entity 생성
      * */
     public static Employee createEmployee(String employeeNumber,
                                           String name,
-                                          LocalDateTime startDate,
-                                          LocalDateTime resignationDate) {
+                                          LocalDate startDate,
+                                          LocalDate resignationDate) {
         return Employee.builder()
                 .employeeNumber(employeeNumber)
                 .name(name)

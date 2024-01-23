@@ -24,8 +24,8 @@ spring:
 logging:
   level:
     root: info
-    com.zaxxer.hikari.HikariConfig: info
-    com.zaxxer.hikari: TRACE
+#    com.zaxxer.hikari.HikariConfig: info
+#    com.zaxxer.hikari: TRACE
   file:
     path: /app/log/
     name: /app/log/app.log

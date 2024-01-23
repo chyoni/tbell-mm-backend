@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @ToString
@@ -14,6 +14,6 @@ public class ReqCreateEmployee {
     @NotNull(message = "'name' must be required.")
     private String name;
     @NotNull(message = "'startDate' must be required.")
-    private LocalDateTime startDate;
-    private LocalDateTime resignationDate;
+    private LocalDate startDate;
+    private LocalDate resignationDate;
 }
