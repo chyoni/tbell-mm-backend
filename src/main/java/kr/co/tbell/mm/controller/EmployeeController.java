@@ -55,12 +55,12 @@ public class EmployeeController {
         }
 
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(HttpStatus.CREATED)
                 .body(new Response<>(true, null, newEmployee));
     }
 
     @GetMapping("/{employeeNumber}")
-    public ResponseEntity<Response<ResEmployee>> getEmployee(@PathVariable String employeeNumber) {
+    public ResponseEntity<Response<ResEmployee>> getEmployeeByEmployeeNumber(@PathVariable String employeeNumber) {
         ResEmployee employee = employeeService.findEmployee(employeeNumber);
 
         if (employee == null) {
@@ -75,7 +75,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{employeeNumber}")
-    public ResponseEntity<Response<ResEmployee>> deleteEmployee(@PathVariable String employeeNumber) {
+    public ResponseEntity<Response<ResEmployee>> deleteEmployeeByEmployeeNumber(@PathVariable String employeeNumber) {
         ResEmployee deleted = employeeService.deleteEmployee(employeeNumber);
 
         if (deleted == null) {

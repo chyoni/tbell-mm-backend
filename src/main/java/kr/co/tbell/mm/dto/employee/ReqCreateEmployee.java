@@ -1,12 +1,14 @@
 package kr.co.tbell.mm.dto.employee;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class ReqCreateEmployee {
     @NotNull(message = "'employeeNumber' must be required.")
