@@ -4,8 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.OperationRate;
 import kr.co.tbell.mm.entity.project.ProjectStatus;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class ReqProject {
     @NotNull(message = "'contractNumber' must be required.")
