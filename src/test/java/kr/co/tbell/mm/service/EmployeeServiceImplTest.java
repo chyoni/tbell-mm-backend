@@ -5,6 +5,7 @@ import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
 import kr.co.tbell.mm.dto.employee.ResEmployee;
 import kr.co.tbell.mm.entity.Employee;
 import kr.co.tbell.mm.repository.EmployeeRepository;
+import kr.co.tbell.mm.service.employee.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

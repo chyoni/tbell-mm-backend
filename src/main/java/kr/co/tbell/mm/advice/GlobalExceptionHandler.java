@@ -4,6 +4,7 @@ import kr.co.tbell.mm.dto.common.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,6 +28,15 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(
                 new Response<>(false, errorMessages.toString(), null),
+                new HttpHeaders(),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Response<Void>> handleJsonParseErrors(HttpMessageNotReadableException ex) {
+
+        return new ResponseEntity<>(
+                new Response<>(false, ex.getMessage(), null),
                 new HttpHeaders(),
                 HttpStatus.BAD_REQUEST);
     }

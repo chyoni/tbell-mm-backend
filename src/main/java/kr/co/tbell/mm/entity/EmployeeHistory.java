@@ -1,9 +1,10 @@
 package kr.co.tbell.mm.entity;
 
 import jakarta.persistence.*;
+import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.Project;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 public class EmployeeHistory {
@@ -20,6 +21,10 @@ public class EmployeeHistory {
     @JoinColumn(name = "project_id")
     private Project project;
 
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
+
+    @Enumerated(EnumType.STRING)
+    private Level level;
+    private Integer worth;
 }

@@ -1,4 +1,4 @@
-package kr.co.tbell.mm.service;
+package kr.co.tbell.mm.service.employee;
 
 import kr.co.tbell.mm.dto.employee.ResEmployee;
 import kr.co.tbell.mm.dto.employee.ReqCreateEmployee;
@@ -10,12 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 

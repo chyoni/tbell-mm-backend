@@ -2,16 +2,22 @@ package kr.co.tbell.mm.entity.project;
 
 import jakarta.persistence.*;
 import kr.co.tbell.mm.entity.Department;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
+@Getter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String contractNumber;
 
     @Column(unique = true)
@@ -19,8 +25,8 @@ public class Project {
 
     private String contractor;
 
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
     private ProjectStatus projectStatus;

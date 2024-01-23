@@ -2,6 +2,8 @@
 
 git pull origin master
 
+docker stop tbell-mm-backend
+
 docker compose -f ./docker-compose.yml down
 
 ./gradlew bootJar

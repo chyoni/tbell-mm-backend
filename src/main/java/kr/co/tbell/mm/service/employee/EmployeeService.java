@@ -1,4 +1,4 @@
-package kr.co.tbell.mm.service;
+package kr.co.tbell.mm.service.employee;
 
 import kr.co.tbell.mm.dto.employee.ResEmployee;
 import kr.co.tbell.mm.dto.employee.ReqCreateEmployee;

@@ -5,7 +5,7 @@ import kr.co.tbell.mm.dto.employee.ResEmployee;
 import kr.co.tbell.mm.dto.employee.ReqCreateEmployee;
 import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
 import kr.co.tbell.mm.dto.common.Response;
-import kr.co.tbell.mm.service.EmployeeService;
+import kr.co.tbell.mm.service.employee.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
