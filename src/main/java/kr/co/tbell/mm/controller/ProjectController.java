@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.InstanceAlreadyExistsException;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -23,7 +22,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/projects")
 public class ProjectController {
-    
+
     private final ProjectService projectService;
 
     @PostMapping("")
@@ -49,5 +48,38 @@ public class ProjectController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new Response<>(true, null, allProjects));
+    }
+
+    @GetMapping("/{contractNumber}")
+    public ResponseEntity<Response<ResProject>> getProjectByContractNumber(@PathVariable String contractNumber) {
+        log.info("[getProjectByContractNumber]: Contract Number = {}", contractNumber);
+
+        ResProject project = projectService.findProjectByContractNumber(contractNumber);
+
+        if (project == null)
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new Response<>(false, "Project with this contract number : '" +
+                            contractNumber + "' does not exist.", null));
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new Response<>(true, null, project));
+    }
+
+    @DeleteMapping("/{contractNumber}")
+    public ResponseEntity<Response<ResProject>> deleteProjectByContractNumber(@PathVariable String contractNumber) {
+        log.info("[deleteProjectByContractNumber]: Contract Number = {}", contractNumber);
+
+        try {
+            ResProject deleted = projectService.deleteProjectByContractNumber(contractNumber);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new Response<>(true, null, deleted));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new Response<>(false, e.getMessage(), null));
+        }
     }
 }

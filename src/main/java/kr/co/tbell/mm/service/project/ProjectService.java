@@ -11,4 +11,8 @@ public interface ProjectService {
     ResProject createProject(ReqProject reqProject) throws InstanceAlreadyExistsException;
 
     Page<ResProject> findAllProjects(Pageable pageable);
+
+    ResProject findProjectByContractNumber(String contractNumber);
+
+    ResProject deleteProjectByContractNumber(String contractNumber);
 }

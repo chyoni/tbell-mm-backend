@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface UnitPriceRepository extends JpaRepository<UnitPrice, Long> {
     List<UnitPrice> findAllByProject(Project project);
+    void deleteAllByProject(Project project);
 }

@@ -61,7 +61,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         projectRepository.save(p);
 
-        // UnitPrice Map 뽑아내서 엔티티로 변환
+        // UnitPrice Map 뽑아내서 엔티티로 변환 후 DB에 저장
         for (Map<Level, Integer> unitPrice : reqProject.getUnitPrices()) {
             for (Map.Entry<Level, Integer> lw : unitPrice.entrySet()) {
                 UnitPrice up = UnitPrice
@@ -83,15 +83,50 @@ public class ProjectServiceImpl implements ProjectService {
         Page<Project> allProjects = projectRepository.findAll(pageable);
 
         return allProjects.map(project -> {
-            List<Map<Level, Integer>> ups = new ArrayList<>();
+            List<Map<Level, Integer>> dtoUnitPrices = getResProjectUnitPrices(project);
 
-            List<UnitPrice> unitPrices = unitPriceRepository.findAllByProject(project);
-
-            for (UnitPrice unitPrice : unitPrices) {
-                ups.add(Map.of(unitPrice.getLevel(), unitPrice.getWorth()));
-            }
-
-            return new ResProject(project, ups);
+            return new ResProject(project, dtoUnitPrices);
         });
+    }
+
+    @Override
+    public ResProject findProjectByContractNumber(String contractNumber) {
+        Optional<Project> optionalProject = projectRepository.findByContractNumber(contractNumber);
+
+        if (optionalProject.isEmpty()) return null;
+
+        Project project = optionalProject.get();
+
+        return new ResProject(project, getResProjectUnitPrices(project));
+    }
+
+    @Override
+    public ResProject deleteProjectByContractNumber(String contractNumber) {
+        Optional<Project> optionalProject = projectRepository.findByContractNumber(contractNumber);
+
+        if (optionalProject.isEmpty())
+            throw new NoSuchElementException("Project with this contract number '" +
+                    contractNumber + "' does not exist.");
+
+        Project project = optionalProject.get();
+
+        List<Map<Level, Integer>> projectUnitPrices = getResProjectUnitPrices(project);
+
+        unitPriceRepository.deleteAllByProject(project);
+
+        projectRepository.delete(project);
+
+        return new ResProject(project, projectUnitPrices);
+    }
+
+    private List<Map<Level, Integer>> getResProjectUnitPrices(Project project) {
+        List<Map<Level, Integer>> dtoUnitPrices = new ArrayList<>();
+
+        List<UnitPrice> unitPrices = unitPriceRepository.findAllByProject(project);
+
+        for (UnitPrice unitPrice : unitPrices) {
+            dtoUnitPrices.add(Map.of(unitPrice.getLevel(), unitPrice.getWorth()));
+        }
+        return dtoUnitPrices;
     }
 }
