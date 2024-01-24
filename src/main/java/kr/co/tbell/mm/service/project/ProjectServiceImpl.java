@@ -1,6 +1,7 @@
 package kr.co.tbell.mm.service.project;
 
-import kr.co.tbell.mm.dto.project.ReqProject;
+import kr.co.tbell.mm.dto.project.ReqCreateProject;
+import kr.co.tbell.mm.dto.project.ReqUpdateProject;
 import kr.co.tbell.mm.dto.project.ResProject;
 import kr.co.tbell.mm.entity.Department;
 import kr.co.tbell.mm.entity.project.Level;
@@ -30,52 +31,41 @@ public class ProjectServiceImpl implements ProjectService {
     private final UnitPriceRepository unitPriceRepository;
 
     @Override
-    public ResProject createProject(ReqProject reqProject) throws
+    public ResProject createProject(ReqCreateProject reqCreateProject) throws
             InstanceAlreadyExistsException, NoSuchElementException {
 
         Optional<Project> optionalProject =
-                projectRepository.findByContractNumber(reqProject.getContractNumber());
+                projectRepository.findByContractNumber(reqCreateProject.getContractNumber());
 
         if (optionalProject.isPresent())
             throw new InstanceAlreadyExistsException("Project with this contract number : '" +
-                    reqProject.getContractNumber() + "' already exist.");
+                    reqCreateProject.getContractNumber() + "' already exist.");
 
         Optional<Department> optionalDepartment =
-                departmentRepository.findByName(reqProject.getDepartmentName());
+                departmentRepository.findByName(reqCreateProject.getDepartmentName());
 
         if (optionalDepartment.isEmpty())
             throw new NoSuchElementException("Department with this name : '" +
-                    reqProject.getDepartmentName() + "' does not exist.");
+                    reqCreateProject.getDepartmentName() + "' does not exist.");
 
         Project p = Project
                 .builder()
-                .contractNumber(reqProject.getContractNumber())
-                .teamName(reqProject.getTeamName())
-                .contractor(reqProject.getContractor())
-                .startDate(reqProject.getStartDate())
-                .endDate(reqProject.getEndDate())
-                .projectStatus(reqProject.getProjectStatus())
-                .operationRate(reqProject.getOperationRate())
+                .contractNumber(reqCreateProject.getContractNumber())
+                .teamName(reqCreateProject.getTeamName())
+                .contractor(reqCreateProject.getContractor())
+                .startDate(reqCreateProject.getStartDate())
+                .endDate(reqCreateProject.getEndDate())
+                .projectStatus(reqCreateProject.getProjectStatus())
+                .operationRate(reqCreateProject.getOperationRate())
                 .department(optionalDepartment.get())
                 .build();
 
         projectRepository.save(p);
 
         // UnitPrice Map 뽑아내서 엔티티로 변환 후 DB에 저장
-        for (Map<Level, Integer> unitPrice : reqProject.getUnitPrices()) {
-            for (Map.Entry<Level, Integer> lw : unitPrice.entrySet()) {
-                UnitPrice up = UnitPrice
-                        .builder()
-                        .level(lw.getKey())
-                        .worth(lw.getValue())
-                        .project(p)
-                        .build();
+        makeUnitPrices(reqCreateProject.getUnitPrices(), p);
 
-                unitPriceRepository.save(up);
-            }
-        }
-
-        return new ResProject(reqProject);
+        return new ResProject(reqCreateProject);
     }
 
     @Override
@@ -117,6 +107,60 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.delete(project);
 
         return new ResProject(project, projectUnitPrices);
+    }
+
+    @Override
+    public ResProject editProjectByContractNumber(String contractNumber, ReqUpdateProject reqUpdateProject) {
+        Optional<Project> optionalProject = projectRepository.findByContractNumber(contractNumber);
+
+        if (optionalProject.isEmpty()) return null;
+
+        Project project = optionalProject.get();
+
+        project.updateProject(
+                reqUpdateProject.getTeamName(),
+                reqUpdateProject.getContractor(),
+                reqUpdateProject.getStartDate(),
+                reqUpdateProject.getEndDate(),
+                reqUpdateProject.getProjectStatus(),
+                reqUpdateProject.getOperationRate());
+
+        if (reqUpdateProject.getDepartmentName() != null &&
+            !project.getDepartment().getName().equals(reqUpdateProject.getDepartmentName())) {
+            Optional<Department> optionalDepartment =
+                    departmentRepository.findByName(reqUpdateProject.getDepartmentName());
+
+            if (optionalDepartment.isEmpty())
+                throw new RuntimeException("The department '" + reqUpdateProject.getDepartmentName() +
+                        "' you want to modify does not exist.");
+
+            project.changeDepartment(optionalDepartment.get());
+        }
+
+        if (!reqUpdateProject.getUnitPrices().isEmpty()) {
+            unitPriceRepository.deleteAllByProject(project);
+
+            makeUnitPrices(reqUpdateProject.getUnitPrices(), project);
+        }
+
+        return new ResProject(project, getResProjectUnitPrices(project));
+    }
+
+    private void makeUnitPrices(List<Map<Level, Integer>> unitPrices, Project project) {
+        if (unitPrices == null) return;
+
+        for (Map<Level, Integer> unitPrice : unitPrices) {
+            for (Map.Entry<Level, Integer> lw : unitPrice.entrySet()) {
+                UnitPrice up = UnitPrice
+                        .builder()
+                        .level(lw.getKey())
+                        .worth(lw.getValue())
+                        .project(project)
+                        .build();
+
+                unitPriceRepository.save(up);
+            }
+        }
     }
 
     private List<Map<Level, Integer>> getResProjectUnitPrices(Project project) {

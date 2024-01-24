@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -101,5 +102,30 @@ public class DepartmentController {
                 .body(new Response<>(true,
                         null,
                         new ResDepartment(optionalDepartment.get())));
+    }
+
+    @Transactional
+    @PutMapping("/{name}")
+    public ResponseEntity<Response<ResDepartment>> editDepartmentByName(
+            @PathVariable String name,
+            @RequestBody @Valid ReqCreateDepartment reqCreateDepartment) {
+        log.info("[editDepartmentByName]: Department Name: {}", name);
+
+        Optional<Department> optionalDepartment = departmentRepository.findByName(name);
+
+        if (optionalDepartment.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new Response<>(false, "Department with this name '" +
+                            name + "' does not exist.", null));
+        }
+
+        Department department = optionalDepartment.get();
+
+        department.updateDepartment(reqCreateDepartment.getName());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new Response<>(true, null, new ResDepartment(department)));
     }
 }

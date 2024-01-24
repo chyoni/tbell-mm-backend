@@ -1,5 +1,6 @@
 package kr.co.tbell.mm.service.employee;
 
+import kr.co.tbell.mm.dto.employee.ReqUpdateEmployee;
 import kr.co.tbell.mm.dto.employee.ResEmployee;
 import kr.co.tbell.mm.dto.employee.ReqCreateEmployee;
 import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
@@ -16,4 +17,6 @@ public interface EmployeeService {
     ResEmployee findEmployee(String employeeNumber);
 
     ResEmployee deleteEmployee(String employeeNumber);
+
+    ResEmployee editEmployee(String employeeNumber, ReqUpdateEmployee ReqUpdateEmployee);
 }

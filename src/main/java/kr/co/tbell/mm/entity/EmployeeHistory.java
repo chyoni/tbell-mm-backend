@@ -3,10 +3,16 @@ package kr.co.tbell.mm.entity;
 import jakarta.persistence.*;
 import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.Project;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class EmployeeHistory {
 
     @Id
@@ -27,4 +33,8 @@ public class EmployeeHistory {
     @Enumerated(EnumType.STRING)
     private Level level;
     private Integer worth;
+
+    public void completeHistory(LocalDate endDate) {
+        if (endDate != null) this.endDate = endDate;
+    }
 }

@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,19 +24,19 @@ public class ResProject {
     private final LocalDate endDate;
     private final ProjectStatus projectStatus;
     private final OperationRate operationRate;
-    private final String departmentName;
-    private final List<Map<Level, Integer>> unitPrices;
+    private String departmentName;
+    private List<Map<Level, Integer>> unitPrices = new ArrayList<>();
 
-    public ResProject(ReqProject reqProject) {
-        this.contractNumber = reqProject.getContractNumber();
-        this.teamName = reqProject.getTeamName();
-        this.contractor = reqProject.getContractor();
-        this.startDate = reqProject.getStartDate();
-        this.endDate = reqProject.getEndDate();
-        this.projectStatus = reqProject.getProjectStatus();
-        this.operationRate = reqProject.getOperationRate();
-        this.departmentName = reqProject.getDepartmentName();
-        this.unitPrices = reqProject.getUnitPrices();
+    public ResProject(ReqCreateProject reqCreateProject) {
+        this.contractNumber = reqCreateProject.getContractNumber();
+        this.teamName = reqCreateProject.getTeamName();
+        this.contractor = reqCreateProject.getContractor();
+        this.startDate = reqCreateProject.getStartDate();
+        this.endDate = reqCreateProject.getEndDate();
+        this.projectStatus = reqCreateProject.getProjectStatus();
+        this.operationRate = reqCreateProject.getOperationRate();
+        this.departmentName = reqCreateProject.getDepartmentName();
+        this.unitPrices = reqCreateProject.getUnitPrices();
     }
 
     public ResProject(Project project, List<Map<Level, Integer>> unitPrices) {

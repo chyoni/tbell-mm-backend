@@ -1,6 +1,8 @@
 package kr.co.tbell.mm.controller;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.Valid;
+import kr.co.tbell.mm.dto.employee.ReqUpdateEmployee;
 import kr.co.tbell.mm.dto.employee.ResEmployee;
 import kr.co.tbell.mm.dto.employee.ReqCreateEmployee;
 import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
@@ -61,6 +63,8 @@ public class EmployeeController {
 
     @GetMapping("/{employeeNumber}")
     public ResponseEntity<Response<ResEmployee>> getEmployeeByEmployeeNumber(@PathVariable String employeeNumber) {
+        log.info("[getEmployeeByEmployeeNumber]: Employee number = {}", employeeNumber);
+
         ResEmployee employee = employeeService.findEmployee(employeeNumber);
 
         if (employee == null) {
@@ -76,6 +80,8 @@ public class EmployeeController {
 
     @DeleteMapping("/{employeeNumber}")
     public ResponseEntity<Response<ResEmployee>> deleteEmployeeByEmployeeNumber(@PathVariable String employeeNumber) {
+        log.info("[deleteEmployeeByEmployeeNumber]: Employee number = {}", employeeNumber);
+
         ResEmployee deleted = employeeService.deleteEmployee(employeeNumber);
 
         if (deleted == null) {
@@ -89,5 +95,27 @@ public class EmployeeController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new Response<>(true, null, deleted));
+    }
+
+    @PutMapping("/{employeeNumber}")
+    public ResponseEntity<Response<ResEmployee>> editEmployeeByEmployeeNumber(
+            @PathVariable String employeeNumber,
+            @RequestBody @Valid ReqUpdateEmployee reqUpdateEmployee) {
+        log.info("[editEmployeeByEmployeeNumber]: Employee number = {}", employeeNumber);
+
+        log.info("[editEmployeeByEmployeeNumber]: Request payload = {}", reqUpdateEmployee);
+
+        ResEmployee updated = employeeService.editEmployee(employeeNumber, reqUpdateEmployee);
+
+        if (updated == null) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new Response<>(false, "Employee with this employee number : '" +
+                            employeeNumber + "' does not exist.", null));
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new Response<>(true, null, updated));
     }
 }

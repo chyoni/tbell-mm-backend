@@ -2,7 +2,8 @@ package kr.co.tbell.mm.controller;
 
 import jakarta.validation.Valid;
 import kr.co.tbell.mm.dto.common.Response;
-import kr.co.tbell.mm.dto.project.ReqProject;
+import kr.co.tbell.mm.dto.project.ReqCreateProject;
+import kr.co.tbell.mm.dto.project.ReqUpdateProject;
 import kr.co.tbell.mm.dto.project.ResProject;
 import kr.co.tbell.mm.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +27,11 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping("")
-    public ResponseEntity<Response<ResProject>> createProject(@RequestBody @Valid ReqProject reqProject) {
-        log.info("[createProject]: Request payload = {}", reqProject);
+    public ResponseEntity<Response<ResProject>> createProject(@RequestBody @Valid ReqCreateProject reqCreateProject) {
+        log.info("[createProject]: Request payload = {}", reqCreateProject);
 
         try {
-            ResProject res = projectService.createProject(reqProject);
+            ResProject res = projectService.createProject(reqCreateProject);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(new Response<>(true, null, res));
@@ -77,6 +78,31 @@ public class ProjectController {
                     .status(HttpStatus.OK)
                     .body(new Response<>(true, null, deleted));
         } catch (NoSuchElementException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new Response<>(false, e.getMessage(), null));
+        }
+    }
+
+    @PutMapping("/{contractNumber}")
+    public ResponseEntity<Response<ResProject>> editProjectByContractNumber(
+            @PathVariable String contractNumber,
+            @RequestBody @Valid ReqUpdateProject reqUpdateProject) {
+        log.info("[editProjectByContractNumber]: Contract Number = {}", contractNumber);
+
+        log.info("[editProjectByContractNumber]: Request payload = {}", reqUpdateProject);
+
+        try {
+            ResProject response = projectService.editProjectByContractNumber(contractNumber, reqUpdateProject);
+            if (response == null) {
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(new Response<>(false, "Project with this contract number : '" +
+                                contractNumber + "' does not exist.", null));
+            }
+
+            return ResponseEntity.status(HttpStatus.OK).body(new Response<>(true, null, response));
+        } catch (RuntimeException e) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new Response<>(false, e.getMessage(), null));

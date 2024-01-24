@@ -1,15 +1,14 @@
 package kr.co.tbell.mm.service.project;
 
-import kr.co.tbell.mm.dto.project.ReqProject;
+import kr.co.tbell.mm.dto.project.ReqCreateProject;
+import kr.co.tbell.mm.dto.project.ReqUpdateProject;
 import kr.co.tbell.mm.dto.project.ResProject;
 import kr.co.tbell.mm.entity.Department;
-import kr.co.tbell.mm.entity.project.OperationRate;
-import kr.co.tbell.mm.entity.project.Project;
-import kr.co.tbell.mm.entity.project.ProjectStatus;
+import kr.co.tbell.mm.entity.project.*;
 import kr.co.tbell.mm.repository.DepartmentRepository;
 import kr.co.tbell.mm.repository.ProjectRepository;
+import kr.co.tbell.mm.repository.UnitPriceRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,11 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -39,10 +39,13 @@ class ProjectServiceImplTest {
     @Autowired
     ProjectRepository projectRepository;
 
+    @Autowired
+    UnitPriceRepository unitPriceRepository;
+
     @Test
     void createProject() throws InstanceAlreadyExistsException {
 
-        ReqProject reqProject = ReqProject
+        ReqCreateProject reqCreateProject = ReqCreateProject
                 .builder()
                 .contractNumber("P1111")
                 .teamName("SK텔레콤 1팀")
@@ -55,21 +58,21 @@ class ProjectServiceImplTest {
                 .build();
 
         // Department가 없는 경우
-        assertThatThrownBy(() -> projectService.createProject(reqProject))
+        assertThatThrownBy(() -> projectService.createProject(reqCreateProject))
                 .isInstanceOf(NoSuchElementException.class);
 
         departmentRepository.save(Department.builder().name("STE 1실").build());
 
-        ResProject project = projectService.createProject(reqProject);
+        ResProject project = projectService.createProject(reqCreateProject);
 
         Project findProject = projectRepository
-                .findByContractNumber(reqProject.getContractNumber())
+                .findByContractNumber(reqCreateProject.getContractNumber())
                 .orElseThrow();
 
         assertThat(findProject.getContractNumber()).isEqualTo(project.getContractNumber());
 
         // 같은 프로젝트 번호가 존재하는 경우
-        assertThatThrownBy(() -> projectService.createProject(reqProject))
+        assertThatThrownBy(() -> projectService.createProject(reqCreateProject))
                 .isInstanceOf(InstanceAlreadyExistsException.class);
     }
 
@@ -79,7 +82,7 @@ class ProjectServiceImplTest {
         departmentRepository.save(Department.builder().name("STE 1실").build());
 
         for (int i = 0; i < 5; i++) {
-            ReqProject reqProject = ReqProject
+            ReqCreateProject reqCreateProject = ReqCreateProject
                     .builder()
                     .contractNumber("P1111" + i)
                     .teamName("SK텔레콤 " +i+ "팀")
@@ -91,7 +94,7 @@ class ProjectServiceImplTest {
                     .departmentName("STE 1실")
                     .build();
 
-            projectService.createProject(reqProject);
+            projectService.createProject(reqCreateProject);
         }
 
         Page<ResProject> allProjects = projectService.findAllProjects(PageRequest.of(0, 5));
@@ -105,7 +108,7 @@ class ProjectServiceImplTest {
     void findProjectByContractNumber() throws InstanceAlreadyExistsException {
         departmentRepository.save(Department.builder().name("STE 1실").build());
 
-        ReqProject reqProject = ReqProject
+        ReqCreateProject reqCreateProject = ReqCreateProject
                 .builder()
                 .contractNumber("P1111")
                 .teamName("SK텔레콤 100팀")
@@ -117,9 +120,9 @@ class ProjectServiceImplTest {
                 .departmentName("STE 1실")
                 .build();
 
-        projectService.createProject(reqProject);
+        projectService.createProject(reqCreateProject);
 
-        ResProject project = projectService.findProjectByContractNumber(reqProject.getContractNumber());
+        ResProject project = projectService.findProjectByContractNumber(reqCreateProject.getContractNumber());
         assertThat(project.getContractor()).isEqualTo("SK텔레콤");
         assertThat(project.getTeamName()).isEqualTo("SK텔레콤 100팀");
     }
@@ -128,7 +131,7 @@ class ProjectServiceImplTest {
     void deleteProjectByContractNumber() throws InstanceAlreadyExistsException {
         departmentRepository.save(Department.builder().name("STE 1실").build());
 
-        ReqProject reqProject = ReqProject
+        ReqCreateProject reqCreateProject = ReqCreateProject
                 .builder()
                 .contractNumber("P1111")
                 .teamName("SK텔레콤 100팀")
@@ -140,16 +143,78 @@ class ProjectServiceImplTest {
                 .departmentName("STE 1실")
                 .build();
 
-        projectService.createProject(reqProject);
+        projectService.createProject(reqCreateProject);
 
-        ResProject created = projectService.findProjectByContractNumber(reqProject.getContractNumber());
+        ResProject created = projectService.findProjectByContractNumber(reqCreateProject.getContractNumber());
 
         assertThat(created.getTeamName()).isEqualTo("SK텔레콤 100팀");
 
         projectService.deleteProjectByContractNumber(created.getContractNumber());
 
-        ResProject notExist = projectService.findProjectByContractNumber(reqProject.getContractNumber());
+        ResProject notExist = projectService.findProjectByContractNumber(reqCreateProject.getContractNumber());
 
         assertThat(notExist).isNull();
+    }
+
+    @Test
+    void editProjectByContractNumber() throws InstanceAlreadyExistsException {
+        departmentRepository.save(Department.builder().name("STE 1실").build());
+
+        List<Map<Level, Integer>> unitPrices = new ArrayList<>();
+
+        unitPrices.add(Map.of(Level.BEGINNER, 100));
+        unitPrices.add(Map.of(Level.INTERMEDIATE, 200));
+        unitPrices.add(Map.of(Level.ADVANCED, 300));
+
+        ReqCreateProject reqCreateProject = ReqCreateProject
+                .builder()
+                .contractNumber("P1111")
+                .teamName("SK텔레콤 100팀")
+                .contractor("SK텔레콤")
+                .startDate(LocalDate.parse("2023-01-01"))
+                .endDate(LocalDate.parse("2026-12-31"))
+                .projectStatus(ProjectStatus.SINGLE)
+                .operationRate(OperationRate.EXCEPT)
+                .departmentName("STE 1실")
+                .unitPrices(unitPrices)
+                .build();
+
+
+        ResProject created = projectService.createProject(reqCreateProject);
+
+        assertThat(created.getTeamName()).isEqualTo("SK텔레콤 100팀");
+        assertThat(created.getUnitPrices().getFirst().get(Level.BEGINNER)).isEqualTo(100);
+        assertThat(created.getUnitPrices().getLast().get(Level.ADVANCED)).isEqualTo(300);
+
+        List<Map<Level, Integer>> updateUnitPrices = new ArrayList<>();
+
+        updateUnitPrices.add(Map.of(Level.BEGINNER, 400));
+        updateUnitPrices.add(Map.of(Level.INTERMEDIATE, 500));
+        updateUnitPrices.add(Map.of(Level.ADVANCED, 600));
+
+        ReqUpdateProject req = ReqUpdateProject
+                .builder()
+                .teamName("SK텔레콤 1팀")
+                .unitPrices(updateUnitPrices)
+                .build();
+
+        projectService.editProjectByContractNumber("P1111", req);
+
+        Project p1111 = projectRepository.findByContractNumber("P1111").orElseThrow();
+        List<UnitPrice> p1111UnitPrices = unitPriceRepository.findAllByProject(p1111);
+
+        assertThat(p1111.getTeamName()).isEqualTo("SK텔레콤 1팀");
+
+        for (UnitPrice p1111UnitPrice : p1111UnitPrices) {
+            if (p1111UnitPrice.getLevel().equals(Level.BEGINNER)) {
+                if (!p1111UnitPrice.getWorth().equals(400)) throw new RuntimeException("Test Failed");
+            }
+            if (p1111UnitPrice.getLevel().equals(Level.INTERMEDIATE)) {
+                if (!p1111UnitPrice.getWorth().equals(500)) throw new RuntimeException("Test Failed");
+            }
+            if (p1111UnitPrice.getLevel().equals(Level.ADVANCED)) {
+                if (!p1111UnitPrice.getWorth().equals(600)) throw new RuntimeException("Test Failed");
+            }
+        }
     }
 }

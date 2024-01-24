@@ -1,5 +1,6 @@
 package kr.co.tbell.mm.service.employee;
 
+import kr.co.tbell.mm.dto.employee.ReqUpdateEmployee;
 import kr.co.tbell.mm.dto.employee.ResEmployee;
 import kr.co.tbell.mm.dto.employee.ReqCreateEmployee;
 import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
@@ -81,5 +82,24 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.delete(employee);
 
         return resEmployee;
+    }
+
+    @Override
+    public ResEmployee editEmployee(String employeeNumber, ReqUpdateEmployee reqUpdateEmployee) {
+        Optional<Employee> optionalEmployee =
+                employeeRepository.getEmployeeByEmployeeNumber(employeeNumber);
+
+        if (optionalEmployee.isEmpty()) return null;
+
+        Employee employee = optionalEmployee.get();
+
+        // Dirty checking
+        employee.updateEmployee(
+                reqUpdateEmployee.getEmployeeNumber(),
+                reqUpdateEmployee.getName(),
+                reqUpdateEmployee.getStartDate(),
+                reqUpdateEmployee.getResignationDate());
+
+        return new ResEmployee(employee);
     }
 }

@@ -12,26 +12,18 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
-public class ReqProject {
-    @NotNull(message = "'contractNumber' must be required.")
-    private String contractNumber;
-    @NotNull(message = "'team' must be required.")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ReqUpdateProject {
     private String teamName;
-    @NotNull(message = "'contractor' must be required.")
     private String contractor;
-    @NotNull(message = "'startDate' must be required.")
     private LocalDate startDate;
-    @NotNull(message = "'endDate' must be required.")
     private LocalDate endDate;
     private ProjectStatus projectStatus;
     private OperationRate operationRate;
-    @NotNull(message = "'departmentName' must be required.")
     private String departmentName;
 
-    @NotNull(message = "'unitPrices' must be required.")
-    private final List<Map<Level, Integer>> unitPrices = new ArrayList<>();
+    private List<Map<Level, Integer>> unitPrices = new ArrayList<>();
 }

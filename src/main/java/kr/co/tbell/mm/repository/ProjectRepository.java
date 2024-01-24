@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
+    @Query(value = "SELECT p FROM Project p JOIN FETCH p.department")
     Optional<Project> findByContractNumber(String contractNumber);
 
     @Override

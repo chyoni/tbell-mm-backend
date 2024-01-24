@@ -1,6 +1,7 @@
 package kr.co.tbell.mm.service.employee;
 
 import kr.co.tbell.mm.dto.employee.ReqCreateEmployee;
+import kr.co.tbell.mm.dto.employee.ReqUpdateEmployee;
 import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
 import kr.co.tbell.mm.dto.employee.ResEmployee;
 import kr.co.tbell.mm.entity.Employee;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.management.InstanceAlreadyExistsException;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -112,5 +114,26 @@ class EmployeeServiceImplTest {
 
         assertThatThrownBy(() -> employeeRepository.getEmployeeByEmployeeNumber("20200102").get())
                 .isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
+    void updateEmployee() throws InstanceAlreadyExistsException {
+        ReqCreateEmployee employee = ReqCreateEmployee
+                .builder()
+                .employeeNumber("20200102")
+                .name("최치원")
+                .startDate(LocalDate.parse("2020-01-02"))
+                .build();
+
+        employeeService.createEmployee(employee);
+
+        ReqUpdateEmployee reqUpdateEmployee =
+                new ReqUpdateEmployee(null, "Choi Chiwon", null, null);
+
+        employeeService.editEmployee("20200102", reqUpdateEmployee);
+
+        Employee findEmployee = employeeRepository.getEmployeeByEmployeeNumber("20200102").orElseThrow();
+
+        assertThat(findEmployee.getName()).isEqualTo("Choi Chiwon");
     }
 }

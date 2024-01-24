@@ -6,6 +6,7 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
@@ -39,5 +40,23 @@ public class Employee {
                 .startDate(startDate)
                 .resignationDate(resignationDate)
                 .build();
+    }
+
+    public void updateEmployee(String employeeNumber,
+                               String name,
+                               LocalDate startDate,
+                               LocalDate resignationDate) {
+
+        if (employeeNumber != null)
+            this.employeeNumber = employeeNumber;
+
+        if (name != null)
+            this.name = name;
+
+        if (startDate != null)
+            this.startDate = startDate;
+
+        if (resignationDate != null)
+            this.resignationDate = resignationDate;
     }
 }
