@@ -8,13 +8,15 @@ import kr.co.tbell.mm.dto.history.ResHistory;
 import kr.co.tbell.mm.service.history.EmployeeHistoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.naming.directory.InvalidAttributesException;
-import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -58,5 +60,27 @@ public class EmployeeHistoryController {
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new Response<>(false, e.getMessage(), null));
         }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<Response<Page<ResHistory>>> getHistories(
+            @PageableDefault Pageable pageable,
+            @RequestParam(name = "contractNumber", required = false) String contractNumber) {
+        log.info("contractNumber = {}", contractNumber);
+
+        if (contractNumber != null) {
+            Page<ResHistory> historiesByProject =
+                    employeeHistoryService.getHistoriesByProject(pageable, contractNumber);
+
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new Response<>(true, null, historiesByProject));
+        }
+
+        Page<ResHistory> histories = employeeHistoryService.getHistories(pageable);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new Response<>(true, null, histories));
     }
 }

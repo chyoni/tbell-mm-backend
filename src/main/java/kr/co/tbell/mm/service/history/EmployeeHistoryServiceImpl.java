@@ -14,6 +14,8 @@ import kr.co.tbell.mm.repository.ProjectRepository;
 import kr.co.tbell.mm.repository.UnitPriceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.management.InstanceAlreadyExistsException;
@@ -53,7 +55,7 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
         Optional<EmployeeHistory> optionalEmployeeHistory =
                 employeeHistoryRepository.findByEmployeeAndProject(employee, project);
 
-        if (optionalEmployeeHistory.isPresent() && optionalEmployeeHistory.get().getEndDate() != null)
+        if (optionalEmployeeHistory.isPresent() && optionalEmployeeHistory.get().getEndDate() == null)
             throw new InstanceAlreadyExistsException("Employee history with employee [" +
                     employee.getName() + "] and project [" + project.getTeamName() + "] already exist.");
 
@@ -104,5 +106,39 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
         employeeHistory.completeHistory(reqCompleteHistory.getEndDate());
 
         return new ResHistory(employeeHistory, employeeHistory.getEmployee());
+    }
+
+    @Override
+    public Page<ResHistory> getHistories(Pageable pageable) {
+        Page<EmployeeHistory> histories = employeeHistoryRepository.findAll(pageable);
+
+        return histories.map(history -> {
+            List<Map<Level, Integer>> unitPrices = new ArrayList<>();
+
+            List<UnitPrice> unitPriceByProject = unitPriceRepository.findAllByProject(history.getProject());
+
+            for (UnitPrice unitPrice : unitPriceByProject) {
+                unitPrices.add(Map.of(unitPrice.getLevel(), unitPrice.getWorth()));
+            }
+
+            return new ResHistory(history.getProject(), unitPrices, history.getEmployee(), history);
+        });
+    }
+
+    @Override
+    public Page<ResHistory> getHistoriesByProject(Pageable pageable, String contractNumber) {
+        Page<EmployeeHistory> histories = employeeHistoryRepository.findAllByProject(pageable, contractNumber);
+
+        return histories.map(history -> {
+            List<Map<Level, Integer>> unitPrices = new ArrayList<>();
+
+            List<UnitPrice> unitPriceByProject = unitPriceRepository.findAllByProject(history.getProject());
+
+            for (UnitPrice unitPrice : unitPriceByProject) {
+                unitPrices.add(Map.of(unitPrice.getLevel(), unitPrice.getWorth()));
+            }
+
+            return new ResHistory(history.getProject(), unitPrices, history.getEmployee(), history);
+        });
     }
 }
