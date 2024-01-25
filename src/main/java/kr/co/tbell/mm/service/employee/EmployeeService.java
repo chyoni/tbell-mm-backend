@@ -4,6 +4,8 @@ import kr.co.tbell.mm.dto.employee.ReqUpdateEmployee;
 import kr.co.tbell.mm.dto.employee.ResEmployee;
 import kr.co.tbell.mm.dto.employee.ReqCreateEmployee;
 import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
+import kr.co.tbell.mm.dto.salary.EmployeeSalary;
+import kr.co.tbell.mm.dto.salary.ReqUpdateSalary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,4 +21,6 @@ public interface EmployeeService {
     ResEmployee deleteEmployee(String employeeNumber);
 
     ResEmployee editEmployee(String employeeNumber, ReqUpdateEmployee ReqUpdateEmployee);
+
+    EmployeeSalary addMonthSalary(String employeeNumber, ReqUpdateSalary reqUpdateSalary);
 }

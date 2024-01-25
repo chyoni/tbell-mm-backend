@@ -25,5 +25,5 @@ public class ReqUpdateProject {
     private OperationRate operationRate;
     private String departmentName;
 
-    private List<Map<Level, Integer>> unitPrices = new ArrayList<>();
+    private final List<Map<Level, Integer>> unitPrices = new ArrayList<>();
 }

@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +23,8 @@ public class ResProject {
     private final LocalDate endDate;
     private final ProjectStatus projectStatus;
     private final OperationRate operationRate;
-    private String departmentName;
-    private List<Map<Level, Integer>> unitPrices = new ArrayList<>();
+    private final String departmentName;
+    private List<Map<Level, Integer>> unitPrices;
 
     public ResProject(ReqCreateProject reqCreateProject) {
         this.contractNumber = reqCreateProject.getContractNumber();
@@ -49,5 +48,16 @@ public class ResProject {
         this.operationRate = project.getOperationRate();
         this.departmentName = project.getDepartment().getName();
         this.unitPrices = unitPrices;
+    }
+
+    public ResProject(Project project) {
+        this.contractNumber = project.getContractNumber();
+        this.teamName = project.getTeamName();
+        this.contractor = project.getContractor();
+        this.startDate = project.getStartDate();
+        this.endDate = project.getEndDate();
+        this.projectStatus = project.getProjectStatus();
+        this.operationRate = project.getOperationRate();
+        this.departmentName = project.getDepartment().getName();
     }
 }

@@ -1,6 +1,7 @@
 package kr.co.tbell.mm.dto.history;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.querydsl.core.annotations.QueryProjection;
 import kr.co.tbell.mm.dto.employee.ResEmployee;
 import kr.co.tbell.mm.dto.project.ResProject;
 import kr.co.tbell.mm.entity.Employee;
@@ -36,6 +37,19 @@ public class ResHistory {
                       EmployeeHistory employeeHistory) {
         this.employee = new ResEmployee(employee);
         this.project = new ResProject(project, unitPrices);
+        this.id = employeeHistory.getId();
+        this.startDate = employeeHistory.getStartDate();
+        this.endDate = employeeHistory.getEndDate();
+        this.level = employeeHistory.getLevel();
+        this.worth = employeeHistory.getWorth();
+    }
+
+    @QueryProjection
+    public ResHistory(Project project,
+                      Employee employee,
+                      EmployeeHistory employeeHistory) {
+        this.employee = new ResEmployee(employee);
+        this.project = new ResProject(project);
         this.id = employeeHistory.getId();
         this.startDate = employeeHistory.getStartDate();
         this.endDate = employeeHistory.getEndDate();

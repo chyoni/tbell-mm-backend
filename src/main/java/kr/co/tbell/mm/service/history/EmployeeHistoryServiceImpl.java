@@ -1,5 +1,6 @@
 package kr.co.tbell.mm.service.history;
 
+import kr.co.tbell.mm.dto.history.HistorySearchCond;
 import kr.co.tbell.mm.dto.history.ReqCompleteHistory;
 import kr.co.tbell.mm.dto.history.ReqHistory;
 import kr.co.tbell.mm.dto.history.ResHistory;
@@ -108,27 +109,29 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
         return new ResHistory(employeeHistory, employeeHistory.getEmployee());
     }
 
+    /**
+     * QueryDSL
+     * */
     @Override
-    public Page<ResHistory> getHistories(Pageable pageable) {
-        Page<EmployeeHistory> histories = employeeHistoryRepository.findAll(pageable);
-
-        return histories.map(history -> {
-            List<Map<Level, Integer>> unitPrices = new ArrayList<>();
-
-            List<UnitPrice> unitPriceByProject = unitPriceRepository.findAllByProject(history.getProject());
-
-            for (UnitPrice unitPrice : unitPriceByProject) {
-                unitPrices.add(Map.of(unitPrice.getLevel(), unitPrice.getWorth()));
-            }
-
-            return new ResHistory(history.getProject(), unitPrices, history.getEmployee(), history);
-        });
+    public Page<ResHistory> getHistories(Pageable pageable, HistorySearchCond searchCond) {
+        return employeeHistoryRepository.getHistories(pageable, searchCond);
     }
 
     @Override
     public Page<ResHistory> getHistoriesByProject(Pageable pageable, String contractNumber) {
         Page<EmployeeHistory> histories = employeeHistoryRepository.findAllByProject(pageable, contractNumber);
 
+        return getResHistories(histories);
+    }
+
+    @Override
+    public Page<ResHistory> getHistoriesByEmployee(Pageable pageable, String employeeNumber) {
+        Page<EmployeeHistory> histories = employeeHistoryRepository.findAllByEmployee(pageable, employeeNumber);
+
+        return getResHistories(histories);
+    }
+
+    private Page<ResHistory> getResHistories(Page<EmployeeHistory> histories) {
         return histories.map(history -> {
             List<Map<Level, Integer>> unitPrices = new ArrayList<>();
 

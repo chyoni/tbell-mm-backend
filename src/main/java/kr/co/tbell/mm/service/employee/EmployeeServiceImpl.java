@@ -4,8 +4,12 @@ import kr.co.tbell.mm.dto.employee.ReqUpdateEmployee;
 import kr.co.tbell.mm.dto.employee.ResEmployee;
 import kr.co.tbell.mm.dto.employee.ReqCreateEmployee;
 import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
+import kr.co.tbell.mm.dto.salary.EmployeeSalary;
+import kr.co.tbell.mm.dto.salary.ReqUpdateSalary;
 import kr.co.tbell.mm.entity.Employee;
+import kr.co.tbell.mm.entity.salary.Salary;
 import kr.co.tbell.mm.repository.EmployeeRepository;
+import kr.co.tbell.mm.repository.SalaryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.InstanceAlreadyExistsException;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Slf4j
@@ -23,6 +28,7 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final SalaryRepository salaryRepository;
 
     @Override
     public ResCreateEmployee createEmployee(ReqCreateEmployee createEmployee) throws InstanceAlreadyExistsException {
@@ -101,5 +107,43 @@ public class EmployeeServiceImpl implements EmployeeService {
                 reqUpdateEmployee.getResignationDate());
 
         return new ResEmployee(employee);
+    }
+
+    @Override
+    public EmployeeSalary addMonthSalary(String employeeNumber, ReqUpdateSalary reqUpdateSalary) {
+        Optional<Employee> optionalEmployee = employeeRepository.getEmployeeByEmployeeNumber(employeeNumber);
+
+        if (optionalEmployee.isEmpty())
+            throw new NoSuchElementException("Employee with this employee number '"
+                    + employeeNumber + "' does not exist.");
+
+        Employee employee = optionalEmployee.get();
+
+        Optional<Salary> salaryByEmployee = salaryRepository.findByEmployeeAndYearAndMonth(
+                employee,
+                reqUpdateSalary.getYear(),
+                reqUpdateSalary.getMonth());
+
+        if (salaryByEmployee.isEmpty()) {
+            Salary salary = Salary
+                    .builder()
+                    .employee(employee)
+                    .year(reqUpdateSalary.getYear())
+                    .month(reqUpdateSalary.getMonth())
+                    .build();
+            salaryRepository.save(salary);
+        } else {
+            salaryByEmployee.get().changeSalary(
+                    reqUpdateSalary.getYear(),
+                    reqUpdateSalary.getMonth(),
+                    reqUpdateSalary.getSalary());
+        }
+
+        return new EmployeeSalary(
+                employeeNumber,
+                employee.getName(),
+                reqUpdateSalary.getYear(),
+                reqUpdateSalary.getMonth(),
+                reqUpdateSalary.getSalary());
     }
 }

@@ -2,6 +2,7 @@ package kr.co.tbell.mm.controller;
 
 import jakarta.validation.Valid;
 import kr.co.tbell.mm.dto.common.Response;
+import kr.co.tbell.mm.dto.history.HistorySearchCond;
 import kr.co.tbell.mm.dto.history.ReqCompleteHistory;
 import kr.co.tbell.mm.dto.history.ReqHistory;
 import kr.co.tbell.mm.dto.history.ResHistory;
@@ -62,22 +63,16 @@ public class EmployeeHistoryController {
         }
     }
 
+    /**
+     * 아래처럼 HistorySearchCond 객체를 파라미터로 받으면 REST API의 QueryParameter로 들어오는 Key/Value에 대해
+     * HistorySearchCond 객체가 가지는 필드와 매치되는 Key가 있으면 매핑해준다.
+     * */
     @GetMapping("")
-    public ResponseEntity<Response<Page<ResHistory>>> getHistories(
-            @PageableDefault Pageable pageable,
-            @RequestParam(name = "contractNumber", required = false) String contractNumber) {
-        log.info("contractNumber = {}", contractNumber);
+    public ResponseEntity<Response<Page<ResHistory>>> getHistories(HistorySearchCond searchCond,
+                                                                   Pageable pageable) {
+        log.info("[getHistories]: searchCond: {}", searchCond);
 
-        if (contractNumber != null) {
-            Page<ResHistory> historiesByProject =
-                    employeeHistoryService.getHistoriesByProject(pageable, contractNumber);
-
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(new Response<>(true, null, historiesByProject));
-        }
-
-        Page<ResHistory> histories = employeeHistoryService.getHistories(pageable);
+        Page<ResHistory> histories = employeeHistoryService.getHistories(pageable, searchCond);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

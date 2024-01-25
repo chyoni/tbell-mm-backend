@@ -34,8 +34,37 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation group: 'com.h2database', name: 'h2', version: '2.2.224'
+
+    //QueryDSL Start
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    //QueryDSL End
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+// QueryDSL Start
+
+// querydsl directory path
+def querydslDir = "src/main/generated"
+
+// querydsl directory를 자동 임포트 할 수 있게 설정
+sourceSets {
+    main.java.srcDirs += [ querydslDir ]
+}
+
+// task 중 compileJava를 실행하면 Q파일들을 생성
+tasks.withType(JavaCompile) {
+    options.getGeneratedSourceOutputDirectory().set(file(querydslDir))
+}
+
+// clean을 하면 querydsl directory를 삭제
+clean.doLast {
+    file(querydslDir).deleteDir()
+}
+
+// QueryDSL End

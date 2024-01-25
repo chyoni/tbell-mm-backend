@@ -1,12 +1,13 @@
 package kr.co.tbell.mm.controller;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.Valid;
 import kr.co.tbell.mm.dto.employee.ReqUpdateEmployee;
 import kr.co.tbell.mm.dto.employee.ResEmployee;
 import kr.co.tbell.mm.dto.employee.ReqCreateEmployee;
 import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
 import kr.co.tbell.mm.dto.common.Response;
+import kr.co.tbell.mm.dto.salary.EmployeeSalary;
+import kr.co.tbell.mm.dto.salary.ReqUpdateSalary;
 import kr.co.tbell.mm.service.employee.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.InstanceAlreadyExistsException;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
@@ -117,5 +119,25 @@ public class EmployeeController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new Response<>(true, null, updated));
+    }
+
+    @PostMapping("/{employeeNumber}/salary")
+    public ResponseEntity<Response<EmployeeSalary>> addMonthSalary(
+            @PathVariable String employeeNumber,
+            @RequestBody @Valid ReqUpdateSalary reqUpdateSalary) {
+        log.info("[addMonthSalary]: EmployeeNumber: {}", employeeNumber);
+        log.info("[addMonthSalary]: Request Payload: {}", reqUpdateSalary);
+
+        try {
+            EmployeeSalary employeeSalary = employeeService.addMonthSalary(employeeNumber, reqUpdateSalary);
+
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new Response<>(true, null, employeeSalary));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new Response<>(false, e.getMessage(), null));
+        }
     }
 }
