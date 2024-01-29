@@ -1,5 +1,6 @@
 package kr.co.tbell.mm.service.project;
 
+import kr.co.tbell.mm.dto.project.ProjectSearchCond;
 import kr.co.tbell.mm.dto.project.ReqCreateProject;
 import kr.co.tbell.mm.dto.project.ReqUpdateProject;
 import kr.co.tbell.mm.dto.project.ResProject;
@@ -11,7 +12,7 @@ import javax.management.InstanceAlreadyExistsException;
 public interface ProjectService {
     ResProject createProject(ReqCreateProject reqCreateProject) throws InstanceAlreadyExistsException;
 
-    Page<ResProject> findAllProjects(Pageable pageable);
+    Page<ResProject> findAllProjects(Pageable pageable, ProjectSearchCond projectSearchCond);
 
     ResProject findProjectByContractNumber(String contractNumber);
 

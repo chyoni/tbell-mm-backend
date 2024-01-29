@@ -1,5 +1,6 @@
 package kr.co.tbell.mm.service.project;
 
+import kr.co.tbell.mm.dto.project.ProjectSearchCond;
 import kr.co.tbell.mm.dto.project.ReqCreateProject;
 import kr.co.tbell.mm.dto.project.ReqUpdateProject;
 import kr.co.tbell.mm.dto.project.ResProject;
@@ -97,7 +98,8 @@ class ProjectServiceImplTest {
             projectService.createProject(reqCreateProject);
         }
 
-        Page<ResProject> allProjects = projectService.findAllProjects(PageRequest.of(0, 5));
+        Page<ResProject> allProjects =
+                projectService.findAllProjects(PageRequest.of(0, 5), new ProjectSearchCond());
 
         assertThat(allProjects.getTotalElements()).isEqualTo(5L);
         assertThat(allProjects.getContent().getFirst().getContractNumber()).isEqualTo("P11110");

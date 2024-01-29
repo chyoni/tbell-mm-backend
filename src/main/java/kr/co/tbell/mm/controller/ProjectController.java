@@ -2,6 +2,7 @@ package kr.co.tbell.mm.controller;
 
 import jakarta.validation.Valid;
 import kr.co.tbell.mm.dto.common.Response;
+import kr.co.tbell.mm.dto.project.ProjectSearchCond;
 import kr.co.tbell.mm.dto.project.ReqCreateProject;
 import kr.co.tbell.mm.dto.project.ReqUpdateProject;
 import kr.co.tbell.mm.dto.project.ResProject;
@@ -43,8 +44,9 @@ public class ProjectController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Response<Page<ResProject>>> getProjects(@PageableDefault Pageable pageable) {
-        Page<ResProject> allProjects = projectService.findAllProjects(pageable);
+    public ResponseEntity<Response<Page<ResProject>>> getProjects(ProjectSearchCond projectSearchCond,
+                                                                  Pageable pageable) {
+        Page<ResProject> allProjects = projectService.findAllProjects(pageable, projectSearchCond);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -1,6 +1,5 @@
 package kr.co.tbell.mm.dto.project;
 
-import jakarta.validation.constraints.NotNull;
 import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.OperationRate;
 import kr.co.tbell.mm.entity.project.ProjectStatus;
@@ -25,5 +24,5 @@ public class ReqUpdateProject {
     private OperationRate operationRate;
     private String departmentName;
 
-    private final List<Map<Level, Integer>> unitPrices = new ArrayList<>();
+    private List<Map<Level, Integer>> unitPrices = new ArrayList<>();
 }

@@ -1,5 +1,6 @@
 package kr.co.tbell.mm.service.project;
 
+import kr.co.tbell.mm.dto.project.ProjectSearchCond;
 import kr.co.tbell.mm.dto.project.ReqCreateProject;
 import kr.co.tbell.mm.dto.project.ReqUpdateProject;
 import kr.co.tbell.mm.dto.project.ResProject;
@@ -69,8 +70,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Page<ResProject> findAllProjects(Pageable pageable) {
-        Page<Project> allProjects = projectRepository.findAll(pageable);
+    public Page<ResProject> findAllProjects(Pageable pageable, ProjectSearchCond projectSearchCond) {
+        Page<Project> allProjects = projectRepository.getProjects(pageable, projectSearchCond);
 
         return allProjects.map(project -> {
             List<Map<Level, Integer>> dtoUnitPrices = getResProjectUnitPrices(project);
