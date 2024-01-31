@@ -1,4 +1,4 @@
-package kr.co.tbell.mm.repository;
+package kr.co.tbell.mm.repository.project;
 
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;

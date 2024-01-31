@@ -1,4 +1,4 @@
-package kr.co.tbell.mm.repository;
+package kr.co.tbell.mm.repository.employee;
 
 import kr.co.tbell.mm.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package kr.co.tbell.mm.repository;
+package kr.co.tbell.mm.repository.unitprice;
 
 import kr.co.tbell.mm.entity.project.Project;
 import kr.co.tbell.mm.entity.project.UnitPrice;

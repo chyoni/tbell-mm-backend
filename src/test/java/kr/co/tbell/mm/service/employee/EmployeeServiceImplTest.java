@@ -5,8 +5,7 @@ import kr.co.tbell.mm.dto.employee.ReqUpdateEmployee;
 import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
 import kr.co.tbell.mm.dto.employee.ResEmployee;
 import kr.co.tbell.mm.entity.Employee;
-import kr.co.tbell.mm.repository.EmployeeRepository;
-import kr.co.tbell.mm.service.employee.EmployeeService;
+import kr.co.tbell.mm.repository.employee.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.management.InstanceAlreadyExistsException;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 

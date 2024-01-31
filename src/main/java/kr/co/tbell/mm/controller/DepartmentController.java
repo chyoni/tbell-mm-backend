@@ -2,15 +2,15 @@ package kr.co.tbell.mm.controller;
 
 import jakarta.validation.Valid;
 import kr.co.tbell.mm.dto.common.Response;
+import kr.co.tbell.mm.dto.department.DepartmentSearchCond;
 import kr.co.tbell.mm.dto.department.ReqCreateDepartment;
 import kr.co.tbell.mm.dto.department.ResDepartment;
 import kr.co.tbell.mm.entity.Department;
-import kr.co.tbell.mm.repository.DepartmentRepository;
+import kr.co.tbell.mm.repository.department.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,14 +27,15 @@ public class DepartmentController {
     private final DepartmentRepository departmentRepository;
 
     @GetMapping("")
-    public ResponseEntity<Response<Page<ResDepartment>>> getDepartments(@PageableDefault Pageable pageable) {
-        Page<Department> departments = departmentRepository.findAll(pageable);
+    public ResponseEntity<Response<Page<ResDepartment>>> getDepartments(DepartmentSearchCond departmentSearchCond,
+                                                                        Pageable pageable) {
+        Page<ResDepartment> departments = departmentRepository.getDepartments(pageable, departmentSearchCond);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new Response<>(true,
                         null,
-                        departments.map(ResDepartment::new)));
+                        departments));
     }
 
     @PostMapping("")

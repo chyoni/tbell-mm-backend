@@ -1,4 +1,4 @@
-package kr.co.tbell.mm.repository;
+package kr.co.tbell.mm.repository.project;
 
 import kr.co.tbell.mm.entity.project.Project;
 import org.springframework.data.domain.Page;
