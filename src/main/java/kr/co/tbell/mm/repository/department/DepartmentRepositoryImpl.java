@@ -33,6 +33,7 @@ public class DepartmentRepositoryImpl implements DepartmentRepositoryQueryDsl {
                 .where(departmentNameContains(departmentSearchCond.getDepartmentName()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(department.name.asc())
                 .fetch();
 
         int total = queryFactory
