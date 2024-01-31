@@ -1,5 +1,6 @@
 package kr.co.tbell.mm.repository.employee;
 
+import com.querydsl.core.types.OrderSpecifier;
 import kr.co.tbell.mm.entity.Employee;
 import kr.co.tbell.mm.entity.EmployeeHistory;
 import kr.co.tbell.mm.entity.project.Project;
@@ -41,6 +42,8 @@ public interface EmployeeHistoryRepository extends
             "LEFT OUTER JOIN FETCH p.department pd " +
             "WHERE e.employeeNumber = :employeeNumber")
     Page<EmployeeHistory> findAllByEmployee(Pageable pageable, @Param("employeeNumber") String employeeNumber);
+
+    Iterable<EmployeeHistory> findAllByEmployee(Employee employee);
 
     @Override
     @Query(value = "" +

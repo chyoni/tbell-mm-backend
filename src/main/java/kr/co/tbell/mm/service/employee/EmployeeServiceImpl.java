@@ -7,12 +7,15 @@ import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
 import kr.co.tbell.mm.dto.salary.EmployeeSalary;
 import kr.co.tbell.mm.dto.salary.ReqUpdateSalary;
 import kr.co.tbell.mm.entity.Employee;
+import kr.co.tbell.mm.entity.EmployeeHistory;
 import kr.co.tbell.mm.entity.salary.Salary;
+import kr.co.tbell.mm.repository.employee.EmployeeHistoryRepository;
 import kr.co.tbell.mm.repository.employee.EmployeeRepository;
 import kr.co.tbell.mm.repository.salary.SalaryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +31,7 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final EmployeeHistoryRepository employeeHistoryRepository;
     private final SalaryRepository salaryRepository;
 
     @Override
@@ -85,6 +89,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = optionalEmployee.get();
         ResEmployee resEmployee = new ResEmployee(employee);
 
+        Iterable<EmployeeHistory> allHistories = employeeHistoryRepository.findAllByEmployee(employee);
+
+        employeeHistoryRepository.deleteAll(allHistories);
         employeeRepository.delete(employee);
 
         return resEmployee;
