@@ -29,6 +29,7 @@ public class DepartmentController {
     @GetMapping("")
     public ResponseEntity<Response<Page<ResDepartment>>> getDepartments(DepartmentSearchCond departmentSearchCond,
                                                                         Pageable pageable) {
+        log.info("[getDepartments]: DepartmentSearchCond: {}", departmentSearchCond);
         Page<ResDepartment> departments = departmentRepository.getDepartments(pageable, departmentSearchCond);
 
         return ResponseEntity

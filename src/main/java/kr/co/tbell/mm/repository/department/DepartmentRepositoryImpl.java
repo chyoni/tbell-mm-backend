@@ -30,7 +30,7 @@ public class DepartmentRepositoryImpl implements DepartmentRepositoryQueryDsl {
         List<ResDepartment> results = queryFactory
                 .select(new QResDepartment(department))
                 .from(department)
-                .where(departmentNameEq(departmentSearchCond.getDepartmentName()))
+                .where(departmentNameContains(departmentSearchCond.getDepartmentName()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -38,14 +38,14 @@ public class DepartmentRepositoryImpl implements DepartmentRepositoryQueryDsl {
         int total = queryFactory
                 .select(new QResDepartment(department))
                 .from(department)
-                .where(departmentNameEq(departmentSearchCond.getDepartmentName()))
+                .where(departmentNameContains(departmentSearchCond.getDepartmentName()))
                 .fetch()
                 .size();
 
         return new PageImpl<>(results, pageable, total);
     }
 
-    private BooleanExpression departmentNameEq(String departmentName) {
+    private BooleanExpression departmentNameContains(String departmentName) {
         return StringUtils.hasText(departmentName) ? department.name.contains(departmentName) : null;
     }
 }
