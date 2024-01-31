@@ -46,6 +46,6 @@ public class DepartmentRepositoryImpl implements DepartmentRepositoryQueryDsl {
     }
 
     private BooleanExpression departmentNameEq(String departmentName) {
-        return StringUtils.hasText(departmentName) ? department.name.eq(departmentName) : null;
+        return StringUtils.hasText(departmentName) ? department.name.contains(departmentName) : null;
     }
 }
