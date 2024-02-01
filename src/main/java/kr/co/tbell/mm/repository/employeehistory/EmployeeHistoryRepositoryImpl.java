@@ -1,4 +1,4 @@
-package kr.co.tbell.mm.repository.employee;
+package kr.co.tbell.mm.repository.employeehistory;
 
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;

@@ -9,7 +9,7 @@ import kr.co.tbell.mm.entity.EmployeeHistory;
 import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.Project;
 import kr.co.tbell.mm.entity.project.UnitPrice;
-import kr.co.tbell.mm.repository.employee.EmployeeHistoryRepository;
+import kr.co.tbell.mm.repository.employeehistory.EmployeeHistoryRepository;
 import kr.co.tbell.mm.repository.employee.EmployeeRepository;
 import kr.co.tbell.mm.repository.project.ProjectRepository;
 import kr.co.tbell.mm.repository.unitprice.UnitPriceRepository;

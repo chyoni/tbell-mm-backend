@@ -1,10 +1,7 @@
 package kr.co.tbell.mm.controller;
 
 import jakarta.validation.Valid;
-import kr.co.tbell.mm.dto.employee.ReqUpdateEmployee;
-import kr.co.tbell.mm.dto.employee.ResEmployee;
-import kr.co.tbell.mm.dto.employee.ReqCreateEmployee;
-import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
+import kr.co.tbell.mm.dto.employee.*;
 import kr.co.tbell.mm.dto.common.Response;
 import kr.co.tbell.mm.dto.salary.EmployeeSalary;
 import kr.co.tbell.mm.dto.salary.ReqUpdateSalary;
@@ -36,8 +33,11 @@ public class EmployeeController {
      * api-address:api-port/api/v1/employees?page=0&size=10&sort=id,desc&sort=name
      */
     @GetMapping("")
-    public ResponseEntity<Response<Page<ResEmployee>>> getEmployees(@PageableDefault() Pageable pageable) {
-        Page<ResEmployee> employees = employeeService.findAllEmployees(pageable);
+    public ResponseEntity<Response<Page<ResEmployee>>> getEmployees(EmployeeSearchCond employeeSearchCond,
+                                                                    Pageable pageable) {
+
+
+        Page<ResEmployee> employees = employeeService.findAllEmployees(pageable, employeeSearchCond);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -66,7 +66,7 @@ class EmployeeServiceImplTest {
         }
 
         Page<ResEmployee> allEmployees =
-                employeeService.findAllEmployees(PageRequest.of(0, 5));
+                employeeService.findAllEmployees(PageRequest.of(0, 5), null);
 
         assertThat(allEmployees.getTotalElements()).isEqualTo(5L);
         assertThat(allEmployees.getSize()).isEqualTo(5);

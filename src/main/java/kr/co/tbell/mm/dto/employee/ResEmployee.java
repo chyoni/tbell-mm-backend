@@ -1,6 +1,7 @@
 package kr.co.tbell.mm.dto.employee;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.querydsl.core.annotations.QueryProjection;
 import kr.co.tbell.mm.entity.Employee;
 import lombok.Getter;
 import lombok.ToString;
@@ -16,6 +17,7 @@ public class ResEmployee {
     private final LocalDate startDate;
     private final LocalDate resignationDate;
 
+    @QueryProjection
     public ResEmployee(Employee employee) {
         this.employeeNumber = employee.getEmployeeNumber();
         this.name = employee.getName();

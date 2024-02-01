@@ -1,21 +1,17 @@
 package kr.co.tbell.mm.service.employee;
 
-import kr.co.tbell.mm.dto.employee.ReqUpdateEmployee;
-import kr.co.tbell.mm.dto.employee.ResEmployee;
-import kr.co.tbell.mm.dto.employee.ReqCreateEmployee;
-import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
+import kr.co.tbell.mm.dto.employee.*;
 import kr.co.tbell.mm.dto.salary.EmployeeSalary;
 import kr.co.tbell.mm.dto.salary.ReqUpdateSalary;
 import kr.co.tbell.mm.entity.Employee;
 import kr.co.tbell.mm.entity.EmployeeHistory;
 import kr.co.tbell.mm.entity.salary.Salary;
-import kr.co.tbell.mm.repository.employee.EmployeeHistoryRepository;
+import kr.co.tbell.mm.repository.employeehistory.EmployeeHistoryRepository;
 import kr.co.tbell.mm.repository.employee.EmployeeRepository;
 import kr.co.tbell.mm.repository.salary.SalaryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,10 +57,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Page<ResEmployee> findAllEmployees(Pageable pageable) {
-        Page<Employee> employees = employeeRepository.findAll(pageable);
-
-        return employees.map(ResEmployee::new);
+    public Page<ResEmployee> findAllEmployees(Pageable pageable, EmployeeSearchCond employeeSearchCond) {
+        return employeeRepository.getEmployees(pageable, employeeSearchCond);
     }
 
     @Override

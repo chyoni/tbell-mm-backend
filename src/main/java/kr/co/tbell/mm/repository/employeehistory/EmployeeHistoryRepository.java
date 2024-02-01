@@ -1,6 +1,5 @@
-package kr.co.tbell.mm.repository.employee;
+package kr.co.tbell.mm.repository.employeehistory;
 
-import com.querydsl.core.types.OrderSpecifier;
 import kr.co.tbell.mm.entity.Employee;
 import kr.co.tbell.mm.entity.EmployeeHistory;
 import kr.co.tbell.mm.entity.project.Project;

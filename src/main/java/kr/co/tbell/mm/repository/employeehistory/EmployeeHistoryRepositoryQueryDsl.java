@@ -1,4 +1,4 @@
-package kr.co.tbell.mm.repository.employee;
+package kr.co.tbell.mm.repository.employeehistory;
 
 import kr.co.tbell.mm.dto.history.HistorySearchCond;
 import kr.co.tbell.mm.dto.history.ResHistory;
