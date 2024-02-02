@@ -53,6 +53,11 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
 
         Project project = optionalProject.get();
 
+        if (project.getStartDate().isAfter(history.getStartDate()) ||
+            project.getEndDate().isBefore(history.getEndDate())) {
+            throw new InvalidAttributesException("Employee input date must be between project start and end date.");
+        }
+
         Optional<EmployeeHistory> optionalEmployeeHistory =
                 employeeHistoryRepository.findByEmployeeAndProject(employee, project);
 
@@ -76,6 +81,8 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
             throw new InvalidAttributesException("The 'level' ["+history.getLevel()+"] " +
                     "received is not in this project ["+project.getTeamName()+"].");
         }
+
+
 
         EmployeeHistory employeeHistory = EmployeeHistory
                 .builder()
