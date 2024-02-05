@@ -9,6 +9,7 @@ import kr.co.tbell.mm.entity.EmployeeHistory;
 import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.Project;
 import kr.co.tbell.mm.entity.project.UnitPrice;
+import kr.co.tbell.mm.repository.employeehistory.EmployeeHistoryMMRepository;
 import kr.co.tbell.mm.repository.employeehistory.EmployeeHistoryRepository;
 import kr.co.tbell.mm.repository.employee.EmployeeRepository;
 import kr.co.tbell.mm.repository.project.ProjectRepository;
@@ -29,6 +30,7 @@ import java.util.*;
 public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
 
     private final EmployeeHistoryRepository employeeHistoryRepository;
+    private final EmployeeHistoryMMRepository employeeHistoryMMRepository;
     private final EmployeeRepository employeeRepository;
     private final ProjectRepository projectRepository;
     private final UnitPriceRepository unitPriceRepository;
@@ -95,6 +97,8 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
                 .build();
 
         employeeHistoryRepository.save(employeeHistory);
+
+
 
         return new ResHistory(project, pUnitPrices, employee, employeeHistory);
     }

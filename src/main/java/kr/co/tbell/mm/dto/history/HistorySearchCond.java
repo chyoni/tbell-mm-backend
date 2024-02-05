@@ -12,6 +12,7 @@ import java.time.LocalDate;
 public class HistorySearchCond {
     private String employeeNumber;
     private String contractNumber;
+    private String year;
     /**
      * 투입 시작일
      * */

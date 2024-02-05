@@ -1,6 +1,7 @@
 package kr.co.tbell.mm.repository.employeehistory;
 
 import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -40,6 +41,7 @@ public class EmployeeHistoryRepositoryImpl implements EmployeeHistoryRepositoryQ
                 .leftJoin(employeeHistory.project.department, department)
                 .where(contractNumberEq(searchCond.getContractNumber()),
                         employeeNumberEq(searchCond.getEmployeeNumber()),
+                        durationByYear(searchCond.getYear()),
                         dateBetween(searchCond.getStartDate(), searchCond.getEndDate()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -54,11 +56,21 @@ public class EmployeeHistoryRepositoryImpl implements EmployeeHistoryRepositoryQ
                 .leftJoin(employeeHistory.project.department, department)
                 .where(contractNumberEq(searchCond.getContractNumber()),
                         employeeNumberEq(searchCond.getEmployeeNumber()),
+                        durationByYear(searchCond.getYear()),
                         dateBetween(searchCond.getStartDate(), searchCond.getEndDate()))
                 .fetch()
                 .size();
 
         return new PageImpl<>(results, pageable, total);
+    }
+
+    private BooleanExpression durationByYear(String year) {
+        if (year == null) return null;
+
+        LocalDate start = LocalDate.of(Integer.parseInt(year), 1, 1);
+        LocalDate end = LocalDate.of(Integer.parseInt(year), 12, 31);
+
+        return employeeHistory.employee.startDate.between(start, end);
     }
 
     private BooleanExpression dateBetween(LocalDate startDate, LocalDate endDate) {
