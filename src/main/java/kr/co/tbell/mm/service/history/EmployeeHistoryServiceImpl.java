@@ -1,11 +1,9 @@
 package kr.co.tbell.mm.service.history;
 
-import kr.co.tbell.mm.dto.history.HistorySearchCond;
-import kr.co.tbell.mm.dto.history.ReqCompleteHistory;
-import kr.co.tbell.mm.dto.history.ReqHistory;
-import kr.co.tbell.mm.dto.history.ResHistory;
+import kr.co.tbell.mm.dto.history.*;
 import kr.co.tbell.mm.entity.Employee;
 import kr.co.tbell.mm.entity.EmployeeHistory;
+import kr.co.tbell.mm.entity.EmployeeHistoryMM;
 import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.Project;
 import kr.co.tbell.mm.entity.project.UnitPrice;
@@ -22,6 +20,9 @@ import org.springframework.stereotype.Service;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.naming.directory.InvalidAttributesException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 @Slf4j
@@ -56,7 +57,7 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
         Project project = optionalProject.get();
 
         if (project.getStartDate().isAfter(history.getStartDate()) ||
-            project.getEndDate().isBefore(history.getEndDate())) {
+                (history.getEndDate() != null && project.getEndDate().isBefore(history.getEndDate()))) {
             throw new InvalidAttributesException("Employee input date must be between project start and end date.");
         }
 
@@ -96,13 +97,67 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
 
         employeeHistoryRepository.save(employeeHistory);
 
-        // employeeHistoryMMRepository
+        List<EmployeeHistoryMM> manMonthEntities = getEmployeeHistoryManMonthList(history, employeeHistory);
+
+        employeeHistoryMMRepository.saveAll(manMonthEntities);
+
+        // 사원의 종료일이 결정되는 순간 종료일 기준으로 이후 엔티티는 날려야한다.
+        //  - 종료일이 결정되면 종료일에 해당하는 월은 투입 MM이 업데이트 되어야 한다.
+        // 사원의 종료일이 결정되기 전까지는 월마다 스케쥴러를 통해 엔티티를 하나씩 만들어내는 배치를 만들어야 한다.
+        // 사원의 정산 MM이 입력되는 요청이 들어오면 정산 금액과 손익액에 대한 업데이트 역시 일어나야 한다.
 
         return new ResHistory(project, pUnitPrices, employee, employeeHistory);
     }
 
+    /**
+     * history.getStartDate()를 가지고 현재 시점까지 월별로 엔티티 만들어 내야한다.
+     * */
+    private List<EmployeeHistoryMM> getEmployeeHistoryManMonthList(ReqHistory history,
+                                                                   EmployeeHistory employeeHistory) {
+       List<EmployeeHistoryMM> manMonthEntities = new ArrayList<>();
+
+        LocalDate currentDate = LocalDate.now();
+
+        Period period = Period.between(history.getStartDate(), currentDate);
+
+        for (int i = 0; i <= period.toTotalMonths() + 1; i++) {
+            LocalDate manMonthStart, manMonthEnd;
+
+            if (i == 0) {
+                manMonthStart = history.getStartDate().plusMonths(i);
+            } else {
+                LocalDate mmDate = history.getStartDate().plusMonths(i);
+                manMonthStart = LocalDate.of(mmDate.getYear(), mmDate.getMonth(), 1);
+            }
+            manMonthEnd = manMonthStart.with(TemporalAdjusters.lastDayOfMonth());
+
+            int durationDay = manMonthStart.until(manMonthEnd).getDays() + 1;
+            int dayOfMonth = manMonthEnd.getDayOfMonth();
+
+            double inputManMonth = (double) durationDay / dayOfMonth;
+
+            String inputManMonthToString = String.format("%.2f", inputManMonth);
+
+            EmployeeHistoryMM employeeHistoryMM = EmployeeHistoryMM
+                    .builder()
+                    .year(manMonthStart.getYear())
+                    .month(manMonthStart.getMonthValue())
+                    .durationStart(manMonthStart)
+                    .durationEnd(manMonthEnd)
+                    .inputMM(inputManMonthToString)
+                    .calculateLevel(history.getLevel())
+                    .employeeHistory(employeeHistory)
+                    .build();
+
+            manMonthEntities.add(employeeHistoryMM);
+        }
+
+        return manMonthEntities;
+    }
+
     @Override
-    public ResHistory completeHistory(Long id, ReqCompleteHistory reqCompleteHistory) throws InvalidAttributesException {
+    public ResHistory completeHistory(Long id, ReqCompleteHistory reqCompleteHistory) throws
+            InvalidAttributesException {
         Optional<EmployeeHistory> optionalEmployeeHistory = employeeHistoryRepository.findById(id);
 
         if (optionalEmployeeHistory.isEmpty())
@@ -123,7 +178,14 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
      * */
     @Override
     public Page<ResHistory> getHistories(Pageable pageable, HistorySearchCond searchCond) {
-        return employeeHistoryRepository.getHistories(pageable, searchCond);
+        Page<ResHistory> histories = employeeHistoryRepository.getHistories(pageable, searchCond);
+
+        for (ResHistory history : histories) {
+            List<ResHistoryMM> mms = employeeHistoryMMRepository.getHistoriesMM(history.getId());
+            history.setMms(mms);
+        }
+
+        return histories;
     }
 
     @Override

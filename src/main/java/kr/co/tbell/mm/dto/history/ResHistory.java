@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ public class ResHistory {
     private LocalDate endDate;
     private Level level;
     private Integer worth;
+    private List<ResHistoryMM> mms = new ArrayList<>();
 
     public ResHistory(Project project,
                       List<Map<Level, Integer>> unitPrices,
@@ -62,5 +64,9 @@ public class ResHistory {
         this.startDate = history.getStartDate();
         this.endDate = history.getEndDate();
         this.employee = new ResEmployee(employee);
+    }
+
+    public void setMms(List<ResHistoryMM> mms) {
+        this.mms = mms;
     }
 }

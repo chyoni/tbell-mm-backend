@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 @ToString
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
