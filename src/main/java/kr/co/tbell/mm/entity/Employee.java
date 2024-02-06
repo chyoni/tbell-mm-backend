@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Builder
-public class Employee {
+public class Employee extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

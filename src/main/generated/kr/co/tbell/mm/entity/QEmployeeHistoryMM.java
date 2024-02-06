@@ -22,11 +22,16 @@ public class QEmployeeHistoryMM extends EntityPathBase<EmployeeHistoryMM> {
 
     public static final QEmployeeHistoryMM employeeHistoryMM = new QEmployeeHistoryMM("employeeHistoryMM");
 
+    public final QBaseEntity _super = new QBaseEntity(this);
+
     public final EnumPath<kr.co.tbell.mm.entity.project.Level> calculateLevel = createEnum("calculateLevel", kr.co.tbell.mm.entity.project.Level.class);
 
     public final StringPath calculateMM = createString("calculateMM");
 
     public final NumberPath<Integer> calculatePrice = createNumber("calculatePrice", Integer.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
     public final DatePath<java.time.LocalDate> durationEnd = createDate("durationEnd", java.time.LocalDate.class);
 
@@ -39,6 +44,9 @@ public class QEmployeeHistoryMM extends EntityPathBase<EmployeeHistoryMM> {
     public final StringPath inputMM = createString("inputMM");
 
     public final NumberPath<Integer> inputPrice = createNumber("inputPrice", Integer.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 
     public final NumberPath<Integer> month = createNumber("month", Integer.class);
 

@@ -22,9 +22,17 @@ public class QSalary extends EntityPathBase<Salary> {
 
     public static final QSalary salary1 = new QSalary("salary1");
 
+    public final kr.co.tbell.mm.entity.QBaseEntity _super = new kr.co.tbell.mm.entity.QBaseEntity(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+
     public final kr.co.tbell.mm.entity.QEmployee employee;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 
     public final EnumPath<Month> month = createEnum("month", Month.class);
 

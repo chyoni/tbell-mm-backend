@@ -22,7 +22,15 @@ public class QUnitPrice extends EntityPathBase<UnitPrice> {
 
     public static final QUnitPrice unitPrice = new QUnitPrice("unitPrice");
 
+    public final kr.co.tbell.mm.entity.QBaseEntity _super = new kr.co.tbell.mm.entity.QBaseEntity(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 
     public final EnumPath<Level> level = createEnum("level", Level.class);
 

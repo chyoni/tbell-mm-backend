@@ -1,6 +1,7 @@
 package kr.co.tbell.mm.entity.project;
 
 import jakarta.persistence.*;
+import kr.co.tbell.mm.entity.BaseEntity;
 import lombok.*;
 
 @Entity
@@ -9,7 +10,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UnitPrice {
+public class UnitPrice extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

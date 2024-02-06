@@ -181,7 +181,7 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
         Page<ResHistory> histories = employeeHistoryRepository.getHistories(pageable, searchCond);
 
         for (ResHistory history : histories) {
-            List<ResHistoryMM> mms = employeeHistoryMMRepository.getHistoriesMM(history.getId());
+            List<ResHistoryMM> mms = employeeHistoryMMRepository.getHistoriesMM(history.getId(), searchCond);
             history.setMms(mms);
         }
 

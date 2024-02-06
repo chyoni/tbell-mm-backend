@@ -19,9 +19,17 @@ public class QEmployee extends EntityPathBase<Employee> {
 
     public static final QEmployee employee = new QEmployee("employee");
 
+    public final QBaseEntity _super = new QBaseEntity(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+
     public final StringPath employeeNumber = createString("employeeNumber");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 
     public final StringPath name = createString("name");
 

@@ -1,6 +1,7 @@
 package kr.co.tbell.mm.entity.project;
 
 import jakarta.persistence.*;
+import kr.co.tbell.mm.entity.BaseEntity;
 import kr.co.tbell.mm.entity.Department;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Project {
+public class Project extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -19,7 +19,15 @@ public class QDepartment extends EntityPathBase<Department> {
 
     public static final QDepartment department = new QDepartment("department");
 
+    public final QBaseEntity _super = new QBaseEntity(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 
     public final StringPath name = createString("name");
 

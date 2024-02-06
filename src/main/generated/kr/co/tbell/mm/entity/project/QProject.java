@@ -22,15 +22,23 @@ public class QProject extends EntityPathBase<Project> {
 
     public static final QProject project = new QProject("project");
 
+    public final kr.co.tbell.mm.entity.QBaseEntity _super = new kr.co.tbell.mm.entity.QBaseEntity(this);
+
     public final StringPath contractNumber = createString("contractNumber");
 
     public final StringPath contractor = createString("contractor");
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
     public final kr.co.tbell.mm.entity.QDepartment department;
 
     public final DatePath<java.time.LocalDate> endDate = createDate("endDate", java.time.LocalDate.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 
     public final EnumPath<OperationRate> operationRate = createEnum("operationRate", OperationRate.class);
 

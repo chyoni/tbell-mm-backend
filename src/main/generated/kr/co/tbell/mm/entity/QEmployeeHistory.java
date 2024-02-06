@@ -22,11 +22,19 @@ public class QEmployeeHistory extends EntityPathBase<EmployeeHistory> {
 
     public static final QEmployeeHistory employeeHistory = new QEmployeeHistory("employeeHistory");
 
+    public final QBaseEntity _super = new QBaseEntity(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+
     public final QEmployee employee;
 
     public final DatePath<java.time.LocalDate> endDate = createDate("endDate", java.time.LocalDate.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 
     public final EnumPath<kr.co.tbell.mm.entity.project.Level> level = createEnum("level", kr.co.tbell.mm.entity.project.Level.class);
 
