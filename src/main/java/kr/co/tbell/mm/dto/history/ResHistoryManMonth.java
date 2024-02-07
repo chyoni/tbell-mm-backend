@@ -2,7 +2,7 @@ package kr.co.tbell.mm.dto.history;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.querydsl.core.annotations.QueryProjection;
-import kr.co.tbell.mm.entity.EmployeeHistoryMM;
+import kr.co.tbell.mm.entity.EmployeeHistoryManMonth;
 import kr.co.tbell.mm.entity.project.Level;
 import lombok.*;
 
@@ -12,30 +12,31 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class ResHistoryMM {
+public class ResHistoryManMonth {
     private Long id;
     private Integer year;
     private Integer month;
     private LocalDate durationStart;
     private LocalDate durationEnd;
-    private String inputMM;
+    private String inputManMonth;
+    private Integer monthSalary;
     private Integer inputPrice;
-    private String calculateMM;
+    private String calculateManMonth;
     private Level calculateLevel;
     private Integer calculatePrice;
     private Integer plPrice;
 
     @QueryProjection
-    public ResHistoryMM(EmployeeHistoryMM mm) {
+    public ResHistoryManMonth(EmployeeHistoryManMonth mm) {
         this.id = mm.getId();
         this.year = mm.getYear();
         this.month = mm.getMonth();
         this.durationStart = mm.getDurationStart();
         this.durationEnd = mm.getDurationEnd();
-        this.inputMM = mm.getInputMM();
+        this.inputManMonth = mm.getInputManMonth();
+        this.monthSalary = mm.getMonthSalary();
         this.inputPrice = mm.getInputPrice();
-        this.calculateMM = mm.getCalculateMM();
+        this.calculateManMonth = mm.getCalculateManMonth();
         this.calculateLevel = mm.getCalculateLevel();
         this.calculatePrice = mm.getCalculatePrice();
         this.plPrice = mm.getPlPrice();

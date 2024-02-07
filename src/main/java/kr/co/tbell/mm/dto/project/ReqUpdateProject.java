@@ -24,5 +24,6 @@ public class ReqUpdateProject {
     private OperationRate operationRate;
     private String departmentName;
 
+    @Builder.Default
     private List<Map<Level, Integer>> unitPrices = new ArrayList<>();
 }

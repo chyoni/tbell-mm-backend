@@ -32,6 +32,7 @@ public class ReqCreateProject {
     @NotNull(message = "'departmentName' must be required.")
     private String departmentName;
 
+    @Builder.Default
     @NotNull(message = "'unitPrices' must be required.")
     private List<Map<Level, Integer>> unitPrices = new ArrayList<>();
 }

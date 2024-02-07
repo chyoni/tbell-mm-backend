@@ -31,7 +31,7 @@ public class ResHistory {
     private LocalDate endDate;
     private Level level;
     private Integer worth;
-    private List<ResHistoryMM> mms = new ArrayList<>();
+    private List<ResHistoryManMonth> mms = new ArrayList<>();
 
     public ResHistory(Project project,
                       List<Map<Level, Integer>> unitPrices,
@@ -66,7 +66,7 @@ public class ResHistory {
         this.employee = new ResEmployee(employee);
     }
 
-    public void setMms(List<ResHistoryMM> mms) {
+    public void setMms(List<ResHistoryManMonth> mms) {
         this.mms = mms;
     }
 }

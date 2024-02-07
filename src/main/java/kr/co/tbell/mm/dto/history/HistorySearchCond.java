@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @ToString
 public class HistorySearchCond {
     private String employeeNumber;
+    private String employeeName;
     private String contractNumber;
     private String year;
     /**

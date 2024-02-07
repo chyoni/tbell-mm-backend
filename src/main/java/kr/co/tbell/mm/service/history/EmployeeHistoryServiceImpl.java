@@ -3,7 +3,7 @@ package kr.co.tbell.mm.service.history;
 import kr.co.tbell.mm.dto.history.*;
 import kr.co.tbell.mm.entity.Employee;
 import kr.co.tbell.mm.entity.EmployeeHistory;
-import kr.co.tbell.mm.entity.EmployeeHistoryMM;
+import kr.co.tbell.mm.entity.EmployeeHistoryManMonth;
 import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.Project;
 import kr.co.tbell.mm.entity.project.UnitPrice;
@@ -97,7 +97,7 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
 
         employeeHistoryRepository.save(employeeHistory);
 
-        List<EmployeeHistoryMM> manMonthEntities = getEmployeeHistoryManMonthList(history, employeeHistory);
+        List<EmployeeHistoryManMonth> manMonthEntities = getEmployeeHistoryManMonthList(history, employeeHistory);
 
         employeeHistoryMMRepository.saveAll(manMonthEntities);
 
@@ -112,9 +112,9 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
     /**
      * history.getStartDate()를 가지고 현재 시점까지 월별로 엔티티 만들어 내야한다.
      * */
-    private List<EmployeeHistoryMM> getEmployeeHistoryManMonthList(ReqHistory history,
-                                                                   EmployeeHistory employeeHistory) {
-       List<EmployeeHistoryMM> manMonthEntities = new ArrayList<>();
+    private List<EmployeeHistoryManMonth> getEmployeeHistoryManMonthList(ReqHistory history,
+                                                                         EmployeeHistory employeeHistory) {
+       List<EmployeeHistoryManMonth> manMonthEntities = new ArrayList<>();
 
         LocalDate currentDate = LocalDate.now();
 
@@ -131,6 +131,8 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
             }
             manMonthEnd = manMonthStart.with(TemporalAdjusters.lastDayOfMonth());
 
+            if (manMonthStart.isAfter(LocalDate.now())) break;
+
             int durationDay = manMonthStart.until(manMonthEnd).getDays() + 1;
             int dayOfMonth = manMonthEnd.getDayOfMonth();
 
@@ -138,18 +140,18 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
 
             String inputManMonthToString = String.format("%.2f", inputManMonth);
 
-            EmployeeHistoryMM employeeHistoryMM = EmployeeHistoryMM
+            EmployeeHistoryManMonth employeeHistoryManMonth = EmployeeHistoryManMonth
                     .builder()
                     .year(manMonthStart.getYear())
                     .month(manMonthStart.getMonthValue())
                     .durationStart(manMonthStart)
                     .durationEnd(manMonthEnd)
-                    .inputMM(inputManMonthToString)
+                    .inputManMonth(inputManMonthToString)
                     .calculateLevel(history.getLevel())
                     .employeeHistory(employeeHistory)
                     .build();
 
-            manMonthEntities.add(employeeHistoryMM);
+            manMonthEntities.add(employeeHistoryManMonth);
         }
 
         return manMonthEntities;
@@ -181,7 +183,7 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
         Page<ResHistory> histories = employeeHistoryRepository.getHistories(pageable, searchCond);
 
         for (ResHistory history : histories) {
-            List<ResHistoryMM> mms = employeeHistoryMMRepository.getHistoriesMM(history.getId(), searchCond);
+            List<ResHistoryManMonth> mms = employeeHistoryMMRepository.getHistoriesMM(history.getId(), searchCond);
             history.setMms(mms);
         }
 

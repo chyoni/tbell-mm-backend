@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-public class EmployeeHistoryMM extends BaseEntity {
+public class EmployeeHistoryManMonth extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,9 +21,10 @@ public class EmployeeHistoryMM extends BaseEntity {
     private Integer month;
     private LocalDate durationStart;
     private LocalDate durationEnd;
-    private String inputMM;
+    private String inputManMonth;
+    private Integer monthSalary;
     private Integer inputPrice;
-    private String calculateMM;
+    private String calculateManMonth;
     @Enumerated(EnumType.STRING)
     private Level calculateLevel;
     private Integer calculatePrice;

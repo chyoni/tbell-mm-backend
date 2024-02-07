@@ -13,7 +13,7 @@ class EmployeeHistoryServiceImplTest {
 
     @Test
     void period() {
-        LocalDate givenDate = LocalDate.parse("2023-02-07");
+        LocalDate givenDate = LocalDate.parse("2023-11-03");
 
         LocalDate currentDate = LocalDate.now();
 
@@ -30,6 +30,8 @@ class EmployeeHistoryServiceImplTest {
                 mmStart = LocalDate.of(mmDate.getYear(), mmDate.getMonth(), 1);
             }
             mmEnd = mmStart.with(TemporalAdjusters.lastDayOfMonth());
+
+            if (mmStart.isAfter(LocalDate.now())) break;
 
             log.info("mmStart: {} | mmEnd: {}", mmStart, mmEnd);
             log.info("mmStartYear: {} | mmStartMonth: {}", mmStart.getYear(), mmStart.getMonthValue());

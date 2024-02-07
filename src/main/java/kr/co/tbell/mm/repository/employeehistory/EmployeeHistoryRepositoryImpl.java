@@ -41,6 +41,7 @@ public class EmployeeHistoryRepositoryImpl implements EmployeeHistoryRepositoryQ
                 .leftJoin(employeeHistory.project.department, department)
                 .where(contractNumberEq(searchCond.getContractNumber()),
                         employeeNumberEq(searchCond.getEmployeeNumber()),
+                        employeeNameEq(searchCond.getEmployeeName()),
                         dateBetween(searchCond.getStartDate(), searchCond.getEndDate()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -55,12 +56,16 @@ public class EmployeeHistoryRepositoryImpl implements EmployeeHistoryRepositoryQ
                 .leftJoin(employeeHistory.project.department, department)
                 .where(contractNumberEq(searchCond.getContractNumber()),
                         employeeNumberEq(searchCond.getEmployeeNumber()),
-                        durationByYear(searchCond.getYear()),
+                        employeeNameEq(searchCond.getEmployeeName()),
                         dateBetween(searchCond.getStartDate(), searchCond.getEndDate()))
                 .fetch()
                 .size();
 
         return new PageImpl<>(results, pageable, total);
+    }
+
+    private BooleanExpression employeeNameEq(String employeeName) {
+        return StringUtils.hasText(employeeName) ? employeeHistory.employee.name.eq(employeeName) : null;
     }
 
     private BooleanExpression durationByYear(String year) {
