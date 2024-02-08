@@ -2,10 +2,7 @@ package kr.co.tbell.mm.controller;
 
 import jakarta.validation.Valid;
 import kr.co.tbell.mm.dto.common.Response;
-import kr.co.tbell.mm.dto.history.HistorySearchCond;
-import kr.co.tbell.mm.dto.history.ReqCompleteHistory;
-import kr.co.tbell.mm.dto.history.ReqHistory;
-import kr.co.tbell.mm.dto.history.ResHistory;
+import kr.co.tbell.mm.dto.history.*;
 import kr.co.tbell.mm.service.history.EmployeeHistoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.naming.directory.InvalidAttributesException;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -77,5 +75,26 @@ public class EmployeeHistoryController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new Response<>(true, null, histories));
+    }
+
+    @PostMapping("/{id}/mms")
+    public ResponseEntity<Response<Void>> saveHistoryManMonth(
+            @PathVariable Long id,
+            @RequestBody @Valid List<ReqHistoryManMonth> mms) {
+
+        log.info("[saveHistoryManMonth]: History ID: [{}]", id);
+        log.info("[saveHistoryManMonth]: Change ManMonth Data: [{}]", mms);
+
+        try {
+            employeeHistoryService.saveManMonthsByHistoryId(id, mms);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new Response<>(false, e.getMessage(), null));
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new Response<>(true, null, null));
     }
 }

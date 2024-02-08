@@ -34,4 +34,28 @@ public class EmployeeHistoryManMonth extends BaseEntity {
     @JoinColumn(name = "employeeHistory_id")
     private EmployeeHistory employeeHistory;
 
+    public void updateManMonth(Integer year,
+                               Integer month,
+                               LocalDate durationStart,
+                               LocalDate durationEnd,
+                               String inputManMonth,
+                               Integer monthSalary,
+                               Integer inputPrice,
+                               String calculateManMonth,
+                               Level calculateLevel,
+                               Integer calculatePrice,
+                               Integer plPrice) {
+
+        if (year != null) this.year = year;
+        if (month != null) this.month = month;
+        if (durationStart != null) this.durationStart = durationStart;
+        if (durationEnd != null) this.durationEnd = durationEnd;
+        if (inputManMonth != null) this.inputManMonth = inputManMonth;
+        if (monthSalary != null) this.monthSalary = monthSalary;
+        if (inputPrice != null) this.inputPrice = inputPrice;
+        if (calculateManMonth != null) this.calculateManMonth = calculateManMonth;
+        if (calculateLevel != null) this.calculateLevel = calculateLevel;
+        if (calculatePrice != null) this.calculatePrice = calculatePrice;
+        if (plPrice != null) this.plPrice = plPrice;
+    }
 }

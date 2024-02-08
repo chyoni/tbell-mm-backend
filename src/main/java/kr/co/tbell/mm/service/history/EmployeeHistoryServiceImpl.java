@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.naming.directory.InvalidAttributesException;
@@ -27,6 +28,7 @@ import java.util.*;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
 
@@ -109,54 +111,6 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
         return new ResHistory(project, pUnitPrices, employee, employeeHistory);
     }
 
-    /**
-     * history.getStartDate()를 가지고 현재 시점까지 월별로 엔티티 만들어 내야한다.
-     * */
-    private List<EmployeeHistoryManMonth> getEmployeeHistoryManMonthList(ReqHistory history,
-                                                                         EmployeeHistory employeeHistory) {
-       List<EmployeeHistoryManMonth> manMonthEntities = new ArrayList<>();
-
-        LocalDate currentDate = LocalDate.now();
-
-        Period period = Period.between(history.getStartDate(), currentDate);
-
-        for (int i = 0; i <= period.toTotalMonths() + 1; i++) {
-            LocalDate manMonthStart, manMonthEnd;
-
-            if (i == 0) {
-                manMonthStart = history.getStartDate().plusMonths(i);
-            } else {
-                LocalDate mmDate = history.getStartDate().plusMonths(i);
-                manMonthStart = LocalDate.of(mmDate.getYear(), mmDate.getMonth(), 1);
-            }
-            manMonthEnd = manMonthStart.with(TemporalAdjusters.lastDayOfMonth());
-
-            if (manMonthStart.isAfter(LocalDate.now())) break;
-
-            int durationDay = manMonthStart.until(manMonthEnd).getDays() + 1;
-            int dayOfMonth = manMonthEnd.getDayOfMonth();
-
-            double inputManMonth = (double) durationDay / dayOfMonth;
-
-            String inputManMonthToString = String.format("%.2f", inputManMonth);
-
-            EmployeeHistoryManMonth employeeHistoryManMonth = EmployeeHistoryManMonth
-                    .builder()
-                    .year(manMonthStart.getYear())
-                    .month(manMonthStart.getMonthValue())
-                    .durationStart(manMonthStart)
-                    .durationEnd(manMonthEnd)
-                    .inputManMonth(inputManMonthToString)
-                    .calculateLevel(history.getLevel())
-                    .employeeHistory(employeeHistory)
-                    .build();
-
-            manMonthEntities.add(employeeHistoryManMonth);
-        }
-
-        return manMonthEntities;
-    }
-
     @Override
     public ResHistory completeHistory(Long id, ReqCompleteHistory reqCompleteHistory) throws
             InvalidAttributesException {
@@ -202,6 +156,84 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
         Page<EmployeeHistory> histories = employeeHistoryRepository.findAllByEmployee(pageable, employeeNumber);
 
         return getResHistories(histories);
+    }
+
+    @Override
+    public Void saveManMonthsByHistoryId(Long historyId, List<ReqHistoryManMonth> mms) {
+        Optional<EmployeeHistory> optionalHistory = employeeHistoryRepository.findById(historyId);
+
+        if (optionalHistory.isEmpty())
+            throw new NoSuchElementException("History with this id: " + historyId + " does not exist.");
+
+        for (ReqHistoryManMonth mm : mms) {
+            Optional<EmployeeHistoryManMonth> optionalManMonth = employeeHistoryMMRepository.findById(mm.getId());
+            if (optionalManMonth.isEmpty())
+                throw new NoSuchElementException("ManMonth data with this id: " + mm.getId() + "does not exist.");
+
+            EmployeeHistoryManMonth manMonth = optionalManMonth.get();
+            // Dirty checking
+            manMonth.updateManMonth(
+                    mm.getYear(),
+                    mm.getMonth(),
+                    mm.getDurationStart(),
+                    mm.getDurationEnd(),
+                    mm.getInputManMonth(),
+                    mm.getMonthSalary(),
+                    mm.getInputPrice(),
+                    mm.getCalculateManMonth(),
+                    mm.getCalculateLevel(),
+                    mm.getCalculatePrice(),
+                    mm.getPlPrice());
+        }
+        return null;
+    }
+
+    /**
+     * history.getStartDate()를 가지고 현재 시점까지 월별로 엔티티 만들어 내야한다.
+     * */
+    private List<EmployeeHistoryManMonth> getEmployeeHistoryManMonthList(ReqHistory history,
+                                                                         EmployeeHistory employeeHistory) {
+        List<EmployeeHistoryManMonth> manMonthEntities = new ArrayList<>();
+
+        LocalDate currentDate = LocalDate.now();
+
+        Period period = Period.between(history.getStartDate(), currentDate);
+
+        for (int i = 0; i <= period.toTotalMonths() + 1; i++) {
+            LocalDate manMonthStart, manMonthEnd;
+
+            if (i == 0) {
+                manMonthStart = history.getStartDate().plusMonths(i);
+            } else {
+                LocalDate mmDate = history.getStartDate().plusMonths(i);
+                manMonthStart = LocalDate.of(mmDate.getYear(), mmDate.getMonth(), 1);
+            }
+            manMonthEnd = manMonthStart.with(TemporalAdjusters.lastDayOfMonth());
+
+            if (manMonthStart.isAfter(LocalDate.now())) break;
+
+            int durationDay = manMonthStart.until(manMonthEnd).getDays() + 1;
+            int dayOfMonth = manMonthEnd.getDayOfMonth();
+
+            double inputManMonth = (double) durationDay / dayOfMonth;
+
+            String inputManMonthToString = String.format("%.2f", inputManMonth);
+
+            EmployeeHistoryManMonth employeeHistoryManMonth = EmployeeHistoryManMonth
+                    .builder()
+                    .year(manMonthStart.getYear())
+                    .month(manMonthStart.getMonthValue())
+                    .durationStart(manMonthStart)
+                    .durationEnd(manMonthEnd)
+                    .inputManMonth(inputManMonthToString)
+                    .calculateLevel(history.getLevel())
+                    .employeeHistory(employeeHistory)
+                    .build();
+
+            manMonthEntities.add(employeeHistoryManMonth);
+        }
+
+        return manMonthEntities;
     }
 
     private Page<ResHistory> getResHistories(Page<EmployeeHistory> histories) {

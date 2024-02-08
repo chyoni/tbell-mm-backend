@@ -1,14 +1,12 @@
 package kr.co.tbell.mm.service.history;
 
-import kr.co.tbell.mm.dto.history.HistorySearchCond;
-import kr.co.tbell.mm.dto.history.ReqCompleteHistory;
-import kr.co.tbell.mm.dto.history.ReqHistory;
-import kr.co.tbell.mm.dto.history.ResHistory;
+import kr.co.tbell.mm.dto.history.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import javax.management.InstanceAlreadyExistsException;
 import javax.naming.directory.InvalidAttributesException;
+import java.util.List;
 
 public interface EmployeeHistoryService {
     ResHistory makeHistory(ReqHistory history) throws InstanceAlreadyExistsException, InvalidAttributesException;
@@ -20,4 +18,6 @@ public interface EmployeeHistoryService {
     Page<ResHistory> getHistoriesByProject(Pageable pageable, String contractNumber);
 
     Page<ResHistory> getHistoriesByEmployee(Pageable pageable, String employeeNumber);
+
+    Void saveManMonthsByHistoryId(Long historyId, List<ReqHistoryManMonth> mms);
 }

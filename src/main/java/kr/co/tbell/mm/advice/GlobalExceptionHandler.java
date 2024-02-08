@@ -1,6 +1,7 @@
 package kr.co.tbell.mm.advice;
 
 import kr.co.tbell.mm.dto.common.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +14,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Response<Void>> handleValidationErrors(MethodArgumentNotValidException ex) {
-
+        
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
 
         List<String> errorMessages = fieldErrors
