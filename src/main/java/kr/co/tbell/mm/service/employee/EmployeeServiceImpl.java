@@ -131,6 +131,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     .employee(employee)
                     .year(reqUpdateSalary.getYear())
                     .month(reqUpdateSalary.getMonth())
+                    .salary(reqUpdateSalary.getSalary())
                     .build();
             salaryRepository.save(salary);
         } else {

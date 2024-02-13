@@ -1,17 +1,21 @@
 package kr.co.tbell.mm.service.history;
 
 import kr.co.tbell.mm.dto.history.*;
+import kr.co.tbell.mm.dto.salary.EmployeeSalary;
+import kr.co.tbell.mm.dto.salary.ReqUpdateSalary;
 import kr.co.tbell.mm.entity.Employee;
 import kr.co.tbell.mm.entity.EmployeeHistory;
 import kr.co.tbell.mm.entity.EmployeeHistoryManMonth;
 import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.Project;
 import kr.co.tbell.mm.entity.project.UnitPrice;
+import kr.co.tbell.mm.entity.salary.Month;
 import kr.co.tbell.mm.repository.employeehistory.EmployeeHistoryMMRepository;
 import kr.co.tbell.mm.repository.employeehistory.EmployeeHistoryRepository;
 import kr.co.tbell.mm.repository.employee.EmployeeRepository;
 import kr.co.tbell.mm.repository.project.ProjectRepository;
 import kr.co.tbell.mm.repository.unitprice.UnitPriceRepository;
+import kr.co.tbell.mm.service.employee.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -37,6 +41,7 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
     private final EmployeeRepository employeeRepository;
     private final ProjectRepository projectRepository;
     private final UnitPriceRepository unitPriceRepository;
+    private final EmployeeService employeeService;
 
     @Override
     public ResHistory makeHistory(ReqHistory history)
@@ -169,6 +174,22 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
             Optional<EmployeeHistoryManMonth> optionalManMonth = employeeHistoryMMRepository.findById(mm.getId());
             if (optionalManMonth.isEmpty())
                 throw new NoSuchElementException("ManMonth data with this id: " + mm.getId() + "does not exist.");
+
+            ReqUpdateSalary reqUpdateSalary = ReqUpdateSalary.builder()
+                    .year(mm.getYear())
+                    .month(Month.convert(mm.getMonth()))
+                    .salary(mm.getMonthSalary())
+                    .build();
+
+            log.info("reqUpdateSalary: {}", reqUpdateSalary);
+
+            try {
+                employeeService.addMonthSalary(
+                        optionalHistory.get().getEmployee().getEmployeeNumber(),
+                        reqUpdateSalary);
+            } catch (NoSuchElementException e) {
+                throw new NoSuchElementException(e.getMessage());
+            }
 
             EmployeeHistoryManMonth manMonth = optionalManMonth.get();
             // Dirty checking
