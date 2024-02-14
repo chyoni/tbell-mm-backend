@@ -55,9 +55,9 @@ services:
       bash -c "
       while true; do
         sleep 1800
-        find /backup/prod -type f -mtime +7 -delete
-        find /backup/prod -size 0 -delete
-        PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h db -U $$POSTGRES_USER -Fc $$POSTGRES_DB > /backup/prod/$$(date +%Y-%m-%d-%H-%M-%S).sql
+        find /backup -type f -mtime +7 -delete
+        find /backup -size 0 -delete
+        PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h db -U $$POSTGRES_USER -Fc $$POSTGRES_DB > /backup/$$(date +%Y-%m-%d-%H-%M-%S).sql
         echo ""Backup done at $$(date +%Y-%m-%d_%H:%M:%S)""
       done
       "
