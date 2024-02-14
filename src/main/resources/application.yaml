@@ -7,14 +7,14 @@ spring:
     properties:
       hibernate:
         format_sql: true
-#        dialect: org.hibernate.dialect.PostgreSQLDialect
-    database: postgresql
+        dialect: org.hibernate.dialect.MySQL57Dialect
+    database: mysql
     open-in-view: false
   datasource:
 #    url: jdbc:postgresql://14.36.253.130:5432/sync
 #    username: "postgres"
 #    password: "postgres"
-#    driver-class-name: org.postgresql.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 8
 #  profiles:

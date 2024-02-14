@@ -12,9 +12,10 @@ services:
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:${POSTGRES_PORT}/${POSTGRES_DB}
-      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
-      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:${MYSQLDB_PORT}/${MYSQLDB_DATABASE}?useSSL=false
+      - SPRING_DATASOURCE_USERNAME=${MYSQLDB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
+      - SPRING_JPA_PROPERTIES.HIBERNATE.DIALECT= org.hibernate.dialect.MySQL57Dialect
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
       - TZ=Asia/Seoul
       - _JAVA_OPTIONS=-Xmx15g
@@ -23,54 +24,95 @@ services:
     networks:
       mm-network:
 
+#  db:
+#    image: 'postgres:13.1-alpine'
+#    container_name: tbell-mm-db
+#    restart: always
+#    env_file:
+#      - ".env"
+#    environment:
+#      - POSTGRES_DB=${POSTGRES_DB}
+#      - POSTGRES_USER=${POSTGRES_USER}
+#      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+#      - TZ=Asia/Seoul
+#    ports:
+#      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+#    volumes:
+#      - pg-prod:/var/lib/postgresql/data
+#      - ./bak:/var/lib/postgresql/backups
+#    networks:
+#      mm-network:
+
   db:
-    image: 'postgres:13.1-alpine'
-    container_name: tbell-mm-db
+    container_name: tbell-mm-mysql
+    image: mysql:5.7
     restart: always
-    env_file:
-      - ".env"
+    env_file: ./.env
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - TZ=Asia/Seoul
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+      - ${MYSQLDB_PORT}:${MYSQLDB_PORT}
     volumes:
-      - pg-prod:/var/lib/postgresql/data
-      - ./bak:/var/lib/postgresql/backups
+      - mysqldb-volume:/var/lib/mysql
+      - ./bak:/var/lib/backup
     networks:
       mm-network:
 
   backup:
-    image: 'postgres:13.1-alpine'
-    container_name: tbell-mm-db-backup-prod
+    image: mysql:5.7
+    container_name: tbell-mm-mysql-backup
     env_file:
       - ".env"
     depends_on:
       - db
     volumes:
-      - ./bak:/backup
+      - ./bak:/var/lib/backup
     command: >
       bash -c "
       while true; do
-        sleep 1800
-        find /backup -type f -mtime +7 -delete
-        find /backup -size 0 -delete
-        PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h db -U $$POSTGRES_USER -Fc $$POSTGRES_DB > /backup/$$(date +%Y-%m-%d-%H-%M-%S).sql
+        sleep 60
+        mysqldump -h mysqldb -u$$MYSQLDB_USER -p$$MYSQLDB_ROOT_PASSWORD $$MYSQLDB_DATABASE > /var/lib/backup/$$(date +%Y-%m-%d-%H-%M-%S).sql
         echo ""Backup done at $$(date +%Y-%m-%d_%H:%M:%S)""
+        sleep 14400
       done
       "
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      MYSQLDB_USER: ${MYSQLDB_USER}
+      MYSQLDB_ROOT_PASSWORD: ${MYSQLDB_ROOT_PASSWORD}
+      MYSQLDB_DATABASE: ${MYSQLDB_DATABASE}
       TZ: Asia/Seoul
     networks:
       mm-network:
+#  backup:
+#    image: 'postgres:13.1-alpine'
+#    container_name: tbell-mm-db-backup-prod
+#    env_file:
+#      - ".env"
+#    depends_on:
+#      - db
+#    volumes:
+#      - ./bak:/backup
+#    command: >
+#      bash -c "
+#      while true; do
+#        sleep 1800
+#        find /backup -type f -mtime +7 -delete
+#        find /backup -size 0 -delete
+#        PGPASSWORD=$$POSTGRES_PASSWORD pg_dump -h db -U $$POSTGRES_USER -Fc $$POSTGRES_DB > /backup/$$(date +%Y-%m-%d-%H-%M-%S).sql
+#        echo ""Backup done at $$(date +%Y-%m-%d_%H:%M:%S)""
+#      done
+#      "
+#    environment:
+#      POSTGRES_USER: ${POSTGRES_USER}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#      POSTGRES_DB: ${POSTGRES_DB}
+#      TZ: Asia/Seoul
+#    networks:
+#      mm-network:
 
 volumes:
-  pg-prod:
+  mysqldb-volume:
 
 networks:
   mm-network:
