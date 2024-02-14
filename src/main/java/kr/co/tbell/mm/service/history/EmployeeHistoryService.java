@@ -20,4 +20,6 @@ public interface EmployeeHistoryService {
     Page<ResHistory> getHistoriesByEmployee(Pageable pageable, String employeeNumber);
 
     Void saveManMonthsByHistoryId(Long historyId, List<ReqHistoryManMonth> mms);
+
+    void intervalHistoryScheduler();
 }

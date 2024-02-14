@@ -44,4 +44,29 @@ class EmployeeHistoryServiceImplTest {
             log.info("dayOfMonth: {} | mm: {}", mmEnd.getDayOfMonth(), format);
         }
     }
+
+    @Test
+    void intervalHistoryScheduler() {
+        log.info("Year: {}", LocalDate.now().getYear());
+        log.info("Month: {}", LocalDate.now().getMonthValue());
+
+        log.info("Now: {}", LocalDate.now());
+
+        LocalDate manMonthEnd = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth());
+
+        if (true) manMonthEnd = LocalDate.parse("2024-02-14");
+
+        log.info("is after ? {}", LocalDate.now().isAfter(manMonthEnd));
+        log.info("is equals ? {}", LocalDate.now().isEqual(manMonthEnd));
+
+        log.info("LastDayOfMonth: {}", manMonthEnd);
+
+        int durationDay = LocalDate.now().until(manMonthEnd).getDays() + 1;
+        int dayOfMonth = manMonthEnd.getDayOfMonth();
+
+        double inputManMonth = (double) durationDay / dayOfMonth;
+
+        String inputManMonthToString = String.format("%.2f", inputManMonth);
+        log.info("manMonth: {}", inputManMonthToString);
+    }
 }

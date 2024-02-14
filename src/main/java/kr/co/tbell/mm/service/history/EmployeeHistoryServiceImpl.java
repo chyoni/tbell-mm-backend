@@ -1,7 +1,6 @@
 package kr.co.tbell.mm.service.history;
 
 import kr.co.tbell.mm.dto.history.*;
-import kr.co.tbell.mm.dto.salary.EmployeeSalary;
 import kr.co.tbell.mm.dto.salary.ReqUpdateSalary;
 import kr.co.tbell.mm.entity.Employee;
 import kr.co.tbell.mm.entity.EmployeeHistory;
@@ -20,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -269,5 +269,51 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
 
             return new ResHistory(history.getProject(), unitPrices, history.getEmployee(), history);
         });
+    }
+
+    /**
+     * 매월 1일 00:00분에 EmployeeHistory 데이터 전체를 가져온 후, MM 엔티티를 추가해야 하는 경우 추가하는 배치 스케쥴러. <br>
+     * MM 엔티티를 추가해야 하는 경우는 다음과 같다. <br>
+     * 1. 투입 종료일이 지정되지 않은 EmployeeHistory 데이터인 경우 = 계속 투입되는 상태를 의미 <br>
+     * 2. 투입 종료일이 지정됐지만 이번달 포함이거나 이번달 이후인 경우 = 투입 종료일까지의 MM 데이터가 있어야 하므로 <br>
+     * */
+    @Override
+    @Scheduled(cron = "0 0 0 1 * *")
+    public void intervalHistoryScheduler() {
+        log.info("[intervalHistoryScheduler] EmployeeHistory Entity Scheduler Starting. {}",
+                LocalDate.now().getMonth());
+
+        List<EmployeeHistory> histories = employeeHistoryRepository.findAll();
+
+        for (EmployeeHistory history : histories) {
+
+            LocalDate manMonthEnd = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth());
+
+            if (history.getEndDate() != null) {
+                if (LocalDate.now().isAfter(history.getEndDate()) || LocalDate.now().isEqual(history.getEndDate()))
+                    continue;
+
+                manMonthEnd = history.getEndDate();
+            }
+
+            int durationDay = LocalDate.now().until(manMonthEnd).getDays() + 1;
+            int dayOfMonth = manMonthEnd.getDayOfMonth();
+
+            double inputManMonth = (double) durationDay / dayOfMonth;
+
+            String inputManMonthToString = String.format("%.2f", inputManMonth);
+
+            EmployeeHistoryManMonth manMonth = EmployeeHistoryManMonth.builder()
+                    .year(LocalDate.now().getYear())
+                    .month(LocalDate.now().getMonthValue())
+                    .durationStart(LocalDate.now())
+                    .durationEnd(manMonthEnd)
+                    .inputManMonth(inputManMonthToString)
+                    .calculateLevel(history.getLevel())
+                    .employeeHistory(history)
+                    .build();
+
+            employeeHistoryMMRepository.save(manMonth);
+        }
     }
 }
