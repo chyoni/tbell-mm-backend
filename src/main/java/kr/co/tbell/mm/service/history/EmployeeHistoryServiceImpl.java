@@ -9,10 +9,12 @@ import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.Project;
 import kr.co.tbell.mm.entity.project.UnitPrice;
 import kr.co.tbell.mm.entity.salary.Month;
+import kr.co.tbell.mm.entity.salary.Salary;
 import kr.co.tbell.mm.repository.employeehistory.EmployeeHistoryMMRepository;
 import kr.co.tbell.mm.repository.employeehistory.EmployeeHistoryRepository;
 import kr.co.tbell.mm.repository.employee.EmployeeRepository;
 import kr.co.tbell.mm.repository.project.ProjectRepository;
+import kr.co.tbell.mm.repository.salary.SalaryRepository;
 import kr.co.tbell.mm.repository.unitprice.UnitPriceRepository;
 import kr.co.tbell.mm.service.employee.EmployeeService;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +43,7 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
     private final EmployeeRepository employeeRepository;
     private final ProjectRepository projectRepository;
     private final UnitPriceRepository unitPriceRepository;
+    private final SalaryRepository salaryRepository;
     private final EmployeeService employeeService;
 
     @Override
@@ -105,6 +108,18 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
         employeeHistoryRepository.save(employeeHistory);
 
         List<EmployeeHistoryManMonth> manMonthEntities = getEmployeeHistoryManMonthList(history, employeeHistory);
+
+        for (EmployeeHistoryManMonth mm : manMonthEntities) {
+            Optional<Salary> byEmployeeAndYearAndMonth = salaryRepository.findByEmployeeAndYearAndMonth(
+                    mm.getEmployeeHistory().getEmployee(),
+                    mm.getYear(),
+                    Month.convert(mm.getMonth()));
+
+            if (byEmployeeAndYearAndMonth.isPresent()) {
+                mm.changeMonthSalary(byEmployeeAndYearAndMonth.get().getSalary());
+                mm.applyInputPrice();
+            }
+        }
 
         employeeHistoryMMRepository.saveAll(manMonthEntities);
 

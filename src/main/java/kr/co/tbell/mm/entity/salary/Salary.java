@@ -3,13 +3,11 @@ package kr.co.tbell.mm.entity.salary;
 import jakarta.persistence.*;
 import kr.co.tbell.mm.entity.BaseEntity;
 import kr.co.tbell.mm.entity.Employee;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
+@Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Salary extends BaseEntity {

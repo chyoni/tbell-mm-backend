@@ -58,4 +58,12 @@ public class EmployeeHistoryManMonth extends BaseEntity {
         if (calculatePrice != null) this.calculatePrice = calculatePrice;
         if (plPrice != null) this.plPrice = plPrice;
     }
+
+    public void changeMonthSalary(int monthSalary) {
+        this.monthSalary = monthSalary;
+    }
+
+    public void applyInputPrice() {
+        this.inputPrice = (int) (this.monthSalary * Double.parseDouble(this.inputManMonth));
+    }
 }

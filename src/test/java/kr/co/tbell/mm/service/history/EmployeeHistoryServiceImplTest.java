@@ -69,4 +69,12 @@ class EmployeeHistoryServiceImplTest {
         String inputManMonthToString = String.format("%.2f", inputManMonth);
         log.info("manMonth: {}", inputManMonthToString);
     }
+
+    @Test
+    void inputPrice() {
+        int salary = 3000000;
+        String inputManMonth = "0.88";
+
+        log.info("input price: {}", (int) (salary * Double.parseDouble(inputManMonth)));
+    }
 }
