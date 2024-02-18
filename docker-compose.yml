@@ -52,8 +52,8 @@ services:
     command: >
       bash -c "
       while true; do
-        sleep 60
-        mysqldump -h db -u$$MYSQLDB_USER -p$$MYSQLDB_ROOT_PASSWORD $$MYSQLDB_DATABASE > /var/lib/backup/$$(date +%Y-%m-%d-%H-%M-%S).sql
+        sleep 30
+        mysqldump -h db -u$$MYSQLDB_USER -p$$MYSQLDB_ROOT_PASSWORD $$MYSQLDB_DATABASE --no-tablespaces > /var/lib/backup/$$(date +%Y-%m-%d-%H-%M-%S).sql
         echo ""Backup done at $$(date +%Y-%m-%d_%H:%M:%S)""
         sleep 14400
       done
