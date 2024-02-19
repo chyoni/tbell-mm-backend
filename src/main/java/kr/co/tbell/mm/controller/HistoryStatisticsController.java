@@ -23,15 +23,13 @@ public class HistoryStatisticsController {
     private final EmployeeHistoryService employeeHistoryService;
 
     @GetMapping("/all")
-    public ResponseEntity<Response<ResHistoryStatistics>> getStatisticsByYear(String year) {
+    public ResponseEntity<Response<List<ResHistoryStatistics>>> getStatisticsByYear(String year) {
         log.info("[getStatisticsByYear]: Search year: {}", year);
 
         List<ResHistoryStatistics> historyStatistics = employeeHistoryService.getHistoryStatistics(year);
 
-        for (ResHistoryStatistics historyStatistic : historyStatistics) {
-            log.info("historyStatistics: {}", historyStatistic);
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(new Response<>(true, null, null));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new Response<>(true, null, historyStatistics));
     }
 }

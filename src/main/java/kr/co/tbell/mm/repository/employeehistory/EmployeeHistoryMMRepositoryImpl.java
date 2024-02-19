@@ -41,6 +41,7 @@ public class EmployeeHistoryMMRepositoryImpl implements EmployeeHistoryMMReposit
                 .from(employeeHistoryManMonth)
                 .where(findByYear(year))
                 .groupBy(employeeHistoryManMonth.month)
+                .orderBy(employeeHistoryManMonth.month.asc())
                 .limit(50000)
                 .fetch();
     }
