@@ -21,5 +21,7 @@ public interface EmployeeHistoryService {
 
     Void saveManMonthsByHistoryId(Long historyId, List<ReqHistoryManMonth> mms);
 
+    List<ResHistoryStatistics> getHistoryStatistics(String year);
+
     void intervalHistoryScheduler();
 }

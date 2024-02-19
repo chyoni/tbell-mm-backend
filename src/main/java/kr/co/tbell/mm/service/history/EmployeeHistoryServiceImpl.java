@@ -242,6 +242,11 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
         return null;
     }
 
+    @Override
+    public List<ResHistoryStatistics> getHistoryStatistics(String year) {
+        return employeeHistoryMMRepository.getHistoryStatistics(year);
+    }
+
     /**
      * history.getStartDate()를 가지고 현재 시점까지 월별로 엔티티 만들어 내야한다.
      * */
