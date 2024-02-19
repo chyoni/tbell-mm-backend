@@ -123,11 +123,6 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
 
         employeeHistoryMMRepository.saveAll(manMonthEntities);
 
-        // 사원의 종료일이 결정되는 순간 종료일 기준으로 이후 엔티티는 날려야한다.
-        //  - 종료일이 결정되면 종료일에 해당하는 월은 투입 MM이 업데이트 되어야 한다.
-        // 사원의 종료일이 결정되기 전까지는 월마다 스케쥴러를 통해 엔티티를 하나씩 만들어내는 배치를 만들어야 한다.
-        // 사원의 정산 MM이 입력되는 요청이 들어오면 정산 금액과 손익액에 대한 업데이트 역시 일어나야 한다.
-
         return new ResHistory(project, pUnitPrices, employee, employeeHistory);
     }
 
@@ -145,6 +140,27 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
             throw new InvalidAttributesException("'endDate' must be after than 'startDate'");
 
         employeeHistory.completeHistory(reqCompleteHistory.getEndDate());
+
+        // 종료일이 지정됐을 때 기존에 존재하는 MM 데이터 업데이트
+        List<EmployeeHistoryManMonth> mms = employeeHistoryMMRepository.findAllByEmployeeHistory(employeeHistory);
+        for (EmployeeHistoryManMonth mm : mms) {
+            if (mm.getYear() > reqCompleteHistory.getEndDate().getYear()) {
+                employeeHistoryMMRepository.delete(mm);
+                continue;
+            }
+
+            if (mm.getYear().equals(reqCompleteHistory.getEndDate().getYear())) {
+
+                if (mm.getMonth() > reqCompleteHistory.getEndDate().getMonthValue()) {
+                    employeeHistoryMMRepository.delete(mm);
+                    continue;
+                }
+
+                if (mm.getMonth().equals(reqCompleteHistory.getEndDate().getMonthValue())) {
+                    mm.changeDurationEndAndInputManMonth(reqCompleteHistory.getEndDate());
+                }
+            }
+        }
 
         return new ResHistory(employeeHistory, employeeHistory.getEmployee());
     }
@@ -185,19 +201,20 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
         if (optionalHistory.isEmpty())
             throw new NoSuchElementException("History with this id: " + historyId + " does not exist.");
 
+        // Payload로 들어오는 MM 데이터에 대한 반복문
         for (ReqHistoryManMonth mm : mms) {
             Optional<EmployeeHistoryManMonth> optionalManMonth = employeeHistoryMMRepository.findById(mm.getId());
             if (optionalManMonth.isEmpty())
                 throw new NoSuchElementException("ManMonth data with this id: " + mm.getId() + "does not exist.");
 
+            // MM 데이터에 있는 월 급여 데이터를 받아서 데이터베이스에 저장하기 위한 엔티티
             ReqUpdateSalary reqUpdateSalary = ReqUpdateSalary.builder()
                     .year(mm.getYear())
                     .month(Month.convert(mm.getMonth()))
                     .salary(mm.getMonthSalary())
                     .build();
 
-            log.info("reqUpdateSalary: {}", reqUpdateSalary);
-
+            // 월 급여 데이터 저장
             try {
                 employeeService.addMonthSalary(
                         optionalHistory.get().getEmployee().getEmployeeNumber(),
@@ -206,6 +223,7 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
                 throw new NoSuchElementException(e.getMessage());
             }
 
+            // MM 데이터의 업데이트 데이터 반영
             EmployeeHistoryManMonth manMonth = optionalManMonth.get();
             // Dirty checking
             manMonth.updateManMonth(

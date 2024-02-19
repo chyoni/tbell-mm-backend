@@ -3,9 +3,12 @@ package kr.co.tbell.mm.entity;
 import jakarta.persistence.*;
 import kr.co.tbell.mm.entity.project.Level;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 
+@Slf4j
 @ToString
 @Getter
 @Builder
@@ -65,5 +68,18 @@ public class EmployeeHistoryManMonth extends BaseEntity {
 
     public void applyInputPrice() {
         this.inputPrice = (int) (this.monthSalary * Double.parseDouble(this.inputManMonth));
+    }
+
+    public void changeDurationEndAndInputManMonth(LocalDate durationEnd) {
+        if (durationEnd != null) {
+            this.durationEnd = durationEnd;
+
+            int durationDay = this.durationStart.until(durationEnd).getDays() + 1;
+            int dayOfMonth = this.durationStart.with(TemporalAdjusters.lastDayOfMonth()).getDayOfMonth();
+
+            double inputManMonth = (double) durationDay / dayOfMonth;
+
+            this.inputManMonth = String.format("%.2f", inputManMonth);
+        }
     }
 }

@@ -45,7 +45,7 @@ public class EmployeeHistoryRepositoryImpl implements EmployeeHistoryRepositoryQ
                         dateBetween(searchCond.getStartDate(), searchCond.getEndDate()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(startDateOrderBy(searchCond.getOrderBy()))
+                .orderBy(employeeHistory.createdDate.desc())
                 .fetch();
 
         int total = queryFactory
