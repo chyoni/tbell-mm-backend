@@ -19,10 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -42,6 +39,34 @@ class ProjectServiceImplTest {
 
     @Autowired
     UnitPriceRepository unitPriceRepository;
+
+    @Test
+    void sort() {
+        int[] arr1 = {1, 3, 5, 9};
+        int[] arr2 = {2, 6, 7, 11};
+
+        int[] mergedArray = new int[arr1.length + arr2.length];
+
+        int i = 0, j = 0, k = 0;
+
+        while (i < arr1.length && j < arr2.length) {
+            if (arr1[i] < arr2[j]) {
+                mergedArray[k++] = arr1[i++];
+            } else {
+                mergedArray[k++] = arr2[j++];
+            }
+        }
+
+        while (i < arr1.length) {
+            mergedArray[k++] = arr1[i++];
+        }
+
+        while (j < arr2.length) {
+            mergedArray[k++] = arr2[j++];
+        }
+
+        System.out.println("mergedArray = " + Arrays.toString(mergedArray));
+    }
 
     @Test
     void createProject() throws InstanceAlreadyExistsException {

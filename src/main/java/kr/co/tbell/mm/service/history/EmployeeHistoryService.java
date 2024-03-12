@@ -23,5 +23,7 @@ public interface EmployeeHistoryService {
 
     List<ResHistoryStatistics> getHistoryStatistics(String year);
 
+    List<ResContractHistoryStatistics> getContractHistoryStatistics(String contractNumber, String year);
+
     void intervalHistoryScheduler();
 }

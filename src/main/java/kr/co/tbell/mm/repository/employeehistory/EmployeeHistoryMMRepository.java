@@ -15,4 +15,5 @@ public interface EmployeeHistoryMMRepository extends
         QuerydslPredicateExecutor<EmployeeHistoryManMonth> {
 
     List<EmployeeHistoryManMonth> findAllByEmployeeHistory(EmployeeHistory employeeHistory);
+
 }

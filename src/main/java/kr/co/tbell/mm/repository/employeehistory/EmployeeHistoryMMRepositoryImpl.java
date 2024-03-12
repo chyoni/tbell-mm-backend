@@ -9,7 +9,9 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+import static kr.co.tbell.mm.entity.QEmployeeHistory.employeeHistory;
 import static kr.co.tbell.mm.entity.QEmployeeHistoryManMonth.employeeHistoryManMonth;
+import static kr.co.tbell.mm.entity.project.QProject.project;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -42,6 +44,26 @@ public class EmployeeHistoryMMRepositoryImpl implements EmployeeHistoryMMReposit
                 .where(findByYear(year))
                 .groupBy(employeeHistoryManMonth.month)
                 .orderBy(employeeHistoryManMonth.month.asc())
+                .limit(50000)
+                .fetch();
+    }
+
+    @Override
+    public List<ResContractHistoryStatistics> getContractHistoryStatistics(String contractNumber, String year) {
+        return queryFactory
+                .select(new QResContractHistoryStatistics(
+                        employeeHistoryManMonth.month,
+                        employeeHistoryManMonth.inputManMonth.castToNum(Double.class).sum(),
+                        employeeHistoryManMonth.inputPrice.sum(),
+                        employeeHistoryManMonth.calculateManMonth.castToNum(Double.class).sum(),
+                        employeeHistoryManMonth.calculatePrice.sum(),
+                        project.contractNumber,
+                        project.teamName))
+                .from(employeeHistory)
+                .join(employeeHistoryManMonth).on(employeeHistory.id.eq(employeeHistoryManMonth.employeeHistory.id))
+                .join(project).on(project.id.eq(employeeHistory.project.id))
+                .where(project.contractNumber.eq(contractNumber).and(employeeHistoryManMonth.year.eq(Integer.valueOf(year))))
+                .groupBy(employeeHistoryManMonth.month)
                 .limit(50000)
                 .fetch();
     }

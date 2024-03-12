@@ -1,16 +1,14 @@
 package kr.co.tbell.mm.controller;
 
 import kr.co.tbell.mm.dto.common.Response;
-import kr.co.tbell.mm.dto.history.ResHistoryManMonth;
+import kr.co.tbell.mm.dto.history.ResContractHistoryStatistics;
 import kr.co.tbell.mm.dto.history.ResHistoryStatistics;
 import kr.co.tbell.mm.service.history.EmployeeHistoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +29,19 @@ public class HistoryStatisticsController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new Response<>(true, null, historyStatistics));
+    }
+
+    @GetMapping("/{contractNumber}")
+    public ResponseEntity<Response<List<ResContractHistoryStatistics>>> getStatisticsByContract(
+            @PathVariable String contractNumber,
+            @RequestParam(value = "year") String year) {
+        log.info("[getStatisticsByContract]: Search Contract: {}, Search year: {}", contractNumber, year);
+
+        List<ResContractHistoryStatistics> contractHistoryStatistics =
+                employeeHistoryService.getContractHistoryStatistics(contractNumber, year);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new Response<>(true, null, contractHistoryStatistics));
     }
 }
