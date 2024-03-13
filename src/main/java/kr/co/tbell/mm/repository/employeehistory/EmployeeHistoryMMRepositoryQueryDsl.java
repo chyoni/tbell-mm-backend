@@ -12,5 +12,5 @@ public interface EmployeeHistoryMMRepositoryQueryDsl {
 
     List<ResHistoryStatistics> getHistoryStatistics(String year);
 
-    List<ResContractHistoryStatistics> getContractHistoryStatistics(String contractNumber, String year);
+    List<ResContractHistoryStatistics> getContractHistoryStatistics(String contractNumber, String year, boolean total);
 }

@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.InstanceAlreadyExistsException;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -50,6 +51,15 @@ public class ProjectController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new Response<>(true, null, allProjects));
+    }
+
+    @GetMapping("/options")
+    public ResponseEntity<Response<List<ResProject>>> getProjectsForOptions() {
+        List<ResProject> resProjects = projectService.findAllProjectsForOptions();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new Response<>(true, null, resProjects));
     }
 
     @GetMapping("/{contractNumber}")

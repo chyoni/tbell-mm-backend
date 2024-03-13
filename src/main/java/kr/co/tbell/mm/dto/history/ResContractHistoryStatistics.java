@@ -36,4 +36,15 @@ public class ResContractHistoryStatistics {
         this.contractNumber = contractNumber;
         this.teamName = teamName;
     }
+
+    @QueryProjection
+    public ResContractHistoryStatistics(Double totalInputManMonth,
+                                        Double totalCalculateManMonth,
+                                        String contractNumber,
+                                        String teamName) {
+        this.totalInputManMonth = totalInputManMonth;
+        this.totalCalculateManMonth = totalCalculateManMonth;
+        this.contractNumber = contractNumber;
+        this.teamName = teamName;
+    }
 }

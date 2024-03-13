@@ -49,23 +49,39 @@ public class EmployeeHistoryMMRepositoryImpl implements EmployeeHistoryMMReposit
     }
 
     @Override
-    public List<ResContractHistoryStatistics> getContractHistoryStatistics(String contractNumber, String year) {
-        return queryFactory
-                .select(new QResContractHistoryStatistics(
-                        employeeHistoryManMonth.month,
-                        employeeHistoryManMonth.inputManMonth.castToNum(Double.class).sum(),
-                        employeeHistoryManMonth.inputPrice.sum(),
-                        employeeHistoryManMonth.calculateManMonth.castToNum(Double.class).sum(),
-                        employeeHistoryManMonth.calculatePrice.sum(),
-                        project.contractNumber,
-                        project.teamName))
-                .from(employeeHistory)
-                .join(employeeHistoryManMonth).on(employeeHistory.id.eq(employeeHistoryManMonth.employeeHistory.id))
-                .join(project).on(project.id.eq(employeeHistory.project.id))
-                .where(project.contractNumber.eq(contractNumber).and(employeeHistoryManMonth.year.eq(Integer.valueOf(year))))
-                .groupBy(employeeHistoryManMonth.month)
-                .limit(50000)
-                .fetch();
+    public List<ResContractHistoryStatistics> getContractHistoryStatistics(String contractNumber,
+                                                                           String year,
+                                                                           boolean total) {
+        if (total) {
+            return queryFactory
+                    .select(new QResContractHistoryStatistics(
+                            employeeHistoryManMonth.inputManMonth.castToNum(Double.class).sum(),
+                            employeeHistoryManMonth.calculateManMonth.castToNum(Double.class).sum(),
+                            project.contractNumber,
+                            project.teamName))
+                    .from(employeeHistory)
+                    .join(employeeHistoryManMonth).on(employeeHistory.id.eq(employeeHistoryManMonth.employeeHistory.id))
+                    .join(project).on(project.id.eq(employeeHistory.project.id))
+                    .where(project.contractNumber.eq(contractNumber).and(employeeHistoryManMonth.year.eq(Integer.valueOf(year))))
+                    .fetch();
+        } else {
+            return queryFactory
+                    .select(new QResContractHistoryStatistics(
+                            employeeHistoryManMonth.month,
+                            employeeHistoryManMonth.inputManMonth.castToNum(Double.class).sum(),
+                            employeeHistoryManMonth.inputPrice.sum(),
+                            employeeHistoryManMonth.calculateManMonth.castToNum(Double.class).sum(),
+                            employeeHistoryManMonth.calculatePrice.sum(),
+                            project.contractNumber,
+                            project.teamName))
+                    .from(employeeHistory)
+                    .join(employeeHistoryManMonth).on(employeeHistory.id.eq(employeeHistoryManMonth.employeeHistory.id))
+                    .join(project).on(project.id.eq(employeeHistory.project.id))
+                    .where(project.contractNumber.eq(contractNumber).and(employeeHistoryManMonth.year.eq(Integer.valueOf(year))))
+                    .groupBy(employeeHistoryManMonth.month)
+                    .limit(50000)
+                    .fetch();
+        }
     }
 
     private BooleanExpression findByYear(String year) {

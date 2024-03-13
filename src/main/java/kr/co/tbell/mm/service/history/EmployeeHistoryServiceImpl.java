@@ -248,8 +248,10 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
     }
 
     @Override
-    public List<ResContractHistoryStatistics> getContractHistoryStatistics(String contractNumber, String year) {
-        return employeeHistoryMMRepository.getContractHistoryStatistics(contractNumber, year);
+    public List<ResContractHistoryStatistics> getContractHistoryStatistics(String contractNumber,
+                                                                           String year,
+                                                                           boolean total) {
+        return employeeHistoryMMRepository.getContractHistoryStatistics(contractNumber, year, total);
     }
 
     /**

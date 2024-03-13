@@ -5,8 +5,7 @@ import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.OperationRate;
 import kr.co.tbell.mm.entity.project.Project;
 import kr.co.tbell.mm.entity.project.ProjectStatus;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;

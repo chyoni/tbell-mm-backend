@@ -34,11 +34,13 @@ public class HistoryStatisticsController {
     @GetMapping("/{contractNumber}")
     public ResponseEntity<Response<List<ResContractHistoryStatistics>>> getStatisticsByContract(
             @PathVariable String contractNumber,
-            @RequestParam(value = "year") String year) {
-        log.info("[getStatisticsByContract]: Search Contract: {}, Search year: {}", contractNumber, year);
+            @RequestParam(value = "year") String year,
+            @RequestParam(value = "total") boolean total) {
+        log.info("[getStatisticsByContract]: Search Contract: {}, Search year: {} is total data: {}",
+                contractNumber, year, total);
 
         List<ResContractHistoryStatistics> contractHistoryStatistics =
-                employeeHistoryService.getContractHistoryStatistics(contractNumber, year);
+                employeeHistoryService.getContractHistoryStatistics(contractNumber, year, total);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -78,6 +79,15 @@ public class ProjectServiceImpl implements ProjectService {
 
             return new ResProject(project, dtoUnitPrices);
         });
+    }
+
+    @Override
+    public List<ResProject> findAllProjectsForOptions() {
+        return projectRepository
+                .findAll()
+                .stream()
+                .map(ResProject::new)
+                .toList();
     }
 
     @Override

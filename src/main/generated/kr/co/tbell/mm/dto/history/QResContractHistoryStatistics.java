@@ -17,5 +17,9 @@ public class QResContractHistoryStatistics extends ConstructorExpression<ResCont
         super(ResContractHistoryStatistics.class, new Class<?>[]{int.class, double.class, int.class, double.class, int.class, String.class, String.class}, month, totalInputManMonth, totalInputPrice, totalCalculateManMonth, totalCalculatePrice, contractNumber, teamName);
     }
 
+    public QResContractHistoryStatistics(com.querydsl.core.types.Expression<Double> totalInputManMonth, com.querydsl.core.types.Expression<Double> totalCalculateManMonth, com.querydsl.core.types.Expression<String> contractNumber, com.querydsl.core.types.Expression<String> teamName) {
+        super(ResContractHistoryStatistics.class, new Class<?>[]{double.class, double.class, String.class, String.class}, totalInputManMonth, totalCalculateManMonth, contractNumber, teamName);
+    }
+
 }
 
