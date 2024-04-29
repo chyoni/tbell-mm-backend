@@ -7,6 +7,7 @@ import kr.co.tbell.mm.dto.department.ReqCreateDepartment;
 import kr.co.tbell.mm.dto.department.ResDepartment;
 import kr.co.tbell.mm.entity.Department;
 import kr.co.tbell.mm.repository.department.DepartmentRepository;
+import kr.co.tbell.mm.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -70,7 +71,11 @@ public class DepartmentController {
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<Response<ResDepartment>> getDepartmentByName(@PathVariable String name) {
+    public ResponseEntity<Response<ResDepartment>> getDepartmentByName(
+            @PathVariable String name,
+            @SessionAttribute(name = Constants.SESSION_ADMIN_ID, required = false) Long adminId) {
+        log.info("[getDepartmentByName]: adminId: {}", adminId);
+
         log.info("[getDepartmentByName]: Department Name: {}", name);
 
         Optional<Department> optionalDepartment = departmentRepository.findByName(name);
