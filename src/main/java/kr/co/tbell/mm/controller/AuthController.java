@@ -1,6 +1,5 @@
 package kr.co.tbell.mm.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import kr.co.tbell.mm.dto.administrator.ReqCreateAdministrator;
 import kr.co.tbell.mm.dto.administrator.ReqLogin;
@@ -25,7 +24,7 @@ public class AuthController {
     private final AdministratorService administratorService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Response<ResCreateAdministrator>> createAdmin(
+    public ResponseEntity<Response<ResCreateAdministrator>> signup(
             @RequestBody @Valid ReqCreateAdministrator reqCreateAdministrator) {
         ResCreateAdministrator administrator;
 
@@ -44,9 +43,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Response<ResLogin>> login(@RequestBody @Valid ReqLogin reqLogin,
-                                                    HttpServletRequest request) {
-        ResLogin session = administratorService.login(reqLogin, request);
+    public ResponseEntity<Response<ResLogin>> login(@RequestBody @Valid ReqLogin reqLogin) {
+        ResLogin session = administratorService.login(reqLogin);
 
         if (session == null) {
             return ResponseEntity

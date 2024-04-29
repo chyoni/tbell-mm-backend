@@ -12,5 +12,5 @@ public interface AdministratorService {
     ResCreateAdministrator createAdministrator(ReqCreateAdministrator reqCreateAdministrator)
             throws InstanceAlreadyExistsException;
 
-    ResLogin login(ReqLogin reqLogin, HttpServletRequest request);
+    ResLogin login(ReqLogin reqLogin);
 }

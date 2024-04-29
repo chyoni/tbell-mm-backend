@@ -1,6 +1,6 @@
 package kr.co.tbell.mm.repository.administrator;
 
-import kr.co.tbell.mm.entity.Administrator;
+import kr.co.tbell.mm.entity.administrator.Administrator;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

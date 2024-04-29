@@ -1,14 +1,13 @@
-package kr.co.tbell.mm.entity;
+package kr.co.tbell.mm.entity.administrator;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import kr.co.tbell.mm.entity.BaseEntity;
 import lombok.*;
 
 @Getter
 @Entity
 @Builder
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Administrator extends BaseEntity {
@@ -17,6 +16,10 @@ public class Administrator extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String username;
     private String password;
+
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
 }

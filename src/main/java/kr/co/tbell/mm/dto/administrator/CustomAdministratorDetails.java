@@ -1,15 +1,15 @@
 package kr.co.tbell.mm.dto.administrator;
 
-import kr.co.tbell.mm.entity.Administrator;
+import kr.co.tbell.mm.entity.administrator.Administrator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class CustomAdministratorDetails implements UserDetails {
 
-    private Administrator administrator;
+    private final Administrator administrator;
 
     public CustomAdministratorDetails(Administrator administrator) {
         this.administrator = administrator;
@@ -17,36 +17,45 @@ public class CustomAdministratorDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        Collection<GrantedAuthority> collection = new ArrayList<>();
+
+        collection.add(new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                return administrator.getRole().getDescription();
+            }
+        });
+
+        return collection;
     }
 
     @Override
     public String getPassword() {
-        return "";
+        return administrator.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return administrator.getUsername();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
