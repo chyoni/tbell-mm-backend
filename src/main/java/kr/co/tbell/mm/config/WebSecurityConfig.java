@@ -71,7 +71,8 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(request ->
                 request.requestMatchers(
                         new AntPathRequestMatcher("/api/v1/admin/signup", "POST"),
-                        new AntPathRequestMatcher("/login", "POST")
+                        new AntPathRequestMatcher("/login", "POST"),
+                        new AntPathRequestMatcher("/api/v1/auth/reissue", "POST")
                         ).permitAll()
                         .anyRequest().hasRole("ADMIN"));
 
