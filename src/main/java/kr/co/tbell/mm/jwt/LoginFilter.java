@@ -1,11 +1,12 @@
 package kr.co.tbell.mm.jwt;
 
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kr.co.tbell.mm.dto.administrator.CustomAdministratorDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,7 @@ import java.io.IOException;
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final JwtManager jwtManager;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
@@ -38,16 +40,31 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) throws IOException, ServletException {
-        log.info("[successfulAuthentication]: OK");
-        // super.successfulAuthentication(request, response, chain, authResult);
+                                            Authentication authentication) {
+        log.info("[successfulAuthentication]: Authentication Success");
+        CustomAdministratorDetails administratorDetails = (CustomAdministratorDetails) authentication.getPrincipal();
+
+        String username = administratorDetails.getUsername();
+        String role = authentication
+                        .getAuthorities()
+                        .iterator()
+                        .next()
+                        .getAuthority();
+
+        String token = jwtManager.createJwt(username, role);
+
+        response.addHeader("Authorization", "Bearer " + token);
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request,
                                               HttpServletResponse response,
-                                              AuthenticationException failed) throws IOException, ServletException {
-        log.info("[unsuccessfulAuthentication]: FAIL");
-        // super.unsuccessfulAuthentication(request, response, failed);
+                                              AuthenticationException failed) throws IOException {
+        log.info("[unsuccessfulAuthentication]: Authentication Failed");
+
+        String errorMessage = String.format("error: Failed login with this username: %s", obtainUsername(request));
+
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.getWriter().write(errorMessage);
     }
 }

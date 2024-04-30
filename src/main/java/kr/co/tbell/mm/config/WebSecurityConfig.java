@@ -1,6 +1,7 @@
 package kr.co.tbell.mm.config;
 
 import kr.co.tbell.mm.entity.administrator.Role;
+import kr.co.tbell.mm.jwt.JwtManager;
 import kr.co.tbell.mm.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final JwtManager jwtManager;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -52,7 +54,7 @@ public class WebSecurityConfig {
         // addFilterAt은 정확히 그 필터(UsernamePasswordAuthenticationFilter)를 내가 만든 LoginFilter로 대체하겠다는 메서드.
         // addFilterBefore, addFilterAfter 이 것들은 말 그대로 그 전 또는 그 후에 붙이겠다는 의미
         http.addFilterAt(
-                new LoginFilter(authenticationManager(authenticationConfiguration)),
+                new LoginFilter(authenticationManager(authenticationConfiguration), jwtManager),
                 UsernamePasswordAuthenticationFilter.class
         );
 
