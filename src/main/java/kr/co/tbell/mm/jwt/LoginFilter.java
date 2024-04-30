@@ -29,7 +29,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String username = obtainUsername(request);
         String password = obtainPassword(request);
 
-        log.info("[attemptAuthentication]: Username : {}, Password: {}", username, password);
+        log.info("[attemptAuthentication]: Attempt login, Username : {}", username);
 
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(username, password, null);
