@@ -26,6 +26,14 @@ public class QAdministrator extends EntityPathBase<Administrator> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final BooleanPath isCredentialsExpired = createBoolean("isCredentialsExpired");
+
+    public final BooleanPath isEnabled = createBoolean("isEnabled");
+
+    public final BooleanPath isExpired = createBoolean("isExpired");
+
+    public final BooleanPath isLocked = createBoolean("isLocked");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> lastModifiedDate = _super.lastModifiedDate;
 

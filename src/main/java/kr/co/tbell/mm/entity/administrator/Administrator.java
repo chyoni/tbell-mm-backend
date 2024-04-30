@@ -22,4 +22,31 @@ public class Administrator extends BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
+
+    @Column(nullable = false)
+    private boolean isExpired;
+    @Column(nullable = false)
+    private boolean isLocked;
+    @Column(nullable = false)
+    private boolean isCredentialsExpired;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean isEnabled = true;
+
+    public boolean isAccountNonExpired() {
+        return !isExpired;
+    }
+
+    public boolean isAccountNonLocked() {
+        return !isLocked;
+    }
+
+    public boolean isCredentialsNonExpired() {
+        return !isCredentialsExpired;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
+    }
 }

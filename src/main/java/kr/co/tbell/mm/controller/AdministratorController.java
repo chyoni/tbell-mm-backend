@@ -2,9 +2,7 @@ package kr.co.tbell.mm.controller;
 
 import jakarta.validation.Valid;
 import kr.co.tbell.mm.dto.administrator.ReqCreateAdministrator;
-import kr.co.tbell.mm.dto.administrator.ReqLogin;
 import kr.co.tbell.mm.dto.administrator.ResCreateAdministrator;
-import kr.co.tbell.mm.dto.administrator.ResLogin;
 import kr.co.tbell.mm.dto.common.Response;
 import kr.co.tbell.mm.service.administrator.AdministratorService;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +15,9 @@ import javax.management.InstanceAlreadyExistsException;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
-public class AuthController {
+public class AdministratorController {
 
     private final AdministratorService administratorService;
 
@@ -40,20 +38,5 @@ public class AuthController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new Response<>(true, null, administrator));
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<Response<ResLogin>> login(@RequestBody @Valid ReqLogin reqLogin) {
-        ResLogin session = administratorService.login(reqLogin);
-
-        if (session == null) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(new Response<>(false, "Username or password is incorrect", null));
-        }
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new Response<>(true, null, session));
     }
 }

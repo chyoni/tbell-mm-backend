@@ -1,20 +1,31 @@
 package kr.co.tbell.mm.config;
 
 import kr.co.tbell.mm.entity.administrator.Role;
+import kr.co.tbell.mm.jwt.LoginFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig {
+
+    private final AuthenticationConfiguration authenticationConfiguration;
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,8 +42,15 @@ public class WebSecurityConfig {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.authorizeHttpRequests(request ->
-                request.requestMatchers(new AntPathRequestMatcher("/api/v1/auth/**")).permitAll()
+                request.requestMatchers(
+                        new AntPathRequestMatcher("/api/v1/admin/signup", "POST"),
+                        new AntPathRequestMatcher("/login", "POST")).permitAll()
                         .anyRequest().hasRole(Role.ROLE_ADMIN.getDescription()));
+
+        http.addFilterAt(
+                new LoginFilter(authenticationManager(authenticationConfiguration)),
+                UsernamePasswordAuthenticationFilter.class
+        );
 
         return http.build();
     }
