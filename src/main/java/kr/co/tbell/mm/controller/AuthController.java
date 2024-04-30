@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.co.tbell.mm.dto.common.Response;
 import kr.co.tbell.mm.jwt.JwtManager;
 import kr.co.tbell.mm.utils.Constants;
+import kr.co.tbell.mm.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -50,12 +51,15 @@ public class AuthController {
         String username = jwtManager.getUsername(refreshToken);
         String role = jwtManager.getRole(refreshToken);
 
-        // 새 Access Token 생성
+        // 새 Access, Refresh Token 생성
         String newAccessToken =
                 jwtManager.createJwt(Constants.HEADER_KEY_ACCESS_TOKEN, username, role, Constants.ACCESS_EXPIRED_MS);
+        String newRefreshToken =
+                jwtManager.createJwt(Constants.HEADER_KEY_REFRESH_TOKEN, username, role, Constants.REFRESH_EXPIRED_MS);
 
-        // 새 Access Token을 Response의 Headers에 추가
+        // 새 Access, Refresh Token을 Response의 Headers에 추가
         response.setHeader(Constants.HEADER_KEY_ACCESS_TOKEN, newAccessToken);
+        response.addCookie(Utils.createCookie(Constants.HEADER_KEY_REFRESH_TOKEN, newRefreshToken));
 
         return ResponseEntity.ok(
                 new Response<>(true,

@@ -5,6 +5,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.co.tbell.mm.utils.Constants;
+import kr.co.tbell.mm.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -56,7 +57,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                 jwtManager.createJwt(Constants.HEADER_KEY_REFRESH_TOKEN, username, role, Constants.REFRESH_EXPIRED_MS);
 
         response.setHeader(Constants.HEADER_KEY_ACCESS_TOKEN, accessToken);
-        response.addCookie(createCookie(Constants.HEADER_KEY_REFRESH_TOKEN, refreshToken));
+        response.addCookie(Utils.createCookie(Constants.HEADER_KEY_REFRESH_TOKEN, refreshToken));
         response.setStatus(HttpStatus.OK.value());
     }
 
@@ -72,11 +73,5 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         response.getWriter().write(errorMessage);
     }
 
-    private Cookie createCookie(String key, String value) {
-        Cookie cookie = new Cookie(key, value);
-        cookie.setMaxAge(Constants.REFRESH_TOKEN_COOKIE_MAX_AGE);
-        cookie.setHttpOnly(true);
 
-        return cookie;
-    }
 }
