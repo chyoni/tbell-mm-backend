@@ -1,14 +1,19 @@
 package kr.co.tbell.mm.controller;
 
 import jakarta.validation.Valid;
+import kr.co.tbell.mm.dto.administrator.CustomAdministratorDetails;
 import kr.co.tbell.mm.dto.administrator.ReqCreateAdministrator;
 import kr.co.tbell.mm.dto.administrator.ResCreateAdministrator;
 import kr.co.tbell.mm.dto.common.Response;
+import kr.co.tbell.mm.entity.administrator.Administrator;
+import kr.co.tbell.mm.entity.administrator.Role;
 import kr.co.tbell.mm.service.administrator.AdministratorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.InstanceAlreadyExistsException;
@@ -38,5 +43,24 @@ public class AdministratorController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new Response<>(true, null, administrator));
+    }
+
+    @GetMapping("/currentUser")
+    public ResponseEntity<Response<CustomAdministratorDetails>> administratorDetails() {
+        // 스프링 시큐리티 컨텍스트에서 현재 로그인 유저 정보를 가져온다.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String username = authentication.getName();
+        String roleAsString = authentication.getAuthorities().iterator().next().getAuthority();
+
+        Administrator administrator = Administrator
+                .builder()
+                .username(username)
+                .role(Role.getRole(roleAsString))
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new Response<>(true, null, new CustomAdministratorDetails(administrator)));
     }
 }

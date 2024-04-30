@@ -1,7 +1,6 @@
 package kr.co.tbell.mm.dto.administrator;
 
 import jakarta.validation.constraints.NotNull;
-import kr.co.tbell.mm.entity.administrator.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
