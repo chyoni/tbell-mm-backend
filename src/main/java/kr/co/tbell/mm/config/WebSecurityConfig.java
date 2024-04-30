@@ -1,6 +1,7 @@
 package kr.co.tbell.mm.config;
 
 import kr.co.tbell.mm.entity.administrator.Role;
+import kr.co.tbell.mm.jwt.JwtFilter;
 import kr.co.tbell.mm.jwt.JwtManager;
 import kr.co.tbell.mm.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
@@ -48,15 +49,18 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(request ->
                 request.requestMatchers(
                         new AntPathRequestMatcher("/api/v1/admin/signup", "POST"),
-                        new AntPathRequestMatcher("/login", "POST")).permitAll()
-                        .anyRequest().hasRole(Role.ROLE_ADMIN.getDescription()));
+                        new AntPathRequestMatcher("/login", "POST")
+                        ).permitAll()
+                        .anyRequest().hasRole("ADMIN"));
+
+        // LoginFilter 앞에 JwtFilter 등록
+        http.addFilterBefore(new JwtFilter(jwtManager), LoginFilter.class);
 
         // addFilterAt은 정확히 그 필터(UsernamePasswordAuthenticationFilter)를 내가 만든 LoginFilter로 대체하겠다는 메서드.
         // addFilterBefore, addFilterAfter 이 것들은 말 그대로 그 전 또는 그 후에 붙이겠다는 의미
         http.addFilterAt(
                 new LoginFilter(authenticationManager(authenticationConfiguration), jwtManager),
-                UsernamePasswordAuthenticationFilter.class
-        );
+                UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

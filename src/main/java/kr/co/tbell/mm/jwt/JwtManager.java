@@ -20,7 +20,7 @@ public class JwtManager {
                 Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
-    private static final long EXPIRED_MS = 60 * 60 * 10L;
+    private static final long EXPIRED_MS = 1800000L; // 30분
 
     public String getUsername(String token) {
         return Jwts.parser()
