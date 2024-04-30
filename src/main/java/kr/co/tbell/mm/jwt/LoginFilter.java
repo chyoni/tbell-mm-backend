@@ -1,6 +1,7 @@
 package kr.co.tbell.mm.jwt;
 
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.co.tbell.mm.dto.administrator.CustomAdministratorDetails;
@@ -21,6 +22,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JwtManager jwtManager;
+    public static final int REFRESH_TOKEN_COOKIE_MAX_AGE = 24 * 60 * 60; // 24시간(초단위)
+    private static final long ACCESS_EXPIRED_MS = 1800000L; // 30분
+    private static final long REFRESH_EXPIRED_MS = 86400000L; // 24시간
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
@@ -42,18 +46,19 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                                             FilterChain chain,
                                             Authentication authentication) {
         log.info("[successfulAuthentication]: Authentication Success");
-        CustomAdministratorDetails administratorDetails = (CustomAdministratorDetails) authentication.getPrincipal();
-
-        String username = administratorDetails.getUsername();
+        String username = authentication.getName();
         String role = authentication
                         .getAuthorities()
                         .iterator()
                         .next()
                         .getAuthority();
 
-        String token = jwtManager.createJwt(username, role);
+        String accessToken = jwtManager.createJwt("access", username, role, ACCESS_EXPIRED_MS);
+        String refreshToken = jwtManager.createJwt("refresh", username, role, REFRESH_EXPIRED_MS);
 
-        response.addHeader("Authorization", "Bearer " + token);
+        response.setHeader("Access-Token", accessToken);
+        response.addCookie(createCookie("Refresh-Token", refreshToken));
+        response.setStatus(HttpStatus.OK.value());
     }
 
     @Override
@@ -66,5 +71,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getWriter().write(errorMessage);
+    }
+
+    private Cookie createCookie(String key, String value) {
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(REFRESH_TOKEN_COOKIE_MAX_AGE);
+        cookie.setHttpOnly(true);
+
+        return cookie;
     }
 }

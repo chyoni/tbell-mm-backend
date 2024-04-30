@@ -20,8 +20,6 @@ public class JwtManager {
                 Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
-    private static final long EXPIRED_MS = 1800000L; // 30분
-
     public String getUsername(String token) {
         return Jwts.parser()
                 .verifyWith(secretKey)
@@ -40,6 +38,15 @@ public class JwtManager {
                 .get("role", String.class);
     }
 
+    public String getCategory(String token) {
+         return Jwts.parser()
+                 .verifyWith(secretKey)
+                 .build()
+                 .parseSignedClaims(token)
+                 .getPayload()
+                 .get("category", String.class);
+    }
+
     public Boolean isExpired(String token) {
         return Jwts.parser()
                 .verifyWith(secretKey)
@@ -50,12 +57,16 @@ public class JwtManager {
                 .before(new Date());
     }
 
-    public String createJwt(String username, String role) {
+    public String createJwt(String category,
+                            String username,
+                            String role,
+                            long expireMs) {
         return Jwts.builder()
+                .claim("category", category)
                 .claim("username", username)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()  + EXPIRED_MS))
+                .expiration(new Date(System.currentTimeMillis()  + expireMs))
                 .signWith(secretKey)
                 .compact();
     }
