@@ -41,12 +41,16 @@ public class WebSecurityConfig {
         // JWT 방식을 사용하기 때문에 SessionCreationPolicy STATELESS
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
+        // AntPathRequestMatcher 객체를 사용한 이유는 개인적으로 가시성이 좀 더 좋고 어떤 Http Method인지 바로 알 수 있어서 사용
+        // 굳이 안 사용해도 된다.
         http.authorizeHttpRequests(request ->
                 request.requestMatchers(
                         new AntPathRequestMatcher("/api/v1/admin/signup", "POST"),
                         new AntPathRequestMatcher("/login", "POST")).permitAll()
                         .anyRequest().hasRole(Role.ROLE_ADMIN.getDescription()));
 
+        // addFilterAt은 정확히 그 필터(UsernamePasswordAuthenticationFilter)를 내가 만든 LoginFilter로 대체하겠다는 메서드.
+        // addFilterBefore, addFilterAfter 이 것들은 말 그대로 그 전 또는 그 후에 붙이겠다는 의미
         http.addFilterAt(
                 new LoginFilter(authenticationManager(authenticationConfiguration)),
                 UsernamePasswordAuthenticationFilter.class

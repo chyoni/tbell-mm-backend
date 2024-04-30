@@ -38,3 +38,5 @@ out/
 .vscode/
 
 bak
+.env
+/src/main/resources/application.yaml
