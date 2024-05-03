@@ -46,7 +46,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authentication) {
+                                            Authentication authentication) throws IOException {
         log.info("[successfulAuthentication]: Authentication Success");
 
         String username = authentication.getName();
@@ -66,6 +66,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         );
 
         response.setStatus(HttpStatus.OK.value());
+        response.getWriter().write("Access-Token=" + accessToken + ";Refresh-Token=" + refreshToken);
         response.setHeader(Constants.HEADER_KEY_ACCESS_TOKEN, accessToken);
         response.addCookie(Utils.createCookie(Constants.HEADER_KEY_REFRESH_TOKEN, refreshToken));
     }
