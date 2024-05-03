@@ -1,5 +1,6 @@
 package kr.co.tbell.mm.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import kr.co.tbell.mm.jwt.JwtFilter;
 import kr.co.tbell.mm.jwt.JwtManager;
 import kr.co.tbell.mm.jwt.LoginFilter;
@@ -18,6 +19,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -35,7 +40,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        /* CORS
+        // CORS
         http.cors(cors -> cors.configurationSource(new CorsConfigurationSource() {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
@@ -50,7 +55,6 @@ public class WebSecurityConfig {
                 return configuration;
             }
         }));
-        */
 
         // JWT 방식을 사용하기 때문에 CSRF 공격에 대한 위험성 X
         http.csrf(AbstractHttpConfigurer::disable);
