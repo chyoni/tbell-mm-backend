@@ -28,7 +28,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.directory.InvalidAttributesException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.TemporalAdjusters;
@@ -115,17 +114,18 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
 
         List<EmployeeHistoryManMonth> manMonthEntities = getEmployeeHistoryManMonthList(history, employeeHistory);
 
-        for (EmployeeHistoryManMonth mm : manMonthEntities) {
-            Optional<Salary> byEmployeeAndYearAndMonth = salaryRepository.findByEmployeeAndYearAndMonth(
-                    mm.getEmployeeHistory().getEmployee(),
-                    mm.getYear(),
-                    Month.convert(mm.getMonth()));
+        manMonthEntities.forEach(manMonth -> {
+            Optional<Salary> optionalFindSalary = salaryRepository.findByEmployeeAndYearAndMonth(
+                    manMonth.getEmployeeHistory().getEmployee(),
+                    manMonth.getYear(),
+                    Month.convert(manMonth.getMonth())
+            );
 
-            if (byEmployeeAndYearAndMonth.isPresent()) {
-                mm.changeMonthSalary(byEmployeeAndYearAndMonth.get().getSalary());
-                mm.applyInputPrice();
+            if (optionalFindSalary.isPresent()) {
+                manMonth.changeMonthSalary(optionalFindSalary.get().getSalary());
+                manMonth.applyInputPrice();
             }
-        }
+        });
 
         employeeHistoryMMRepository.saveAll(manMonthEntities);
 
@@ -150,24 +150,24 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
 
         // 종료일이 지정됐을 때 기존에 존재하는 MM 데이터 업데이트
         List<EmployeeHistoryManMonth> mms = employeeHistoryMMRepository.findAllByEmployeeHistory(employeeHistory);
-        for (EmployeeHistoryManMonth mm : mms) {
-            if (mm.getYear() > reqCompleteHistory.getEndDate().getYear()) {
-                employeeHistoryMMRepository.delete(mm);
-                continue;
+
+        mms.forEach(manMonth -> {
+            if (manMonth.getYear() > reqCompleteHistory.getEndDate().getYear()) {
+                employeeHistoryMMRepository.delete(manMonth);
+                return;
             }
 
-            if (mm.getYear().equals(reqCompleteHistory.getEndDate().getYear())) {
-
-                if (mm.getMonth() > reqCompleteHistory.getEndDate().getMonthValue()) {
-                    employeeHistoryMMRepository.delete(mm);
-                    continue;
+            if (manMonth.getYear().equals(reqCompleteHistory.getEndDate().getYear())) {
+                if (manMonth.getMonth() > reqCompleteHistory.getEndDate().getMonthValue()) {
+                    employeeHistoryMMRepository.delete(manMonth);
+                    return;
                 }
 
-                if (mm.getMonth().equals(reqCompleteHistory.getEndDate().getMonthValue())) {
-                    mm.changeDurationEndAndInputManMonth(reqCompleteHistory.getEndDate());
+                if (manMonth.getMonth().equals(reqCompleteHistory.getEndDate().getMonthValue())) {
+                    manMonth.changeDurationEndAndInputManMonth(reqCompleteHistory.getEndDate());
                 }
             }
-        }
+        });
 
         return new ResHistory(employeeHistory, employeeHistory.getEmployee());
     }
@@ -179,10 +179,10 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
     public Page<ResHistory> getHistories(Pageable pageable, HistorySearchCond searchCond) {
         Page<ResHistory> histories = employeeHistoryRepository.getHistories(pageable, searchCond);
 
-        for (ResHistory history : histories) {
+        histories.forEach(history -> {
             List<ResHistoryManMonth> mms = employeeHistoryMMRepository.getHistoriesMM(history.getId(), searchCond);
             history.setMms(mms);
-        }
+        });
 
         return histories;
     }
@@ -312,9 +312,9 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
 
             List<UnitPrice> unitPriceByProject = unitPriceRepository.findAllByProject(history.getProject());
 
-            for (UnitPrice unitPrice : unitPriceByProject) {
-                unitPrices.add(Map.of(unitPrice.getLevel(), unitPrice.getWorth()));
-            }
+            unitPriceByProject.forEach(unitPrice ->
+                    unitPrices.add(Map.of(unitPrice.getLevel(), unitPrice.getWorth()))
+            );
 
             return new ResHistory(history.getProject(), unitPrices, history.getEmployee(), history);
         });

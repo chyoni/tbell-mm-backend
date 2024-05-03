@@ -27,9 +27,7 @@ public class AdministratorController {
     @PostMapping("/signup")
     public ResponseEntity<Response<ResCreateAdministrator>> signup(
             @RequestBody @Valid ReqCreateAdministrator reqCreateAdministrator) {
-        ResCreateAdministrator administrator;
-
-        administrator = administratorService.createAdministrator(reqCreateAdministrator);
+        ResCreateAdministrator administrator = administratorService.createAdministrator(reqCreateAdministrator);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
