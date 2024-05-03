@@ -10,6 +10,9 @@ import kr.co.tbell.mm.entity.project.Project;
 import kr.co.tbell.mm.entity.project.UnitPrice;
 import kr.co.tbell.mm.entity.salary.Month;
 import kr.co.tbell.mm.entity.salary.Salary;
+import kr.co.tbell.mm.exception.InstanceCreationAlreadyExistsException;
+import kr.co.tbell.mm.exception.InstanceDoesNotExistException;
+import kr.co.tbell.mm.exception.InvalidDataException;
 import kr.co.tbell.mm.repository.employeehistory.EmployeeHistoryMMRepository;
 import kr.co.tbell.mm.repository.employeehistory.EmployeeHistoryRepository;
 import kr.co.tbell.mm.repository.employee.EmployeeRepository;
@@ -25,7 +28,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.InstanceAlreadyExistsException;
 import javax.naming.directory.InvalidAttributesException;
 import java.time.LocalDate;
 import java.time.Period;
@@ -47,36 +49,40 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
     private final EmployeeService employeeService;
 
     @Override
-    public ResHistory makeHistory(ReqHistory history)
-            throws InstanceAlreadyExistsException, InvalidAttributesException {
+    public ResHistory makeHistory(ReqHistory history) {
         Optional<Employee> optionalEmployee =
                 employeeRepository.getEmployeeByEmployeeNumber(history.getEmployeeNumber());
 
-        if (optionalEmployee.isEmpty())
-            throw new NoSuchElementException("Employee with this employee number '" +
-                    history.getEmployeeNumber() + "' does not exist.");
+        if (optionalEmployee.isEmpty()) {
+            throw new InstanceDoesNotExistException(
+                    "Employee with this employee number '" + history.getEmployeeNumber() + "' does not exist."
+            );
+        }
 
         Employee employee = optionalEmployee.get();
 
         Optional<Project> optionalProject = projectRepository.findByContractNumber(history.getContractNumber());
 
-        if (optionalProject.isEmpty())
-            throw new NoSuchElementException("Project with this contract number '" +
-                    history.getContractNumber() + "' does not exist.");
+        if (optionalProject.isEmpty()) {
+            throw new InstanceDoesNotExistException(
+                    "Project with this contract number '" + history.getContractNumber() + "' does not exist."
+            );
+        }
 
         Project project = optionalProject.get();
 
         if (project.getStartDate().isAfter(history.getStartDate()) ||
                 (history.getEndDate() != null && project.getEndDate().isBefore(history.getEndDate()))) {
-            throw new InvalidAttributesException("Employee input date must be between project start and end date.");
+            throw new InvalidDataException("Employee input date must be between project start and end date.");
         }
 
         Optional<EmployeeHistory> optionalEmployeeHistory =
                 employeeHistoryRepository.findByEmployeeAndProject(employee, project);
 
-        if (optionalEmployeeHistory.isPresent() && optionalEmployeeHistory.get().getEndDate() == null)
-            throw new InstanceAlreadyExistsException("Employee history with employee [" +
+        if (optionalEmployeeHistory.isPresent() && optionalEmployeeHistory.get().getEndDate() == null) {
+            throw new InstanceCreationAlreadyExistsException("Employee history with employee [" +
                     employee.getName() + "] and project [" + project.getTeamName() + "] already exist.");
+        }
 
         Integer worth = null;
         List<Map<Level, Integer>> pUnitPrices = new ArrayList<>();
@@ -91,7 +97,7 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
         }
 
         if (worth == null) {
-            throw new InvalidAttributesException("The 'level' ["+history.getLevel()+"] " +
+            throw new InvalidDataException("The 'level' ["+history.getLevel()+"] " +
                     "received is not in this project ["+project.getTeamName()+"].");
         }
 
@@ -127,17 +133,18 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
     }
 
     @Override
-    public ResHistory completeHistory(Long id, ReqCompleteHistory reqCompleteHistory) throws
-            InvalidAttributesException {
+    public ResHistory completeHistory(Long id, ReqCompleteHistory reqCompleteHistory) {
         Optional<EmployeeHistory> optionalEmployeeHistory = employeeHistoryRepository.findById(id);
 
-        if (optionalEmployeeHistory.isEmpty())
-            throw new NoSuchElementException("Employee history with this id ["+ id +"] does not exist.");
+        if (optionalEmployeeHistory.isEmpty()) {
+            throw new InstanceDoesNotExistException("Employee history with this id ["+ id +"] does not exist.");
+        }
 
         EmployeeHistory employeeHistory = optionalEmployeeHistory.get();
 
-        if (employeeHistory.getStartDate().isAfter(reqCompleteHistory.getEndDate()))
-            throw new InvalidAttributesException("'endDate' must be after than 'startDate'");
+        if (employeeHistory.getStartDate().isAfter(reqCompleteHistory.getEndDate())) {
+            throw new InvalidDataException("'endDate' must be after than 'startDate'");
+        }
 
         employeeHistory.completeHistory(reqCompleteHistory.getEndDate());
 
@@ -195,17 +202,19 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
     }
 
     @Override
-    public Void saveManMonthsByHistoryId(Long historyId, List<ReqHistoryManMonth> mms) {
+    public void saveManMonthsByHistoryId(Long historyId, List<ReqHistoryManMonth> mms) {
         Optional<EmployeeHistory> optionalHistory = employeeHistoryRepository.findById(historyId);
 
-        if (optionalHistory.isEmpty())
-            throw new NoSuchElementException("History with this id: " + historyId + " does not exist.");
+        if (optionalHistory.isEmpty()) {
+            throw new InstanceDoesNotExistException("History with this id: " + historyId + " does not exist.");
+        }
 
         // Payload로 들어오는 MM 데이터에 대한 반복문
         for (ReqHistoryManMonth mm : mms) {
             Optional<EmployeeHistoryManMonth> optionalManMonth = employeeHistoryMMRepository.findById(mm.getId());
-            if (optionalManMonth.isEmpty())
-                throw new NoSuchElementException("ManMonth data with this id: " + mm.getId() + "does not exist.");
+            if (optionalManMonth.isEmpty()) {
+                throw new InstanceDoesNotExistException("ManMonth data with this id: " + mm.getId() + "does not exist.");
+            }
 
             // MM 데이터에 있는 월 급여 데이터를 받아서 데이터베이스에 저장하기 위한 엔티티
             ReqUpdateSalary reqUpdateSalary = ReqUpdateSalary.builder()
@@ -215,13 +224,9 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
                     .build();
 
             // 월 급여 데이터 저장
-            try {
-                employeeService.addMonthSalary(
-                        optionalHistory.get().getEmployee().getEmployeeNumber(),
-                        reqUpdateSalary);
-            } catch (NoSuchElementException e) {
-                throw new NoSuchElementException(e.getMessage());
-            }
+            employeeService.addMonthSalary(
+                    optionalHistory.get().getEmployee().getEmployeeNumber(),
+                    reqUpdateSalary);
 
             // MM 데이터의 업데이트 데이터 반영
             EmployeeHistoryManMonth manMonth = optionalManMonth.get();
@@ -239,7 +244,6 @@ public class EmployeeHistoryServiceImpl implements EmployeeHistoryService {
                     mm.getCalculatePrice(),
                     mm.getPlPrice());
         }
-        return null;
     }
 
     @Override

@@ -8,9 +8,12 @@ import kr.co.tbell.mm.dto.history.ResHistoryStatistics;
 import java.util.List;
 
 public interface EmployeeHistoryMMRepositoryQueryDsl {
-    List<ResHistoryManMonth> getHistoriesMM(Long employeeHistoryId, HistorySearchCond searchCond);
+    List<ResHistoryManMonth> getHistoriesMM(Long employeeHistoryId,
+                                            HistorySearchCond searchCond);
 
     List<ResHistoryStatistics> getHistoryStatistics(String year);
 
-    List<ResContractHistoryStatistics> getContractHistoryStatistics(String contractNumber, String year, boolean total);
+    List<ResContractHistoryStatistics> getContractHistoryStatistics(String contractNumber,
+                                                                    String year,
+                                                                    boolean total);
 }

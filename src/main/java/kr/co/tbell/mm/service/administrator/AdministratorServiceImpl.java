@@ -3,6 +3,7 @@ package kr.co.tbell.mm.service.administrator;
 import kr.co.tbell.mm.dto.administrator.*;
 import kr.co.tbell.mm.entity.administrator.Administrator;
 import kr.co.tbell.mm.entity.administrator.Role;
+import kr.co.tbell.mm.exception.UserAlreadyExistsException;
 import kr.co.tbell.mm.repository.administrator.AdministratorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +25,12 @@ public class AdministratorServiceImpl implements AdministratorService, UserDetai
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public ResCreateAdministrator createAdministrator(ReqCreateAdministrator reqCreateAdministrator)
-            throws InstanceAlreadyExistsException {
+    public ResCreateAdministrator createAdministrator(ReqCreateAdministrator reqCreateAdministrator) {
         Optional<Administrator> adminOptional =
                 administratorRepository.findByUsername(reqCreateAdministrator.getUsername());
 
         if (adminOptional.isPresent()) {
-            throw new InstanceAlreadyExistsException("Admin already exists with username: "
+            throw new UserAlreadyExistsException("Admin already exists with username: "
                     + reqCreateAdministrator.getUsername());
         }
 

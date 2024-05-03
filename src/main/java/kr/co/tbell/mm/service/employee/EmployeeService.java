@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import javax.management.InstanceAlreadyExistsException;
 
 public interface EmployeeService {
-    ResCreateEmployee createEmployee(ReqCreateEmployee createEmployee) throws InstanceAlreadyExistsException;
+    ResCreateEmployee createEmployee(ReqCreateEmployee createEmployee);
 
     Page<ResEmployee> findAllEmployees(Pageable pageable, EmployeeSearchCond employeeSearchCond);
 

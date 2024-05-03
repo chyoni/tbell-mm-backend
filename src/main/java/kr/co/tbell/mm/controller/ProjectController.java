@@ -31,16 +31,11 @@ public class ProjectController {
     public ResponseEntity<Response<ResProject>> createProject(@RequestBody @Valid ReqCreateProject reqCreateProject) {
         log.info("[createProject]: Request payload = {}", reqCreateProject);
 
-        try {
-            ResProject res = projectService.createProject(reqCreateProject);
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(new Response<>(true, null, res));
-        } catch (InstanceAlreadyExistsException | NoSuchElementException e) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new Response<>(false, e.getMessage(), null));
-        }
+        ResProject res = projectService.createProject(reqCreateProject);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new Response<>(true, null, res));
     }
 
     @GetMapping("")
@@ -68,12 +63,6 @@ public class ProjectController {
 
         ResProject project = projectService.findProjectByContractNumber(contractNumber);
 
-        if (project == null)
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(new Response<>(false, "Project with this contract number : '" +
-                            contractNumber + "' does not exist.", null));
-
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new Response<>(true, null, project));
@@ -83,16 +72,11 @@ public class ProjectController {
     public ResponseEntity<Response<ResProject>> deleteProjectByContractNumber(@PathVariable String contractNumber) {
         log.info("[deleteProjectByContractNumber]: Contract Number = {}", contractNumber);
 
-        try {
-            ResProject deleted = projectService.deleteProjectByContractNumber(contractNumber);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(new Response<>(true, null, deleted));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new Response<>(false, e.getMessage(), null));
-        }
+        ResProject deleted = projectService.deleteProjectByContractNumber(contractNumber);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new Response<>(true, null, deleted));
     }
 
     @PutMapping("/{contractNumber}")
@@ -103,20 +87,8 @@ public class ProjectController {
 
         log.info("[editProjectByContractNumber]: Request payload = {}", reqUpdateProject);
 
-        try {
-            ResProject response = projectService.editProjectByContractNumber(contractNumber, reqUpdateProject);
-            if (response == null) {
-                return ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body(new Response<>(false, "Project with this contract number : '" +
-                                contractNumber + "' does not exist.", null));
-            }
+        ResProject response = projectService.editProjectByContractNumber(contractNumber, reqUpdateProject);
 
-            return ResponseEntity.status(HttpStatus.OK).body(new Response<>(true, null, response));
-        } catch (RuntimeException e) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new Response<>(false, e.getMessage(), null));
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(new Response<>(true, null, response));
     }
 }

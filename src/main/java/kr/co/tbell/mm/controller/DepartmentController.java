@@ -6,6 +6,8 @@ import kr.co.tbell.mm.dto.department.DepartmentSearchCond;
 import kr.co.tbell.mm.dto.department.ReqCreateDepartment;
 import kr.co.tbell.mm.dto.department.ResDepartment;
 import kr.co.tbell.mm.entity.Department;
+import kr.co.tbell.mm.exception.InstanceCreationAlreadyExistsException;
+import kr.co.tbell.mm.exception.InstanceDoesNotExistException;
 import kr.co.tbell.mm.repository.department.DepartmentRepository;
 import kr.co.tbell.mm.utils.Constants;
 import lombok.RequiredArgsConstructor;
@@ -49,13 +51,8 @@ public class DepartmentController {
                 departmentRepository.findByName(reqCreateDepartment.getName());
 
         if (optionalDepartment.isPresent()) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new Response<>(
-                            false,
-                            "Department with this name : " + reqCreateDepartment.getName() +
-                                    " already exist",
-                            null));
+            throw new InstanceCreationAlreadyExistsException(
+                    "Department with this name : " + reqCreateDepartment.getName() + " already exist");
         }
 
         Department department = Department
@@ -80,13 +77,12 @@ public class DepartmentController {
 
         Optional<Department> optionalDepartment = departmentRepository.findByName(name);
 
-        if (optionalDepartment.isEmpty()) return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-
-        return ResponseEntity
+        return optionalDepartment.map(department -> ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new Response<>(true,
                         null,
-                        new ResDepartment(optionalDepartment.get())));
+                        new ResDepartment(department))))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body(null));
     }
 
     @DeleteMapping("/{name}")
@@ -95,12 +91,9 @@ public class DepartmentController {
 
         Optional<Department> optionalDepartment = departmentRepository.findByName(name);
 
-        if (optionalDepartment.isEmpty())
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new Response<>(false,
-                            "Department with this name :" + name + " does not exist",
-                            null));
+        if (optionalDepartment.isEmpty()) {
+            throw new InstanceDoesNotExistException("Department with this name :" + name + " does not exist");
+        }
 
         departmentRepository.delete(optionalDepartment.get());
 
@@ -121,10 +114,7 @@ public class DepartmentController {
         Optional<Department> optionalDepartment = departmentRepository.findByName(name);
 
         if (optionalDepartment.isEmpty()) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new Response<>(false, "Department with this name '" +
-                            name + "' does not exist.", null));
+            throw new InstanceDoesNotExistException("Department with this name :" + name + " does not exist");
         }
 
         Department department = optionalDepartment.get();

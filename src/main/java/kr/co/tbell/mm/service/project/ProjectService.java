@@ -11,7 +11,7 @@ import javax.management.InstanceAlreadyExistsException;
 import java.util.List;
 
 public interface ProjectService {
-    ResProject createProject(ReqCreateProject reqCreateProject) throws InstanceAlreadyExistsException;
+    ResProject createProject(ReqCreateProject reqCreateProject);
 
     Page<ResProject> findAllProjects(Pageable pageable, ProjectSearchCond projectSearchCond);
 

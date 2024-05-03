@@ -2,7 +2,7 @@ package kr.co.tbell.mm.advice;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import kr.co.tbell.mm.dto.common.Response;
-import kr.co.tbell.mm.exception.InvalidTokenException;
+import kr.co.tbell.mm.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
@@ -58,6 +57,43 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidTokenException.class)
     public ResponseEntity<Response<?>> handleInvalidTokenException(InvalidTokenException ex) {
         log.error("[handleInvalidTokenException]: Error: {}", ex.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new Response<>(false, ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<Response<?>> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+        log.error("[handleUserAlreadyExistsException]: Error: {}", ex.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new Response<>(false, ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(InstanceCreationAlreadyExistsException.class)
+    public ResponseEntity<Response<?>> handleInstanceCreationAlreadyExistsException(
+            InstanceCreationAlreadyExistsException ex) {
+        log.error("[handleInstanceCreationAlreadyExistsException]: Error: {}", ex.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new Response<>(false, ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(InstanceDoesNotExistException.class)
+    public ResponseEntity<Response<?>> handleInstanceDeleteNotFoundException(InstanceDoesNotExistException ex) {
+        log.error("[handleInstanceDeleteNotFoundException]: Error: {}", ex.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new Response<>(false, ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(InvalidDataException.class)
+    public ResponseEntity<Response<?>> handleInvalidDataException(InvalidDataException ex) {
+        log.error("[handleInvalidDataException]: Error: {}", ex.getMessage());
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

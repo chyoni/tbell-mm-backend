@@ -8,6 +8,8 @@ import kr.co.tbell.mm.entity.Department;
 import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.Project;
 import kr.co.tbell.mm.entity.project.UnitPrice;
+import kr.co.tbell.mm.exception.InstanceCreationAlreadyExistsException;
+import kr.co.tbell.mm.exception.InstanceDoesNotExistException;
 import kr.co.tbell.mm.repository.department.DepartmentRepository;
 import kr.co.tbell.mm.repository.project.ProjectRepository;
 import kr.co.tbell.mm.repository.unitprice.UnitPriceRepository;
@@ -18,9 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.InstanceAlreadyExistsException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -33,22 +33,25 @@ public class ProjectServiceImpl implements ProjectService {
     private final UnitPriceRepository unitPriceRepository;
 
     @Override
-    public ResProject createProject(ReqCreateProject reqCreateProject) throws
-            InstanceAlreadyExistsException, NoSuchElementException {
+    public ResProject createProject(ReqCreateProject reqCreateProject) {
 
         Optional<Project> optionalProject =
                 projectRepository.findByContractNumber(reqCreateProject.getContractNumber());
 
-        if (optionalProject.isPresent())
-            throw new InstanceAlreadyExistsException("Project with this contract number : '" +
-                    reqCreateProject.getContractNumber() + "' already exist.");
+        if (optionalProject.isPresent()) {
+            throw new InstanceCreationAlreadyExistsException(
+                    "Project with this contract number : '" + reqCreateProject.getContractNumber() + "' already exist."
+            );
+        }
 
         Optional<Department> optionalDepartment =
                 departmentRepository.findByName(reqCreateProject.getDepartmentName());
 
-        if (optionalDepartment.isEmpty())
-            throw new NoSuchElementException("Department with this name : '" +
-                    reqCreateProject.getDepartmentName() + "' does not exist.");
+        if (optionalDepartment.isEmpty()) {
+            throw new InstanceDoesNotExistException(
+                    "Department with this name : '" + reqCreateProject.getDepartmentName() + "' does not exist."
+            );
+        }
 
         Project p = Project
                 .builder()
@@ -94,7 +97,11 @@ public class ProjectServiceImpl implements ProjectService {
     public ResProject findProjectByContractNumber(String contractNumber) {
         Optional<Project> optionalProject = projectRepository.findByContractNumber(contractNumber);
 
-        if (optionalProject.isEmpty()) return null;
+        if (optionalProject.isEmpty()) {
+            throw new InstanceDoesNotExistException(
+                    "Project with this contract number : '" + contractNumber + "' does not exist."
+            );
+        }
 
         Project project = optionalProject.get();
 
@@ -105,9 +112,11 @@ public class ProjectServiceImpl implements ProjectService {
     public ResProject deleteProjectByContractNumber(String contractNumber) {
         Optional<Project> optionalProject = projectRepository.findByContractNumber(contractNumber);
 
-        if (optionalProject.isEmpty())
-            throw new NoSuchElementException("Project with this contract number '" +
-                    contractNumber + "' does not exist.");
+        if (optionalProject.isEmpty()) {
+            throw new InstanceDoesNotExistException(
+                    "Project with this contract number '" + contractNumber + "' does not exist."
+            );
+        }
 
         Project project = optionalProject.get();
 
@@ -124,7 +133,11 @@ public class ProjectServiceImpl implements ProjectService {
     public ResProject editProjectByContractNumber(String contractNumber, ReqUpdateProject reqUpdateProject) {
         Optional<Project> optionalProject = projectRepository.findByContractNumber(contractNumber);
 
-        if (optionalProject.isEmpty()) return null;
+        if (optionalProject.isEmpty()) {
+            throw new InstanceDoesNotExistException(
+                    "Project with this contract number : '" + contractNumber + "' does not exist."
+            );
+        }
 
         Project project = optionalProject.get();
 
@@ -142,7 +155,7 @@ public class ProjectServiceImpl implements ProjectService {
                     departmentRepository.findByName(reqUpdateProject.getDepartmentName());
 
             if (optionalDepartment.isEmpty())
-                throw new RuntimeException("The department '" + reqUpdateProject.getDepartmentName() +
+                throw new InstanceDoesNotExistException("The department '" + reqUpdateProject.getDepartmentName() +
                         "' you want to modify does not exist.");
 
             project.changeDepartment(optionalDepartment.get());
@@ -160,18 +173,18 @@ public class ProjectServiceImpl implements ProjectService {
     private void makeUnitPrices(List<Map<Level, Integer>> unitPrices, Project project) {
         if (unitPrices == null) return;
 
-        for (Map<Level, Integer> unitPrice : unitPrices) {
-            for (Map.Entry<Level, Integer> lw : unitPrice.entrySet()) {
-                UnitPrice up = UnitPrice
-                        .builder()
-                        .level(lw.getKey())
-                        .worth(lw.getValue())
-                        .project(project)
-                        .build();
+        unitPrices.forEach(unitPrice ->
+                unitPrice.forEach((key, value) -> {
+                        UnitPrice newUnitPrice = UnitPrice
+                                .builder()
+                                .level(key)
+                                .worth(value)
+                                .project(project).build();
 
-                unitPriceRepository.save(up);
-            }
-        }
+                        unitPriceRepository.save(newUnitPrice);
+                    }
+                )
+        );
     }
 
     private List<Map<Level, Integer>> getResProjectUnitPrices(Project project) {
@@ -179,9 +192,10 @@ public class ProjectServiceImpl implements ProjectService {
 
         List<UnitPrice> unitPrices = unitPriceRepository.findAllByProject(project);
 
-        for (UnitPrice unitPrice : unitPrices) {
-            dtoUnitPrices.add(Map.of(unitPrice.getLevel(), unitPrice.getWorth()));
-        }
+        unitPrices.forEach(unitPrice ->
+                dtoUnitPrices.add(Map.of(unitPrice.getLevel(), unitPrice.getWorth()))
+        );
+
         return dtoUnitPrices;
     }
 }

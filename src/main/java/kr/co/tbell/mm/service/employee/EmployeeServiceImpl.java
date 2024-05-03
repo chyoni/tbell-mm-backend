@@ -6,6 +6,8 @@ import kr.co.tbell.mm.dto.salary.ReqUpdateSalary;
 import kr.co.tbell.mm.entity.Employee;
 import kr.co.tbell.mm.entity.EmployeeHistory;
 import kr.co.tbell.mm.entity.salary.Salary;
+import kr.co.tbell.mm.exception.InstanceCreationAlreadyExistsException;
+import kr.co.tbell.mm.exception.InstanceDoesNotExistException;
 import kr.co.tbell.mm.repository.employeehistory.EmployeeHistoryRepository;
 import kr.co.tbell.mm.repository.employee.EmployeeRepository;
 import kr.co.tbell.mm.repository.salary.SalaryRepository;
@@ -16,8 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.InstanceAlreadyExistsException;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Slf4j
@@ -31,14 +31,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final SalaryRepository salaryRepository;
 
     @Override
-    public ResCreateEmployee createEmployee(ReqCreateEmployee createEmployee) throws InstanceAlreadyExistsException {
+    public ResCreateEmployee createEmployee(ReqCreateEmployee createEmployee) {
 
         Optional<Employee> existEmployee =
                 employeeRepository.getEmployeeByEmployeeNumber(createEmployee.getEmployeeNumber());
 
         if (existEmployee.isPresent()) {
-            throw new InstanceAlreadyExistsException("Employee already exist with this employeeNumber : "
-                    + createEmployee.getEmployeeNumber());
+            throw new InstanceCreationAlreadyExistsException(
+                    "Employee already exist with this employeeNumber : " + createEmployee.getEmployeeNumber()
+            );
         }
 
         Employee employee = Employee.createEmployee(
@@ -78,7 +79,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         Optional<Employee> optionalEmployee =
                 employeeRepository.getEmployeeByEmployeeNumber(employeeNumber);
 
-        if (optionalEmployee.isEmpty()) return null;
+        if (optionalEmployee.isEmpty()) {
+            throw new InstanceDoesNotExistException(
+                    "Employee does not exist with this employeeNumber : " + employeeNumber
+            );
+        }
 
         Employee employee = optionalEmployee.get();
         ResEmployee resEmployee = new ResEmployee(employee);
@@ -96,7 +101,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         Optional<Employee> optionalEmployee =
                 employeeRepository.getEmployeeByEmployeeNumber(employeeNumber);
 
-        if (optionalEmployee.isEmpty()) return null;
+        if (optionalEmployee.isEmpty()) {
+            throw new InstanceDoesNotExistException(
+                    "Employee does not exist with this employeeNumber : " + employeeNumber
+            );
+        }
 
         Employee employee = optionalEmployee.get();
 
@@ -114,9 +123,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeSalary addMonthSalary(String employeeNumber, ReqUpdateSalary reqUpdateSalary) {
         Optional<Employee> optionalEmployee = employeeRepository.getEmployeeByEmployeeNumber(employeeNumber);
 
-        if (optionalEmployee.isEmpty())
-            throw new NoSuchElementException("Employee with this employee number '"
-                    + employeeNumber + "' does not exist.");
+        if (optionalEmployee.isEmpty()) {
+            throw new InstanceDoesNotExistException(
+                    "Employee with this employee number '" + employeeNumber + "' does not exist."
+            );
+        }
 
         Employee employee = optionalEmployee.get();
 

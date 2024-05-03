@@ -9,9 +9,9 @@ import javax.naming.directory.InvalidAttributesException;
 import java.util.List;
 
 public interface EmployeeHistoryService {
-    ResHistory makeHistory(ReqHistory history) throws InstanceAlreadyExistsException, InvalidAttributesException;
+    ResHistory makeHistory(ReqHistory history);
 
-    ResHistory completeHistory(Long id, ReqCompleteHistory reqCompleteHistory) throws InvalidAttributesException;
+    ResHistory completeHistory(Long id, ReqCompleteHistory reqCompleteHistory);
 
     Page<ResHistory> getHistories(Pageable pageable, HistorySearchCond searchCond);
 
@@ -19,7 +19,7 @@ public interface EmployeeHistoryService {
 
     Page<ResHistory> getHistoriesByEmployee(Pageable pageable, String employeeNumber);
 
-    Void saveManMonthsByHistoryId(Long historyId, List<ReqHistoryManMonth> mms);
+    void saveManMonthsByHistoryId(Long historyId, List<ReqHistoryManMonth> mms);
 
     List<ResHistoryStatistics> getHistoryStatistics(String year);
 

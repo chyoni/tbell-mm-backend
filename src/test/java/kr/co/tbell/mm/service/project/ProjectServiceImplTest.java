@@ -6,6 +6,8 @@ import kr.co.tbell.mm.dto.project.ReqUpdateProject;
 import kr.co.tbell.mm.dto.project.ResProject;
 import kr.co.tbell.mm.entity.Department;
 import kr.co.tbell.mm.entity.project.*;
+import kr.co.tbell.mm.exception.InstanceCreationAlreadyExistsException;
+import kr.co.tbell.mm.exception.InstanceDoesNotExistException;
 import kr.co.tbell.mm.repository.department.DepartmentRepository;
 import kr.co.tbell.mm.repository.project.ProjectRepository;
 import kr.co.tbell.mm.repository.unitprice.UnitPriceRepository;
@@ -85,7 +87,7 @@ class ProjectServiceImplTest {
 
         // Department가 없는 경우
         assertThatThrownBy(() -> projectService.createProject(reqCreateProject))
-                .isInstanceOf(NoSuchElementException.class);
+                .isInstanceOf(InstanceDoesNotExistException.class);
 
         departmentRepository.save(Department.builder().name("STE 1실").build());
 
@@ -99,11 +101,11 @@ class ProjectServiceImplTest {
 
         // 같은 프로젝트 번호가 존재하는 경우
         assertThatThrownBy(() -> projectService.createProject(reqCreateProject))
-                .isInstanceOf(InstanceAlreadyExistsException.class);
+                .isInstanceOf(InstanceCreationAlreadyExistsException.class);
     }
 
     @Test
-    void findAllProjects() throws InstanceAlreadyExistsException {
+    void findAllProjects() {
 
         departmentRepository.save(Department.builder().name("STE 1실").build());
 
@@ -132,7 +134,7 @@ class ProjectServiceImplTest {
     }
 
     @Test
-    void findProjectByContractNumber() throws InstanceAlreadyExistsException {
+    void findProjectByContractNumber() {
         departmentRepository.save(Department.builder().name("STE 1실").build());
 
         ReqCreateProject reqCreateProject = ReqCreateProject
@@ -155,7 +157,7 @@ class ProjectServiceImplTest {
     }
 
     @Test
-    void deleteProjectByContractNumber() throws InstanceAlreadyExistsException {
+    void deleteProjectByContractNumber() {
         departmentRepository.save(Department.builder().name("STE 1실").build());
 
         ReqCreateProject reqCreateProject = ReqCreateProject
@@ -184,7 +186,7 @@ class ProjectServiceImplTest {
     }
 
     @Test
-    void editProjectByContractNumber() throws InstanceAlreadyExistsException {
+    void editProjectByContractNumber() {
         departmentRepository.save(Department.builder().name("STE 1실").build());
 
         List<Map<Level, Integer>> unitPrices = new ArrayList<>();

@@ -14,9 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.management.InstanceAlreadyExistsException;
-import java.util.NoSuchElementException;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/employees")
@@ -35,7 +32,6 @@ public class EmployeeController {
     public ResponseEntity<Response<Page<ResEmployee>>> getEmployees(EmployeeSearchCond employeeSearchCond,
                                                                     Pageable pageable) {
 
-
         Page<ResEmployee> employees = employeeService.findAllEmployees(pageable, employeeSearchCond);
 
         return ResponseEntity
@@ -48,14 +44,7 @@ public class EmployeeController {
                                                                       ReqCreateEmployee reqCreateEmployee) {
         log.info("[createEmployee]: Employee payload = {}", reqCreateEmployee);
 
-        ResCreateEmployee newEmployee;
-        try {
-            newEmployee = employeeService.createEmployee(reqCreateEmployee);
-        } catch (InstanceAlreadyExistsException e) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new Response<>(false, e.getMessage(), null));
-        }
+        ResCreateEmployee newEmployee = employeeService.createEmployee(reqCreateEmployee);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -85,14 +74,6 @@ public class EmployeeController {
 
         ResEmployee deleted = employeeService.deleteEmployee(employeeNumber);
 
-        if (deleted == null) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new Response<>(false,
-                            "Employee does not exist with this employee number: " + employeeNumber,
-                            null));
-        }
-
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new Response<>(true, null, deleted));
@@ -103,17 +84,9 @@ public class EmployeeController {
             @PathVariable String employeeNumber,
             @RequestBody @Valid ReqUpdateEmployee reqUpdateEmployee) {
         log.info("[editEmployeeByEmployeeNumber]: Employee number = {}", employeeNumber);
-
         log.info("[editEmployeeByEmployeeNumber]: Request payload = {}", reqUpdateEmployee);
 
         ResEmployee updated = employeeService.editEmployee(employeeNumber, reqUpdateEmployee);
-
-        if (updated == null) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new Response<>(false, "Employee with this employee number : '" +
-                            employeeNumber + "' does not exist.", null));
-        }
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -127,16 +100,10 @@ public class EmployeeController {
         log.info("[addMonthSalary]: EmployeeNumber: {}", employeeNumber);
         log.info("[addMonthSalary]: Request Payload: {}", reqUpdateSalary);
 
-        try {
-            EmployeeSalary employeeSalary = employeeService.addMonthSalary(employeeNumber, reqUpdateSalary);
+        EmployeeSalary employeeSalary = employeeService.addMonthSalary(employeeNumber, reqUpdateSalary);
 
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(new Response<>(true, null, employeeSalary));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new Response<>(false, e.getMessage(), null));
-        }
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new Response<>(true, null, employeeSalary));
     }
 }
