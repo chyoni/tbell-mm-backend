@@ -1,6 +1,8 @@
 package kr.co.tbell.mm.advice;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import kr.co.tbell.mm.dto.common.Response;
+import kr.co.tbell.mm.exception.InvalidTokenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,13 +22,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Response<Void>> handleValidationErrors(MethodArgumentNotValidException ex) {
-        
+
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
 
         List<String> errorMessages = fieldErrors
                 .stream()
                 .map(FieldError::getDefaultMessage)
-                .collect(Collectors.toList());
+                .toList();
 
         return new ResponseEntity<>(
                 new Response<>(false, errorMessages.toString(), null),
@@ -41,5 +43,24 @@ public class GlobalExceptionHandler {
                 new Response<>(false, ex.getMessage(), null),
                 new HttpHeaders(),
                 HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<Response<?>> handleExpiredJwtException(ExpiredJwtException ex) {
+
+        log.error("[handleExpiredJwtException]: Error: {}", ex.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new Response<>(false, ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<Response<?>> handleInvalidTokenException(InvalidTokenException ex) {
+        log.error("[handleInvalidTokenException]: Error: {}", ex.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new Response<>(false, ex.getMessage(), null));
     }
 }
