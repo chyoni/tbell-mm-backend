@@ -1,13 +1,13 @@
-package kr.co.tbell.mm.entity;
+package kr.co.tbell.mm.entity.employeehistory;
 
 import jakarta.persistence.*;
+import kr.co.tbell.mm.entity.BaseEntity;
+import kr.co.tbell.mm.entity.employee.Employee;
 import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.Project;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

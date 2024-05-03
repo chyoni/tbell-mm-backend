@@ -1,10 +1,9 @@
 package kr.co.tbell.mm.config;
 
-import jakarta.servlet.http.HttpServletRequest;
-import kr.co.tbell.mm.entity.administrator.Role;
 import kr.co.tbell.mm.jwt.JwtFilter;
 import kr.co.tbell.mm.jwt.JwtManager;
 import kr.co.tbell.mm.jwt.LoginFilter;
+import kr.co.tbell.mm.repository.refreshtoken.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,10 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-
-import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +24,7 @@ public class WebSecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtManager jwtManager;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -82,7 +78,11 @@ public class WebSecurityConfig {
         // addFilterAt은 정확히 그 필터(UsernamePasswordAuthenticationFilter)를 내가 만든 LoginFilter로 대체하겠다는 메서드.
         // addFilterBefore, addFilterAfter 이 것들은 말 그대로 그 전 또는 그 후에 붙이겠다는 의미
         http.addFilterAt(
-                new LoginFilter(authenticationManager(authenticationConfiguration), jwtManager),
+                new LoginFilter(
+                        authenticationManager(authenticationConfiguration),
+                        jwtManager,
+                        refreshTokenRepository
+                ),
                 UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

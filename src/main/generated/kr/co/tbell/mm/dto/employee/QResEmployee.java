@@ -13,8 +13,8 @@ public class QResEmployee extends ConstructorExpression<ResEmployee> {
 
     private static final long serialVersionUID = 970638969L;
 
-    public QResEmployee(com.querydsl.core.types.Expression<? extends kr.co.tbell.mm.entity.Employee> employee) {
-        super(ResEmployee.class, new Class<?>[]{kr.co.tbell.mm.entity.Employee.class}, employee);
+    public QResEmployee(com.querydsl.core.types.Expression<? extends kr.co.tbell.mm.entity.employee.Employee> employee) {
+        super(ResEmployee.class, new Class<?>[]{kr.co.tbell.mm.entity.employee.Employee.class}, employee);
     }
 
 }

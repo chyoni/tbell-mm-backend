@@ -2,7 +2,7 @@ package kr.co.tbell.mm.entity.project;
 
 import jakarta.persistence.*;
 import kr.co.tbell.mm.entity.BaseEntity;
-import kr.co.tbell.mm.entity.Department;
+import kr.co.tbell.mm.entity.department.Department;
 import lombok.*;
 
 import java.time.LocalDate;

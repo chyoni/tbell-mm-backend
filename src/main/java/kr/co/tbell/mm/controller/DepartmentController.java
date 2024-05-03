@@ -5,7 +5,7 @@ import kr.co.tbell.mm.dto.common.Response;
 import kr.co.tbell.mm.dto.department.DepartmentSearchCond;
 import kr.co.tbell.mm.dto.department.ReqCreateDepartment;
 import kr.co.tbell.mm.dto.department.ResDepartment;
-import kr.co.tbell.mm.entity.Department;
+import kr.co.tbell.mm.entity.department.Department;
 import kr.co.tbell.mm.exception.InstanceCreationAlreadyExistsException;
 import kr.co.tbell.mm.exception.InstanceDoesNotExistException;
 import kr.co.tbell.mm.repository.department.DepartmentRepository;
@@ -37,9 +37,7 @@ public class DepartmentController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new Response<>(true,
-                        null,
-                        departments));
+                .body(new Response<>(true, null, departments));
     }
 
     @PostMapping("")
@@ -77,11 +75,10 @@ public class DepartmentController {
 
         Optional<Department> optionalDepartment = departmentRepository.findByName(name);
 
-        return optionalDepartment.map(department -> ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new Response<>(true,
-                        null,
-                        new ResDepartment(department))))
+        return optionalDepartment.map(department ->
+                        ResponseEntity
+                                .status(HttpStatus.OK)
+                                .body(new Response<>(true, null, new ResDepartment(department))))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body(null));
     }
 
@@ -99,9 +96,7 @@ public class DepartmentController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new Response<>(true,
-                        null,
-                        new ResDepartment(optionalDepartment.get())));
+                .body(new Response<>(true, null, new ResDepartment(optionalDepartment.get())));
     }
 
     @Transactional

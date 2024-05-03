@@ -1,9 +1,10 @@
 package kr.co.tbell.mm.jwt;
 
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kr.co.tbell.mm.entity.refreshtoken.RefreshToken;
+import kr.co.tbell.mm.repository.refreshtoken.RefreshTokenRepository;
 import kr.co.tbell.mm.utils.Constants;
 import kr.co.tbell.mm.utils.Utils;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 
@@ -23,6 +25,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     
     private final AuthenticationManager authenticationManager;
     private final JwtManager jwtManager;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
@@ -39,11 +42,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     @Override
+    @Transactional
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authentication) {
         log.info("[successfulAuthentication]: Authentication Success");
+
         String username = authentication.getName();
         String role = authentication
                         .getAuthorities()
@@ -56,9 +61,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String refreshToken = 
                 jwtManager.createJwt(Constants.HEADER_KEY_REFRESH_TOKEN, username, role, Constants.REFRESH_EXPIRED_MS);
 
+        refreshTokenRepository.save(
+                RefreshToken.valueOf(username, refreshToken, Constants.REFRESH_EXPIRED_MS)
+        );
+
+        response.setStatus(HttpStatus.OK.value());
         response.setHeader(Constants.HEADER_KEY_ACCESS_TOKEN, accessToken);
         response.addCookie(Utils.createCookie(Constants.HEADER_KEY_REFRESH_TOKEN, refreshToken));
-        response.setStatus(HttpStatus.OK.value());
     }
 
     @Override
@@ -72,6 +81,4 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getWriter().write(errorMessage);
     }
-
-
 }

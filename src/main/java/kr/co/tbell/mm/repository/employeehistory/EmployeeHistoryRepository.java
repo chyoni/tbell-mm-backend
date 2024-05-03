@@ -1,7 +1,7 @@
 package kr.co.tbell.mm.repository.employeehistory;
 
-import kr.co.tbell.mm.entity.Employee;
-import kr.co.tbell.mm.entity.EmployeeHistory;
+import kr.co.tbell.mm.entity.employee.Employee;
+import kr.co.tbell.mm.entity.employeehistory.EmployeeHistory;
 import kr.co.tbell.mm.entity.project.Project;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

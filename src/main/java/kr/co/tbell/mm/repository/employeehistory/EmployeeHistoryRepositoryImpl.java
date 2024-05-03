@@ -1,7 +1,6 @@
 package kr.co.tbell.mm.repository.employeehistory;
 
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -19,9 +18,9 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.util.List;
 
-import static kr.co.tbell.mm.entity.QDepartment.department;
-import static kr.co.tbell.mm.entity.QEmployee.employee;
-import static kr.co.tbell.mm.entity.QEmployeeHistory.employeeHistory;
+import static kr.co.tbell.mm.entity.department.QDepartment.department;
+import static kr.co.tbell.mm.entity.employee.QEmployee.employee;
+import static kr.co.tbell.mm.entity.employeehistory.QEmployeeHistory.employeeHistory;
 import static kr.co.tbell.mm.entity.project.QProject.project;
 
 @Slf4j

@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.util.List;
 
-import static kr.co.tbell.mm.entity.QEmployee.employee;
+import static kr.co.tbell.mm.entity.employee.QEmployee.employee;
 
 @Slf4j
 @RequiredArgsConstructor

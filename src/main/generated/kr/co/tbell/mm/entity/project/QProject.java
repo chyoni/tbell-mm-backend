@@ -31,7 +31,7 @@ public class QProject extends EntityPathBase<Project> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
-    public final kr.co.tbell.mm.entity.QDepartment department;
+    public final kr.co.tbell.mm.entity.department.QDepartment department;
 
     public final DatePath<java.time.LocalDate> endDate = createDate("endDate", java.time.LocalDate.class);
 
@@ -66,7 +66,7 @@ public class QProject extends EntityPathBase<Project> {
 
     public QProject(Class<? extends Project> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.department = inits.isInitialized("department") ? new kr.co.tbell.mm.entity.QDepartment(forProperty("department")) : null;
+        this.department = inits.isInitialized("department") ? new kr.co.tbell.mm.entity.department.QDepartment(forProperty("department")) : null;
     }
 
 }

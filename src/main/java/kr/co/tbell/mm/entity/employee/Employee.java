@@ -1,6 +1,7 @@
-package kr.co.tbell.mm.entity;
+package kr.co.tbell.mm.entity.employee;
 
 import jakarta.persistence.*;
+import kr.co.tbell.mm.entity.BaseEntity;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Builder
-public class Employee extends BaseEntity{
+public class Employee extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

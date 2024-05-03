@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.util.List;
 
-import static kr.co.tbell.mm.entity.QDepartment.*;
+import static kr.co.tbell.mm.entity.department.QDepartment.*;
 import static kr.co.tbell.mm.entity.project.QProject.project;
 
 @Slf4j

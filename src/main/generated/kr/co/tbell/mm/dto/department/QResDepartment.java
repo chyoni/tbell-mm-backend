@@ -13,8 +13,8 @@ public class QResDepartment extends ConstructorExpression<ResDepartment> {
 
     private static final long serialVersionUID = -1454011583L;
 
-    public QResDepartment(com.querydsl.core.types.Expression<? extends kr.co.tbell.mm.entity.Department> department) {
-        super(ResDepartment.class, new Class<?>[]{kr.co.tbell.mm.entity.Department.class}, department);
+    public QResDepartment(com.querydsl.core.types.Expression<? extends kr.co.tbell.mm.entity.department.Department> department) {
+        super(ResDepartment.class, new Class<?>[]{kr.co.tbell.mm.entity.department.Department.class}, department);
     }
 
 }

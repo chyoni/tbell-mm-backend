@@ -1,8 +1,7 @@
 package kr.co.tbell.mm.dto.history;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.querydsl.core.annotations.QueryProjection;
-import kr.co.tbell.mm.entity.EmployeeHistoryManMonth;
+import kr.co.tbell.mm.entity.employeehistory.EmployeeHistoryManMonth;
 import kr.co.tbell.mm.entity.project.Level;
 import lombok.*;
 

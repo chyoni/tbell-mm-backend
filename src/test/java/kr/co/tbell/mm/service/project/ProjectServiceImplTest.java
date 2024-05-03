@@ -4,7 +4,7 @@ import kr.co.tbell.mm.dto.project.ProjectSearchCond;
 import kr.co.tbell.mm.dto.project.ReqCreateProject;
 import kr.co.tbell.mm.dto.project.ReqUpdateProject;
 import kr.co.tbell.mm.dto.project.ResProject;
-import kr.co.tbell.mm.entity.Department;
+import kr.co.tbell.mm.entity.department.Department;
 import kr.co.tbell.mm.entity.project.*;
 import kr.co.tbell.mm.exception.InstanceCreationAlreadyExistsException;
 import kr.co.tbell.mm.exception.InstanceDoesNotExistException;

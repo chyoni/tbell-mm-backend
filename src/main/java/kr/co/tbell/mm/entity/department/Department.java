@@ -1,6 +1,7 @@
-package kr.co.tbell.mm.entity;
+package kr.co.tbell.mm.entity.department;
 
 import jakarta.persistence.*;
+import kr.co.tbell.mm.entity.BaseEntity;
 import lombok.*;
 
 @Entity

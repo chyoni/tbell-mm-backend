@@ -1,7 +1,7 @@
 package kr.co.tbell.mm.repository.employeehistory;
 
-import kr.co.tbell.mm.entity.EmployeeHistory;
-import kr.co.tbell.mm.entity.EmployeeHistoryManMonth;
+import kr.co.tbell.mm.entity.employeehistory.EmployeeHistory;
+import kr.co.tbell.mm.entity.employeehistory.EmployeeHistoryManMonth;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,7 @@
 package kr.co.tbell.mm.dto.department;
 
 import com.querydsl.core.annotations.QueryProjection;
-import kr.co.tbell.mm.entity.Department;
+import kr.co.tbell.mm.entity.department.Department;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -13,8 +13,8 @@ public class QResHistory extends ConstructorExpression<ResHistory> {
 
     private static final long serialVersionUID = 1599820473L;
 
-    public QResHistory(com.querydsl.core.types.Expression<? extends kr.co.tbell.mm.entity.project.Project> project, com.querydsl.core.types.Expression<? extends kr.co.tbell.mm.entity.Employee> employee, com.querydsl.core.types.Expression<? extends kr.co.tbell.mm.entity.EmployeeHistory> employeeHistory) {
-        super(ResHistory.class, new Class<?>[]{kr.co.tbell.mm.entity.project.Project.class, kr.co.tbell.mm.entity.Employee.class, kr.co.tbell.mm.entity.EmployeeHistory.class}, project, employee, employeeHistory);
+    public QResHistory(com.querydsl.core.types.Expression<? extends kr.co.tbell.mm.entity.project.Project> project, com.querydsl.core.types.Expression<? extends kr.co.tbell.mm.entity.employee.Employee> employee, com.querydsl.core.types.Expression<? extends kr.co.tbell.mm.entity.employeehistory.EmployeeHistory> employeeHistory) {
+        super(ResHistory.class, new Class<?>[]{kr.co.tbell.mm.entity.project.Project.class, kr.co.tbell.mm.entity.employee.Employee.class, kr.co.tbell.mm.entity.employeehistory.EmployeeHistory.class}, project, employee, employeeHistory);
     }
 
 }

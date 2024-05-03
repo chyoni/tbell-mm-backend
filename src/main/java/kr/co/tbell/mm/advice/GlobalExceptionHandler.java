@@ -21,6 +21,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Response<Void>> handleValidationErrors(MethodArgumentNotValidException ex) {
+        log.error("[handleValidationErrors]: Error: ", ex);
 
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
 
@@ -37,6 +38,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Response<Void>> handleJsonParseErrors(HttpMessageNotReadableException ex) {
+        log.error("[handleJsonParseErrors]: Error: ", ex);
 
         return new ResponseEntity<>(
                 new Response<>(false, ex.getMessage(), null),
@@ -47,7 +49,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<Response<?>> handleExpiredJwtException(ExpiredJwtException ex) {
 
-        log.error("[handleExpiredJwtException]: Error: {}", ex.getMessage());
+        log.error("[handleExpiredJwtException]: Error: ", ex);
 
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
@@ -56,7 +58,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidTokenException.class)
     public ResponseEntity<Response<?>> handleInvalidTokenException(InvalidTokenException ex) {
-        log.error("[handleInvalidTokenException]: Error: {}", ex.getMessage());
+        log.error("[handleInvalidTokenException]: Error: ", ex);
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -65,7 +67,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<Response<?>> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
-        log.error("[handleUserAlreadyExistsException]: Error: {}", ex.getMessage());
+        log.error("[handleUserAlreadyExistsException]: Error: ", ex);
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -75,7 +77,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InstanceCreationAlreadyExistsException.class)
     public ResponseEntity<Response<?>> handleInstanceCreationAlreadyExistsException(
             InstanceCreationAlreadyExistsException ex) {
-        log.error("[handleInstanceCreationAlreadyExistsException]: Error: {}", ex.getMessage());
+        log.error("[handleInstanceCreationAlreadyExistsException]: Error: ", ex);
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -84,7 +86,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InstanceDoesNotExistException.class)
     public ResponseEntity<Response<?>> handleInstanceDeleteNotFoundException(InstanceDoesNotExistException ex) {
-        log.error("[handleInstanceDeleteNotFoundException]: Error: {}", ex.getMessage());
+        log.error("[handleInstanceDeleteNotFoundException]: Error: ", ex);
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -93,7 +95,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidDataException.class)
     public ResponseEntity<Response<?>> handleInvalidDataException(InvalidDataException ex) {
-        log.error("[handleInvalidDataException]: Error: {}", ex.getMessage());
+        log.error("[handleInvalidDataException]: Error: ", ex);
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

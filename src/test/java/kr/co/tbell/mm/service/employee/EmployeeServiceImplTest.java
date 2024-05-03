@@ -4,7 +4,7 @@ import kr.co.tbell.mm.dto.employee.ReqCreateEmployee;
 import kr.co.tbell.mm.dto.employee.ReqUpdateEmployee;
 import kr.co.tbell.mm.dto.employee.ResCreateEmployee;
 import kr.co.tbell.mm.dto.employee.ResEmployee;
-import kr.co.tbell.mm.entity.Employee;
+import kr.co.tbell.mm.entity.employee.Employee;
 import kr.co.tbell.mm.repository.employee.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

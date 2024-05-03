@@ -1,6 +1,6 @@
 package kr.co.tbell.mm.repository.salary;
 
-import kr.co.tbell.mm.entity.Employee;
+import kr.co.tbell.mm.entity.employee.Employee;
 import kr.co.tbell.mm.entity.salary.Month;
 import kr.co.tbell.mm.entity.salary.Salary;
 import org.springframework.data.jpa.repository.JpaRepository;

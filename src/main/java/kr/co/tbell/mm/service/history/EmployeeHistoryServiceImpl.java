@@ -2,9 +2,9 @@ package kr.co.tbell.mm.service.history;
 
 import kr.co.tbell.mm.dto.history.*;
 import kr.co.tbell.mm.dto.salary.ReqUpdateSalary;
-import kr.co.tbell.mm.entity.Employee;
-import kr.co.tbell.mm.entity.EmployeeHistory;
-import kr.co.tbell.mm.entity.EmployeeHistoryManMonth;
+import kr.co.tbell.mm.entity.employee.Employee;
+import kr.co.tbell.mm.entity.employeehistory.EmployeeHistory;
+import kr.co.tbell.mm.entity.employeehistory.EmployeeHistoryManMonth;
 import kr.co.tbell.mm.entity.project.Level;
 import kr.co.tbell.mm.entity.project.Project;
 import kr.co.tbell.mm.entity.project.UnitPrice;

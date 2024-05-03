@@ -13,8 +13,8 @@ public class QResHistoryManMonth extends ConstructorExpression<ResHistoryManMont
 
     private static final long serialVersionUID = -277167329L;
 
-    public QResHistoryManMonth(com.querydsl.core.types.Expression<? extends kr.co.tbell.mm.entity.EmployeeHistoryManMonth> mm) {
-        super(ResHistoryManMonth.class, new Class<?>[]{kr.co.tbell.mm.entity.EmployeeHistoryManMonth.class}, mm);
+    public QResHistoryManMonth(com.querydsl.core.types.Expression<? extends kr.co.tbell.mm.entity.employeehistory.EmployeeHistoryManMonth> mm) {
+        super(ResHistoryManMonth.class, new Class<?>[]{kr.co.tbell.mm.entity.employeehistory.EmployeeHistoryManMonth.class}, mm);
     }
 
 }

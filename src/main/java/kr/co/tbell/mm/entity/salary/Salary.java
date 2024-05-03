@@ -2,7 +2,7 @@ package kr.co.tbell.mm.entity.salary;
 
 import jakarta.persistence.*;
 import kr.co.tbell.mm.entity.BaseEntity;
-import kr.co.tbell.mm.entity.Employee;
+import kr.co.tbell.mm.entity.employee.Employee;
 import lombok.*;
 
 @Entity

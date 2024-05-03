@@ -9,8 +9,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
-import static kr.co.tbell.mm.entity.QEmployeeHistory.employeeHistory;
-import static kr.co.tbell.mm.entity.QEmployeeHistoryManMonth.employeeHistoryManMonth;
+import static kr.co.tbell.mm.entity.employeehistory.QEmployeeHistory.employeeHistory;
+import static kr.co.tbell.mm.entity.employeehistory.QEmployeeHistoryManMonth.employeeHistoryManMonth;
 import static kr.co.tbell.mm.entity.project.QProject.project;
 
 @Slf4j

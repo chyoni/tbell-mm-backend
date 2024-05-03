@@ -1,6 +1,7 @@
-package kr.co.tbell.mm.entity;
+package kr.co.tbell.mm.entity.employeehistory;
 
 import jakarta.persistence.*;
+import kr.co.tbell.mm.entity.BaseEntity;
 import kr.co.tbell.mm.entity.project.Level;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;

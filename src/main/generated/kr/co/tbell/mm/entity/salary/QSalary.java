@@ -27,7 +27,7 @@ public class QSalary extends EntityPathBase<Salary> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
-    public final kr.co.tbell.mm.entity.QEmployee employee;
+    public final kr.co.tbell.mm.entity.employee.QEmployee employee;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
@@ -58,7 +58,7 @@ public class QSalary extends EntityPathBase<Salary> {
 
     public QSalary(Class<? extends Salary> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.employee = inits.isInitialized("employee") ? new kr.co.tbell.mm.entity.QEmployee(forProperty("employee")) : null;
+        this.employee = inits.isInitialized("employee") ? new kr.co.tbell.mm.entity.employee.QEmployee(forProperty("employee")) : null;
     }
 
 }
