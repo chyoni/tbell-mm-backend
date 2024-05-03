@@ -21,7 +21,6 @@ public class AuthService {
     private final JwtManager jwtManager;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    @Transactional
     public ReIssue reIssue(String refreshToken) {
         // Token이 만료됐는지 체크. 만료되면 ExpiredJwtException 예외가 터지고 해당 예외 공통 처리
         jwtManager.isExpired(refreshToken);

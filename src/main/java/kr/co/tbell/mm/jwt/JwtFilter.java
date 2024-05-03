@@ -8,11 +8,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.co.tbell.mm.dto.administrator.CustomAdministratorDetails;
 import kr.co.tbell.mm.entity.administrator.Administrator;
 import kr.co.tbell.mm.entity.administrator.Role;
+import kr.co.tbell.mm.exception.InvalidTokenException;
 import kr.co.tbell.mm.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,6 +60,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (!category.equals(Constants.HEADER_KEY_ACCESS_TOKEN)) {
             response.getWriter().write("Invalid access token");
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
+
             return;
         }
 

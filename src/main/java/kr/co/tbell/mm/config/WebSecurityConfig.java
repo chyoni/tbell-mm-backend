@@ -3,6 +3,7 @@ package kr.co.tbell.mm.config;
 import kr.co.tbell.mm.jwt.JwtFilter;
 import kr.co.tbell.mm.jwt.JwtManager;
 import kr.co.tbell.mm.jwt.LoginFilter;
+import kr.co.tbell.mm.jwt.CustomLogoutFilter;
 import kr.co.tbell.mm.repository.refreshtoken.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -84,6 +86,9 @@ public class WebSecurityConfig {
                         refreshTokenRepository
                 ),
                 UsernamePasswordAuthenticationFilter.class);
+
+        // 직접 만든 CustomLogoutFilter 적용. 스프링이 기본적으로 제공하는 LogoutFilter 앞에
+        http.addFilterBefore(new CustomLogoutFilter(jwtManager, refreshTokenRepository), LogoutFilter.class);
 
         return http.build();
     }
