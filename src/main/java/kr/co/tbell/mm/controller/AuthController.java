@@ -24,6 +24,7 @@ public class AuthController {
 
     @PostMapping("/reissue")
     public ResponseEntity<Response<ReIssue>> reissue(@RequestBody RequestReIssue requestReIssue) {
+        log.info("[reissue]: refreshToken={}", requestReIssue.getRefreshToken());
 
         if (requestReIssue.getRefreshToken() == null) {
             throw new InvalidTokenException("Refresh token not found");
