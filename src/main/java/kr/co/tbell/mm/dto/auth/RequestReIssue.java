@@ -1,12 +1,12 @@
 package kr.co.tbell.mm.dto.auth;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class RequestReIssue {
     private String refreshToken;
 }
