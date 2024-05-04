@@ -66,6 +66,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         );
 
         response.setStatus(HttpStatus.OK.value());
+        response.addCookie(Utils.createCookie(Constants.HEADER_KEY_REFRESH_TOKEN, refreshToken));
         response.getWriter().write("Access-Token=" + accessToken + ";Refresh-Token=" + refreshToken);
     }
 
